@@ -355,7 +355,36 @@ The project is configured for automated builds using Codemagic:
 - Configuration file: `codemagic.yaml`
 - iOS builds triggered by tags: `ios-*` (e.g., `ios-1.0.0`)
 - Android builds triggered by tags: `android-*` (e.g., `android-1.0.0`)
-- See `CODEMAGIC_SETUP.md` for detailed setup instructions
+
+#### iOS Build Setup Requirements
+1. **App ID Registration**: Register `com.indotech.urjaview` in Apple Developer Portal → Identifiers
+2. **Provisioning Profile**: Create "UrjaViewAppStoreProfile" in Apple Developer Portal → Profiles
+   - Select App Store distribution type
+   - Select the App ID: `com.indotech.urjaview`
+   - Select appropriate distribution certificate (check expiry dates)
+3. **Codemagic Configuration**:
+   - Fetch the provisioning profile in Codemagic UI
+   - Integration name must be exact: "AppStoreAPIAccessKey" (case-sensitive)
+   - Certificate: "codemagicSigningCertificate"
+4. **Xcode Project Settings**:
+   - Team ID: B7ZBWF8ZM2 (must match provisioning profile)
+   - Bundle ID: `com.indotech.urjaview`
+5. **Working Configuration**:
+   ```yaml
+   integrations:
+     app_store_connect: AppStoreAPIAccessKey
+   ios_signing:
+     provisioning_profiles:
+       - profile: "UrjaViewAppStoreProfile"
+     certificates:
+       - certificate: "codemagicSigningCertificate"
+   ```
+
+#### Known Issues & Solutions
+- **Webhook auto-trigger not working**: Manual trigger required via Codemagic UI
+- **"No matching profiles found" error**: Ensure provisioning profile is created in Apple Developer Portal and fetched in Codemagic
+- **Integration not found error**: Integration name is case-sensitive, must be "AppStoreAPIAccessKey"
+- **Type errors not caught by flutter analyze**: Use pre-push hooks (`./scripts/pre_push_check.sh`) to catch compile-time errors
 
 ### Android Release Signing
 - Configured in `android/app/build.gradle.kts`
@@ -381,6 +410,8 @@ The project is configured for automated builds using Codemagic:
 | Wrong meter ID format | Use meter IDs from the meters list API, not hardcoded test IDs |
 | Session expired errors | Check debug logs for "No token available" messages, ensure TokenManager has valid token |
 | Release build crashes | Check ProGuard rules, ensure all models are kept |
+| Codemagic iOS build fails | Verify provisioning profile exists, App ID is registered, and integration name is correct |
+| Flutter analyze passes but iOS build fails | Run `./scripts/pre_push_check.sh` to catch compile-time type errors |
 
 ## Assets & Resources
 
