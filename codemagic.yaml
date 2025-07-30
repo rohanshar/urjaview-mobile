@@ -7,10 +7,8 @@ workflows:
     environment:
       flutter: stable
       ios_signing:
-        provisioning_profiles:
-          - profile: "appStorConnectMobileProvision"
-        certificates:
-          - certificate: "codemagicSigningCertificate"
+        distribution_type: app_store
+        bundle_identifier: com.indotech.urjaview
 
     scripts:
       - name: Install dependencies
