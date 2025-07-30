@@ -7,13 +7,12 @@ workflows:
     environment:
       flutter: stable
       ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.indotech.urjaview
+        provisioning_profiles:
+          - profile: "UrjaViewAppStoreProfile"
+        certificates:
+          - certificate: "codemagicSigningCertificate"
 
     scripts:
-      - name: Fetch signing files
-        script: |
-          app-store-connect fetch-signing-files com.indotech.urjaview --type IOS_APP_STORE --create
       
       - name: Install dependencies
         script: |
