@@ -14,8 +14,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController(text: 'test@example.com');
-  final _passwordController = TextEditingController(text: 'Test@123456');
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool _obscurePassword = true;
 
   @override
@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     // Logo and Title
                     Container(
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
                         gradient: AppTheme.primaryGradient,
                         shape: BoxShape.circle,
@@ -70,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       child: SvgPicture.asset(
                         'assets/images/urjaview-logo.svg',
-                        height: 60,
+                        height: 80,
                         colorFilter: const ColorFilter.mode(
                           Colors.white,
                           BlendMode.srcIn,
@@ -224,49 +224,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   : const Text('Sign In'),
                         );
                       },
-                    ),
-                    const SizedBox(height: 16),
-
-                    // Demo Credentials
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: AppTheme.primaryColor.withValues(alpha: 0.05),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: AppTheme.primaryColor.withValues(alpha: 0.2),
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.info_outline,
-                                size: 16,
-                                color: AppTheme.primaryColor,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                'Demo Credentials',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: AppTheme.primaryColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
-                          const Text(
-                            'Email: test@example.com\nPassword: Test@123456',
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: AppTheme.textSecondary,
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
                   ],
                 ),

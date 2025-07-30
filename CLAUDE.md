@@ -304,11 +304,6 @@ All API calls should go through repositories:
 - `lib/presentation/meters/providers/meter_provider.dart`: Meter state management
 - `lib/data/repositories/meter_repository.dart`: Meter CRUD operations
 
-## Test Credentials
-
-For development testing:
-- Email: `test@example.com`
-- Password: `Test@123456`
 
 ## Code Quality Tools
 
