@@ -1,13 +1,23 @@
 # iOS Release Commands
 
-The iOS release has been prepared and tagged locally. To trigger the iOS build on Codemagic, run these commands:
+The iOS release has been prepared and tagged locally. To trigger the iOS build on Codemagic, you need to:
 
-## 1. Push the commits to main branch
+## 1. Create a new GitHub repository
+Create a new repository named `urjaview-mobile` on GitHub (or your preferred git hosting service).
+
+## 2. Add the remote origin
 ```bash
-git push origin main
+git remote add origin https://github.com/YOUR_USERNAME/urjaview-mobile.git
+# OR for SSH
+git remote add origin git@github.com:YOUR_USERNAME/urjaview-mobile.git
 ```
 
-## 2. Push the iOS release tag
+## 3. Push the commits to main branch
+```bash
+git push -u origin main
+```
+
+## 4. Push the iOS release tag
 ```bash
 git push origin ios-1.0.0
 ```

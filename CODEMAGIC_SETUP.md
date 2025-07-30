@@ -40,7 +40,7 @@ This guide explains how to set up Codemagic CI/CD for the UrjaView mobile app.
 1. Log in to Codemagic
 2. Add new application
 3. Select GitHub as the repository provider
-4. Choose the `dlms-bcs/dlms-cloud` repository
+4. Choose the `urjaview-mobile` repository (after you've created and pushed it)
 5. Select the Flutter app type
 
 ### 2. Configure iOS Signing
