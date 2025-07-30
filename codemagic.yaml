@@ -2,7 +2,7 @@ workflows:
   ios-workflow:
     name: iOS - App Store Release
     integrations:
-      app_store_connect: AppStoreAPIAccessKey
+      app_store_connect: CodeMagic
 
     environment:
       flutter: stable
