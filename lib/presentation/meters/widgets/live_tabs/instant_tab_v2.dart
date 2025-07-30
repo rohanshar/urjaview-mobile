@@ -369,9 +369,9 @@ class _InstantTabV2State extends State<InstantTabV2> {
     setState(() {
       _isLoading = true;
       _error = null;
-      _currentOperation = 'Preparing to fetch data...';
+      _currentOperation = 'Fetching instant values...';
       _currentChunk = 0;
-      _totalChunks = 0;
+      _totalChunks = 1;
       _processedParameters = 0;
       _totalParameters = InstantObisConstants.allCodes.length;
       _currentParameter = null;
@@ -379,89 +379,18 @@ class _InstantTabV2State extends State<InstantTabV2> {
 
     try {
       final meterProvider = context.read<MeterProvider>();
-
-      // Create chunks (4 OBIS codes per chunk)
-      const chunkSize = 4;
-      final chunks = <List<String>>[];
-
-      for (
-        var i = 0;
-        i < InstantObisConstants.allCodes.length;
-        i += chunkSize
-      ) {
-        final end =
-            (i + chunkSize < InstantObisConstants.allCodes.length)
-                ? i + chunkSize
-                : InstantObisConstants.allCodes.length;
-        chunks.add(InstantObisConstants.allCodes.sublist(i, end));
-      }
-
-      setState(() {
-        _totalChunks = chunks.length;
-      });
-
-      // Combined result
+      
+      // Use the new instant values API
+      final result = await meterProvider.readInstantValues(widget.meter.id);
+      
+      // The API returns data in the format we expect
       final combinedData = {
-        'data': <String, dynamic>{},
+        'data': result,
         'errors': <String, dynamic>{},
-        'duration': 0,
+        'duration': 1000, // Default duration since API doesn't return it
         'objectsRequested': InstantObisConstants.allCodes.length,
-        'objectsRead': 0,
+        'objectsRead': result.length,
       };
-
-      // Process chunks sequentially
-      for (var i = 0; i < chunks.length; i++) {
-        final chunk = chunks[i];
-        setState(() {
-          _currentChunk = i + 1;
-          _currentOperation = 'Reading chunk ${i + 1} of ${chunks.length}';
-        });
-
-        // Update current parameter being read
-        for (final obisCode in chunk) {
-          final parameterName = InstantObisConstants.getParameterName(
-            obisCode,
-          );
-          if (mounted) {
-            setState(() {
-              _currentParameter = parameterName;
-            });
-          }
-
-          // Small delay to show parameter name
-          await Future.delayed(const Duration(milliseconds: 50));
-        }
-
-        final result = await meterProvider.readMeterObjects(
-          widget.meter.id,
-          chunk,
-        );
-
-        // Combine data
-        if (result['data'] != null) {
-          (combinedData['data'] as Map<String, dynamic>).addAll(result['data']);
-        }
-
-        // Combine errors
-        if (result['errors'] != null) {
-          (combinedData['errors'] as Map<String, dynamic>).addAll(
-            result['errors'],
-          );
-        }
-
-        // Add duration
-        combinedData['duration'] =
-            (combinedData['duration'] as int) + (result['duration'] ?? 0);
-
-        // Update objects read count
-        combinedData['objectsRead'] =
-            (combinedData['data'] as Map<String, dynamic>).length;
-
-        // Update processed parameters count
-        setState(() {
-          _processedParameters += chunk.length;
-        });
-      }
 
       if (mounted) {
         setState(() {
@@ -471,8 +400,9 @@ class _InstantTabV2State extends State<InstantTabV2> {
           _error = null;
           _currentOperation = null;
           _currentParameter = null;
+          _processedParameters = _totalParameters;
           _successMessage =
-              'Successfully fetched ${combinedData['objectsRead']} of ${combinedData['objectsRequested']} parameters in ${((combinedData['duration'] as int) / 1000).toStringAsFixed(1)}s';
+              'Successfully fetched ${combinedData['objectsRead']} instant values';
         });
       }
     } catch (e) {

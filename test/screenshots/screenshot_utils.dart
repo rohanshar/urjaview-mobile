@@ -162,7 +162,15 @@ class MockAuthProvider extends ChangeNotifier {
   
   String? get error => null;
   
-  UserModel? get user => null;
+  UserModel? get user => UserModel(
+    id: '1',
+    email: 'test@example.com',
+    name: 'Test User',
+    role: 'user',
+    companyId: '1',
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+  );
   
   Future<void> signIn(String email, String password) async {}
   
@@ -171,6 +179,66 @@ class MockAuthProvider extends ChangeNotifier {
   Future<void> refreshToken() async {}
   
   void clearError() {}
+}
+
+// Mock meter provider for screenshots
+class MockMeterProvider extends ChangeNotifier {
+  List<Meter> get meters => [
+    Meter(
+      id: 'MTR-1234567890-abc',
+      serialNumber: '98525130',
+      meterName: 'Main Building Meter',
+      address: 'Building A, Floor 1',
+      manufacturer: 'Schneider Electric',
+      modelNumber: 'EM6400',
+      firmwareVersion: '2.1.0',
+      meterType: 'Three Phase',
+      voltage: '415V',
+      current: '100A',
+      frequency: '50Hz',
+      accuracy: 'Class 1',
+      operational: MeterOperational(
+        connectionStatus: 'online',
+        lastReadStatus: 'success',
+        lastReadTimestamp: DateTime.now().subtract(const Duration(minutes: 5)),
+      ),
+    ),
+    Meter(
+      id: 'MTR-1234567891-def',
+      serialNumber: '98525131',
+      meterName: 'Solar Panel Meter',
+      address: 'Rooftop Installation',
+      manufacturer: 'ABB',
+      modelNumber: 'B23-212',
+      firmwareVersion: '1.5.3',
+      meterType: 'Net Meter',
+      voltage: '230V',
+      current: '50A',
+      frequency: '50Hz',
+      accuracy: 'Class 0.5',
+      operational: MeterOperational(
+        connectionStatus: 'online',
+        lastReadStatus: 'success',
+        lastReadTimestamp: DateTime.now().subtract(const Duration(minutes: 15)),
+      ),
+    ),
+  ];
+  
+  List<Meter> get filteredMeters => meters;
+  
+  bool get isLoading => false;
+  
+  String? get error => null;
+  
+  Future<void> fetchMeters() async {}
+  
+  Future<void> refreshMeters() async {}
+  
+  void searchMeters(String query) {}
+  
+  Future<void> pingMeter(String meterId) async {}
+  
+  Future<void> testMeterConnection(String meterId) async {}
 }
 
 // Custom app bar back icon for screenshots
