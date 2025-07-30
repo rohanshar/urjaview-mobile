@@ -382,7 +382,7 @@ class ApiService {
 
   Future<Map<String, dynamic>> readInstantValues(String meterId) async {
     try {
-      final response = await _meterDio.post('/meters/$meterId/read-instant-values');
+      final response = await _dio.post('/meters/$meterId/read-instant-values');
       debugPrint('Read instant values response: ${response.data}');
       if (response.data['success'] == true) {
         return response.data['data'] ?? {};
