@@ -4,9 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-// Remove app theme import to avoid Google Fonts issues
 import 'package:urjaview_mobile/data/models/user_model.dart';
 import 'package:urjaview_mobile/data/models/meter_model.dart';
+import 'test_theme.dart';
 
 // Provider for platform-specific UI adjustments
 final platformScreenshotProvider = Provider<bool?>.value(value: null);
@@ -95,15 +95,8 @@ Widget getScreenWrapper({
         GlobalWidgetsLocalizations.delegate,
       ],
       locale: locale,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF1976D2),
-          brightness: Brightness.light,
-        ),
+      theme: TestAppTheme.lightTheme.copyWith(
         platform: isAndroid ? TargetPlatform.android : TargetPlatform.iOS,
-        // Use default Roboto font which is bundled with Flutter
-        fontFamily: 'Roboto',
       ),
       home: Column(
         children: [

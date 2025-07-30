@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:provider/provider.dart';
-import 'mock_screens.dart';
+import 'package:urjaview_mobile/presentation/auth/screens/login_screen.dart';
+import 'package:urjaview_mobile/presentation/dashboard/screens/dashboard_screen.dart';
+import 'package:urjaview_mobile/presentation/meters/screens/meters_list_screen.dart';
 import 'screenshot_utils.dart';
 
 void main() {
