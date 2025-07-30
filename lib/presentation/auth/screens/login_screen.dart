@@ -14,8 +14,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _emailController = TextEditingController(text: 'test@example.com');
+  final _passwordController = TextEditingController(text: 'Test@123456');
   bool _obscurePassword = true;
 
   @override
@@ -54,41 +54,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Logo and Title
-                    Container(
-                      padding: const EdgeInsets.all(24),
-                      decoration: BoxDecoration(
-                        gradient: AppTheme.primaryGradient,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppTheme.primaryColor.withValues(alpha: 0.3),
-                            blurRadius: 20,
-                            offset: const Offset(0, 10),
-                          ),
-                        ],
-                      ),
-                      child: SvgPicture.asset(
-                        'assets/images/urjaview-logo.svg',
-                        height: 80,
-                        colorFilter: const ColorFilter.mode(
-                          Colors.white,
-                          BlendMode.srcIn,
-                        ),
+                    // Logo
+                    SvgPicture.asset(
+                      'assets/images/urjaview-logo.svg',
+                      height: 160,
+                      colorFilter: ColorFilter.mode(
+                        AppTheme.primaryColor,
+                        BlendMode.srcIn,
                       ),
                     ),
-                    const SizedBox(height: 24),
-                    Text(
-                      AppConstants.appName,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.headlineLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: AppTheme.textPrimary,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 16),
                     Text(
                       'by ${AppConstants.companyName}',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -101,10 +76,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       AppConstants.appTagline,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: AppTheme.textSecondary,
+                        fontWeight: FontWeight.w500,
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 48),
+                    const SizedBox(height: 40),
 
                     // Email Field
                     TextFormField(
