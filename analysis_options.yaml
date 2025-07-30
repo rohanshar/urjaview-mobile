@@ -9,6 +9,27 @@
 # packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  # Increase the severity of some issues
+  errors:
+    # Type errors
+    argument_type_not_assignable: error
+    invalid_assignment: error
+    return_of_invalid_type_from_closure: error
+    # Other important errors
+    missing_required_param: error
+    missing_return: error
+    undefined_class: error
+    undefined_function: error
+    undefined_identifier: error
+    undefined_method: error
+  
+  # Exclude generated files
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "build/**"
+
 linter:
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`

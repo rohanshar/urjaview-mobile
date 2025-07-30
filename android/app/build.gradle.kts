@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -22,7 +24,7 @@ android {
     signingConfigs {
         create("release") {
             // These will be configured from key.properties file
-            val properties = java.util.Properties()
+            val properties = Properties()
             val propertiesFile = rootProject.file("key.properties")
             if (propertiesFile.exists()) {
                 properties.load(propertiesFile.inputStream())

@@ -219,7 +219,7 @@ class AppTheme {
     ),
 
     // Tab Bar Theme
-    tabBarTheme: TabBarTheme(
+    tabBarTheme: TabBarThemeData(
       labelColor: primaryColor,
       unselectedLabelColor: textSecondary,
       labelStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600),
