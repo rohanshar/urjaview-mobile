@@ -1,16 +1,14 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:intl/intl.dart';
 import 'package:urjaview_mobile/core/theme/app_theme.dart';
-import 'package:urjaview_mobile/presentation/auth/providers/auth_provider.dart';
+import 'package:urjaview_mobile/data/models/user_model.dart';
 
 // Provider for platform-specific UI adjustments
-final platformScreenshotProvider = Provider<bool?>((ref) => null);
+final platformScreenshotProvider = Provider<bool?>.value(value: null);
 
 // Screen sizes and densities for different devices
 class ScreenshotDevice {
@@ -77,11 +75,11 @@ Widget getScreenWrapper({
   required Widget child,
   required Locale locale,
   required bool isAndroid,
-  List<Override> overrides = const [],
+  List<InheritedProvider> overrides = const [],
 }) {
-  return ProviderScope(
-    overrides: [
-      platformScreenshotProvider.overrideWithValue(isAndroid),
+  return MultiProvider(
+    providers: [
+      Provider<bool?>.value(value: isAndroid),
       ...overrides,
     ],
     child: MaterialApp(
@@ -155,24 +153,31 @@ void deleteIntermediateScreenshot(String pageName) {
 }
 
 // Mock authentication provider for screenshots
-class MockAuthProvider extends AuthProvider {
-  MockAuthProvider() : super() {
-    // Set up a mock authenticated state
-    notifyListeners();
-  }
-
-  @override
+class MockAuthProvider extends ChangeNotifier {
   bool get isAuthenticated => true;
 
-  @override
   String? get token => "mock_token";
+  
+  bool get isLoading => false;
+  
+  String? get error => null;
+  
+  UserModel? get user => null;
+  
+  Future<void> signIn(String email, String password) async {}
+  
+  Future<void> signOut() async {}
+  
+  Future<void> refreshToken() async {}
+  
+  void clearError() {}
 }
 
 // Custom app bar back icon for screenshots
 class AppBarBackIcon extends StatelessWidget {
   final bool? isAndroid;
 
-  const AppBarBackIcon({Key? key, this.isAndroid}) : super(key: key);
+  const AppBarBackIcon({super.key, this.isAndroid});
 
   @override
   Widget build(BuildContext context) {
