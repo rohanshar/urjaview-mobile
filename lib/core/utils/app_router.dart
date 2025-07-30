@@ -5,16 +5,25 @@ import '../../presentation/auth/providers/auth_provider.dart';
 import '../../presentation/auth/screens/login_screen.dart';
 import '../../presentation/main/screens/main_navigation_screen.dart';
 import '../../presentation/meters/screens/meter_detail_screen_v2.dart';
+import '../../presentation/onboarding/screens/splash_screen.dart';
+import '../../presentation/onboarding/screens/onboarding_screen.dart';
 
 class AppRouter {
   static GoRouter router(BuildContext context) {
     return GoRouter(
-      initialLocation: '/login',
+      initialLocation: '/',
       refreshListenable: context.read<AuthProvider>(),
       redirect: (context, state) {
         final authProvider = context.read<AuthProvider>();
         final isAuthenticated = authProvider.isAuthenticated;
         final isLoginRoute = state.matchedLocation == '/login';
+        final isSplashRoute = state.matchedLocation == '/';
+        final isOnboardingRoute = state.matchedLocation == '/onboarding';
+
+        // Allow splash and onboarding routes without authentication
+        if (isSplashRoute || isOnboardingRoute) {
+          return null;
+        }
 
         if (!isAuthenticated && !isLoginRoute) {
           return '/login';
@@ -27,6 +36,16 @@ class AppRouter {
         return null;
       },
       routes: [
+        GoRoute(
+          path: '/',
+          name: 'splash',
+          builder: (context, state) => const SplashScreen(),
+        ),
+        GoRoute(
+          path: '/onboarding',
+          name: 'onboarding',
+          builder: (context, state) => const OnboardingScreen(),
+        ),
         GoRoute(
           path: '/login',
           name: 'login',

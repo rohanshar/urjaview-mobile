@@ -101,19 +101,32 @@ class _MeterDetailScreenV2State extends State<MeterDetailScreenV2>
   Widget _buildMeterDetailScreen(MeterModel meter, MeterProvider provider) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppTheme.primaryColor,
+        foregroundColor: Colors.white,
+        elevation: 0,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(meter.name),
             Text(
-              meter.serialNumber,
+              meter.name,
               style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.normal,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              'S/N: ${meter.serialNumber}',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
               ),
             ),
           ],
         ),
+        toolbarHeight: 72,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48),
           child: Consumer<MeterNavigationController>(
@@ -125,10 +138,14 @@ class _MeterDetailScreenV2State extends State<MeterDetailScreenV2>
 
               return Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  border: Border(
-                    bottom: BorderSide(color: AppTheme.dividerColor, width: 1),
-                  ),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
                 child: TabBar(
                   controller: _tabController,
@@ -161,23 +178,6 @@ class _MeterDetailScreenV2State extends State<MeterDetailScreenV2>
             },
           ),
         ),
-        actions: [
-          // Sync Now button
-          TextButton.icon(
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Sync functionality coming soon'),
-                  duration: Duration(seconds: 2),
-                ),
-              );
-            },
-            icon: const Icon(Icons.sync, size: 20),
-            label: const Text('Sync Now'),
-            style: TextButton.styleFrom(foregroundColor: AppTheme.primaryColor),
-          ),
-          const SizedBox(width: 8),
-        ],
       ),
       body: TabBarView(
         controller: _tabController,

@@ -79,11 +79,19 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           isDesktop
               ? null
               : AppBar(
-                title: Text(_pageTitle),
-                backgroundColor: AppTheme.surfaceColor,
+                title: Text(
+                  _pageTitle,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
+                backgroundColor: AppTheme.primaryColor,
+                foregroundColor: Colors.white,
                 elevation: 0,
                 leading: IconButton(
-                  icon: const Icon(Icons.menu),
+                  icon: const Icon(Icons.menu, color: Colors.white),
                   onPressed: () {
                     _scaffoldKey.currentState?.openDrawer();
                   },
@@ -91,16 +99,17 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 actions: [
                   PopupMenuButton<String>(
                     icon: CircleAvatar(
-                      backgroundColor: AppTheme.primaryColor,
+                      backgroundColor: Colors.white,
                       radius: 16,
                       child: Text(
                         authProvider.user?.email
                                 .substring(0, 1)
                                 .toUpperCase() ??
                             'U',
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: AppTheme.primaryColor,
                           fontSize: 14,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),

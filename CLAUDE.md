@@ -20,6 +20,7 @@ UrjaView Mobile is a Flutter-based mobile application for managing DLMS smart me
   - `google_fonts: ^6.2.1` - Typography
   - `flutter_svg: ^2.0.9` - SVG rendering
   - `loading_animation_widget: ^1.2.0+4` - Loading indicators
+  - `shared_preferences: ^2.2.2` - Local storage for app preferences
 
 ## Key Commands
 
@@ -129,6 +130,9 @@ flutter pub upgrade --major-versions
 
 # Run pre-commit checks (custom script that runs analyze, format check, and tests)
 ./scripts/pre_commit_analysis.sh
+
+# Run pre-push checks to catch compile-time errors
+./scripts/pre_push_check.sh
 ```
 
 ### Building
@@ -165,12 +169,21 @@ The application follows a clean architecture pattern with clear separation of co
   - `models/`: Data models (User, Meter, etc.)
   - `repositories/`: Repository pattern implementations
   - `services/api_service.dart`: Dio-based HTTP client with JWT authentication
+  - `services/token_manager.dart`: Automatic token refresh management
+  - `services/preferences_service.dart`: Local preferences storage
 
 ### Presentation Layer
 - **lib/presentation/**: UI screens and state management
   - Uses Provider for state management
-  - Each feature module has its own directory (auth, meters, etc.)
+  - Each feature module has its own directory (auth, meters, onboarding, etc.)
   - Each module contains: screens/, providers/, widgets/
+
+### Onboarding Module
+- **lib/presentation/onboarding/**: First-time user experience
+  - `screens/splash_screen.dart`: Animated splash screen
+  - `screens/onboarding_screen.dart`: Multi-page onboarding flow
+  - `models/onboarding_page_model.dart`: Data model for onboarding pages
+  - `widgets/`: Reusable onboarding components
 
 ### Meter Module Architecture
 The meter module is the most complex and follows a scalable pattern documented in `presentation/meters/README_ARCHITECTURE.md`:
@@ -186,6 +199,7 @@ Key meter screens:
 - `meter_live_menu_screen.dart` - Live data navigation menu
 - `meter_config_menu_screen.dart` - Configuration menu
 - `meter_clock_config_screen.dart` - Clock configuration UI
+- `meter_instant_screen.dart` - Instant values display
 
 ## State Management
 
@@ -230,8 +244,11 @@ Uses GoRouter for declarative navigation with:
 - Deep linking support
 - Authentication guards
 - Nested navigation for tabs
+- Splash screen with first-time detection
 
 Key routes:
+- `/`: Splash screen (initial route)
+- `/onboarding`: Onboarding flow for first-time users
 - `/login`: Authentication screen
 - `/meters`: Meters list
 - `/meters/:id`: Meter detail with tabs
@@ -279,6 +296,13 @@ All API calls should go through repositories:
 - JWT tokens stored in secure storage
 - Automatic token refresh on expiry
 - Redirect to login on authentication failure
+- TokenManager handles refresh 5 minutes before expiry
+
+### First-Time User Flow
+- Splash screen checks if user is first-time
+- Onboarding screens for new users
+- Preferences saved using SharedPreferences
+- Skip option available during onboarding
 
 ## Testing Approach
 
@@ -286,23 +310,7 @@ All API calls should go through repositories:
 - Unit tests for providers and repositories
 - Integration tests for critical flows
 - Use the existing test structure in `test/`
-
-## Key Files
-
-### Configuration
-- `lib/core/constants/app_constants.dart`: API URLs, timeouts, storage keys
-- `lib/core/utils/app_router.dart`: All app routes and navigation guards
-- `lib/core/theme/app_theme.dart`: Material 3 theme configuration
-
-### Authentication & API
-- `lib/data/services/api_service.dart`: Dio HTTP client with interceptors
-- `lib/presentation/auth/providers/auth_provider.dart`: Authentication state
-- `lib/data/repositories/auth_repository.dart`: Authentication logic
-
-### Meter Management
-- `lib/presentation/meters/screens/meter_detail_screen_v2.dart`: Main meter detail screen
-- `lib/presentation/meters/providers/meter_provider.dart`: Meter state management
-- `lib/data/repositories/meter_repository.dart`: Meter CRUD operations
+- Golden tests for screenshot testing
 
 ## Test Credentials
 
@@ -320,6 +328,9 @@ The project includes a comprehensive pre-commit analysis script at `scripts/pre_
 4. TODO/FIXME comments tracking
 5. Print statements (suggests using debugPrint instead)
 6. Ensures pubspec.lock is tracked in git
+
+### Pre-push Check Script
+Use `scripts/pre_push_check.sh` to catch compile-time type errors that flutter analyze might miss.
 
 ### Linting Configuration
 - Uses `flutter_lints: ^5.0.0` package
@@ -344,6 +355,7 @@ The project includes a comprehensive pre-commit analysis script at `scripts/pre_
 - Uses AndroidX libraries
 - Java compatibility: VERSION_11
 - Package name: `com.indotech.urjaview`
+- ProGuard rules in `android/app/proguard-rules.pro`
 
 ## Release & CI/CD
 
@@ -413,6 +425,8 @@ The project is configured for automated builds using Codemagic:
 | Release build crashes | Check ProGuard rules, ensure all models are kept |
 | Codemagic iOS build fails | Verify provisioning profile exists, App ID is registered, and integration name is correct |
 | Flutter analyze passes but iOS build fails | Run `./scripts/pre_push_check.sh` to catch compile-time type errors |
+| First-time user flow issues | Check SharedPreferences keys in `preferences_service.dart` |
+| Onboarding not showing | Clear app data to reset first-time flag |
 
 ## Assets & Resources
 
@@ -421,6 +435,7 @@ The project is configured for automated builds using Codemagic:
 - Includes:
   - `indotech-logo.svg` - Company logo
   - `urjaview-logo.svg` - App logo
+  - `onboarding_1.svg` to `onboarding_4.svg` - Onboarding illustrations (placeholders)
 - SVG files are rendered using `flutter_svg` package
 
 ### Fonts
@@ -435,9 +450,15 @@ A helper script `run_app.sh` is available for quick development:
 ./run_app.sh  # Checks devices, gets dependencies, and runs the app
 ```
 
+### Build Monitoring Scripts
+- `scripts/monitor_builds.sh` - Monitor Codemagic build status
+- `scripts/watch_build.sh` - Watch specific build progress
+- `scripts/codemagic_monitor.py` - Python script for detailed monitoring
+
 ### Project Files
 - `pubspec.yaml` - Flutter project configuration and dependencies
 - `analysis_options.yaml` - Dart analyzer configuration
 - `devtools_options.yaml` - Flutter DevTools settings
 - `.flutter-plugins` - Auto-generated plugin registry
 - `.flutter-plugins-dependencies` - Auto-generated plugin dependencies
+- `codemagic.yaml` - CI/CD configuration
