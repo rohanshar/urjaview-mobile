@@ -31,7 +31,7 @@ workflows:
       
       - name: Build IPA
         script: |
-          xcode-project build-ipa --workspace ios/Runner.xcworkspace --scheme Runner --distribution-method app-store
+          xcode-project build-ipa --workspace ios/Runner.xcworkspace --scheme Runner
 
     artifacts:
       - build/ios/ipa/*.ipa
