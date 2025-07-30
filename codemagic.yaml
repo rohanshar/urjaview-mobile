@@ -12,13 +12,15 @@ workflows:
       flutter: stable
       xcode: latest
       cocoapods: default
-      groups:
-        - app_store_credentials
       vars:
         BUNDLE_ID: "com.indotech.urjaview"
         APP_NAME: "UrjaView"
-        # Increment build number automatically
         APP_STORE_APPLE_ID: 6749311837
+        # Add your App Store Connect API credentials here
+        # Or set them in Codemagic app environment variables
+        APP_STORE_CONNECT_ISSUER_ID: Encrypted(...) # Add in Codemagic UI
+        APP_STORE_CONNECT_KEY_IDENTIFIER: Encrypted(...) # Add in Codemagic UI
+        APP_STORE_CONNECT_PRIVATE_KEY: Encrypted(...) # Add in Codemagic UI
     triggering:
       events:
         - tag
