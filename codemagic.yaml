@@ -1,121 +1,86 @@
 workflows:
   ios-workflow:
-    name: iOS Release
-    instance_type: mac_mini_m1
-    max_build_duration: 60
+    name: iOS - App Store Release
     integrations:
-      app_store_connect: codemagic
+      app_store_connect: AppStoreAPIAccessKey
+
     environment:
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.indotech.urjaview
       flutter: stable
-      xcode: latest
-      cocoapods: default
-      vars:
-        BUNDLE_ID: "com.indotech.urjaview"
-        APP_NAME: "UrjaView"
-        APP_STORE_APPLE_ID: 6749311837
-        # Add your App Store Connect API credentials here
-        # Or set them in Codemagic app environment variables
-        APP_STORE_CONNECT_ISSUER_ID: Encrypted(...) # Add in Codemagic UI
-        APP_STORE_CONNECT_KEY_IDENTIFIER: Encrypted(...) # Add in Codemagic UI
-        APP_STORE_CONNECT_PRIVATE_KEY: Encrypted(...) # Add in Codemagic UI
-    triggering:
-      events:
-        - tag
-      tag_patterns:
-        - pattern: ios-*
-          include: true
-      cancel_previous_builds: true
+      ios_signing:
+        provisioning_profiles:
+          - profile: "UrjaViewAppStoreProfile"
+        certificates:
+          - certificate: "codemagicSigningCertificate"
+
     scripts:
-      - name: Set up local properties
-        script: |
-          echo "Building version ${CM_TAG:-1.0.0}"
-      - name: Set up dependencies
+      - name: Install dependencies
         script: |
           flutter pub get
-          cd ios && pod install
+
       - name: Flutter analyze
         script: |
-          flutter analyze --fatal-warnings
-      - name: Set up code signing
+          flutter analyze --fatal-infos
+
+      - name: Build iOS release
         script: |
-          # Fetch signing files from App Store Connect
-          app-store-connect fetch-signing-files "$BUNDLE_ID" \
-            --type IOS_APP_STORE \
-            --create
-          
-          # Use the fetched profiles
+          flutter build ios --release --no-codesign
+
+      - name: Automatic code signing for iOS
+        script: |
           xcode-project use-profiles
-      - name: Flutter build iOS
-        script: |
-          BUILD_NUMBER=$(($(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID") + 1))
-          flutter build ipa --release \
-            --build-name=$(echo ${CM_TAG:-1.0.0} | sed 's/ios-//') \
-            --build-number=$BUILD_NUMBER \
-            --export-options-plist=/Users/builder/export_options.plist
+          xcode-project build-ipa --workspace ios/Runner.xcworkspace --scheme Runner
+
     artifacts:
       - build/ios/ipa/*.ipa
-      - /tmp/xcodebuild_logs/*.log
-      - flutter_drive.log
+
     publishing:
-      email:
-        recipients:
-          - team@indotechworks.com
-        notify:
-          success: true
-          failure: true
       app_store_connect:
         auth: integration
         submit_to_testflight: true
         expire_build_submitted_for_review: true
-        beta_groups:
-          - Internal Testers
-        submit_to_app_store: false
 
-  android-workflow:
-    name: Android Release
-    instance_type: linux_x2
-    environment:
-      flutter: stable
-      java: 11
-      vars:
-        BUNDLE_ID: "com.indotech.urjaview"
-        APP_NAME: "UrjaView"
     triggering:
       events:
         - tag
       tag_patterns:
-        - pattern: android-*
+        - pattern: "ios-*"
           include: true
       cancel_previous_builds: true
+
+  android-workflow:
+    name: Android - Google Play Release
+
+    environment:
+      flutter: stable
+      android_signing:
+        - androidStoreKey
+
     scripts:
-      - name: Set up debug signing
-        script: |
-          # Use debug signing for now
-          echo "Using debug signing configuration"
-      - name: Set up dependencies
+      - name: Install dependencies
         script: |
           flutter pub get
+
       - name: Flutter analyze
         script: |
-          flutter analyze || true
-      - name: Flutter build app bundle
+          flutter analyze --fatal-infos
+
+      - name: Build Android App Bundle
         script: |
-          BUILD_NUMBER=${BUILD_NUMBER:-1}
-          BUILD_NAME=$(echo ${CM_TAG:-1.0.0} | sed 's/android-//')
-          flutter build appbundle --release \
-            --build-number=$BUILD_NUMBER \
-            --build-name=$BUILD_NAME
+          flutter build appbundle --release
+
     artifacts:
       - build/**/outputs/**/*.aab
-      - build/**/outputs/**/mapping.txt
-      - flutter_drive.log
+
     publishing:
-      email:
-        recipients:
-          - team@indotechworks.com
-        notify:
-          success: true
-          failure: true
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal
+        in_app_update_priority: 3
+
+    triggering:
+      events:
+        - tag
+      tag_patterns:
+        - pattern: "android-*"
+          include: true
+      cancel_previous_builds: true
