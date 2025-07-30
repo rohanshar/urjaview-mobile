@@ -12,6 +12,8 @@ workflows:
       flutter: stable
       xcode: latest
       cocoapods: default
+      groups:
+        - app_store_credentials
       vars:
         BUNDLE_ID: "com.indotech.urjaview"
         APP_NAME: "UrjaView"
@@ -37,6 +39,12 @@ workflows:
           flutter analyze --fatal-warnings
       - name: Set up code signing
         script: |
+          # Fetch signing files from App Store Connect
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE \
+            --create
+          
+          # Use the fetched profiles
           xcode-project use-profiles
       - name: Flutter build iOS
         script: |
