@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Git pre-push hook to run compile checks
+./scripts/pre_push_check.sh
