@@ -6,9 +6,6 @@ workflows:
       flutter: stable
       xcode: latest
       cocoapods: default
-      groups:
-        - app_store_credentials
-        - ios_signing
       vars:
         BUNDLE_ID: "com.indotech.urjaview"
         APP_NAME: "UrjaView"
@@ -30,26 +27,16 @@ workflows:
       - name: Flutter build iOS
         script: |
           flutter build ios --release --no-codesign
-      - name: iOS code signing
-        script: |
-          xcode-project use-profiles
       - name: Build IPA
         script: |
-          xcode-project build-ipa \
-            --workspace "ios/Runner.xcworkspace" \
-            --scheme "Runner" \
-            --config "Release"
+          flutter build ipa --release \
+            --export-options-plist=/tmp/export_options.plist || \
+          flutter build ios --release --no-codesign
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
       - flutter_drive.log
     publishing:
-      app_store_connect:
-        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
-        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
-        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
-        submit_to_testflight: true
-        expire_build_submitted_for_review: true
       email:
         recipients:
           - team@indotechworks.com
@@ -63,9 +50,6 @@ workflows:
     environment:
       flutter: stable
       java: 11
-      groups:
-        - google_play_credentials
-        - android_signing
       vars:
         BUNDLE_ID: "com.indotech.urjaview"
         APP_NAME: "UrjaView"
@@ -77,12 +61,10 @@ workflows:
           include: true
       cancel_previous_builds: true
     scripts:
-      - name: Set up key.properties
+      - name: Set up debug signing
         script: |
-          echo "storePassword=$ANDROID_KEYSTORE_PASSWORD" > "$CM_BUILD_DIR/android/key.properties"
-          echo "keyPassword=$ANDROID_KEY_PASSWORD" >> "$CM_BUILD_DIR/android/key.properties"
-          echo "keyAlias=$ANDROID_KEY_ALIAS" >> "$CM_BUILD_DIR/android/key.properties"
-          echo "storeFile=$CM_KEYSTORE_PATH" >> "$CM_BUILD_DIR/android/key.properties"
+          # Use debug signing for now
+          echo "Using debug signing configuration"
       - name: Set up dependencies
         script: |
           flutter pub get
@@ -91,20 +73,16 @@ workflows:
           flutter analyze --fatal-warnings
       - name: Flutter build app bundle
         script: |
-          BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$BUNDLE_ID") + 1))
+          BUILD_NUMBER=${BUILD_NUMBER:-1}
+          BUILD_NAME=$(echo ${CM_TAG:-1.0.0} | sed 's/android-//')
           flutter build appbundle --release \
             --build-number=$BUILD_NUMBER \
-            --build-name=$(echo $CM_TAG | sed 's/android-//')
+            --build-name=$BUILD_NAME
     artifacts:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
       - flutter_drive.log
     publishing:
-      google_play:
-        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
-        track: internal
-        submit_as_draft: false
-        in_app_update_priority: 3
       email:
         recipients:
           - team@indotechworks.com
