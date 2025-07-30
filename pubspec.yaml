@@ -56,8 +56,12 @@ dependencies:
   go_router: ^13.0.1
   
   # Utilities
-  intl: ^0.19.0
+  intl: any
   google_fonts: ^6.2.1
+  
+  # Localization
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -72,8 +76,6 @@ dev_dependencies:
   
   # Screenshot generation
   golden_toolkit: ^0.15.0
-  flutter_localizations:
-    sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
