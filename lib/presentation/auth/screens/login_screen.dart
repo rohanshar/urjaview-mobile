@@ -214,15 +214,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               final prefs = await PreferencesService.getInstance();
                               await prefs.setFirstTime(true);
                               await prefs.setOnboardingCompleted(false);
-                              if (mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Onboarding reset! Restart the app.'),
-                                  ),
-                                );
-                                // Navigate to splash screen
-                                context.go('/');
-                              }
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Onboarding reset! Restart the app.'),
+                                ),
+                              );
+                              // Navigate to splash screen
+                              context.go('/');
                             },
                             child: Text(
                               'Reset Onboarding (Debug)',

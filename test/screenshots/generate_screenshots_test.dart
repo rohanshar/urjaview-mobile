@@ -45,7 +45,7 @@ void main() {
           await takeScreenshot(
             tester: tester,
             widget: getScreenWrapper(
-              child: const MockLoginScreen(),
+              child: const LoginScreen(),
               locale: locale,
               isAndroid: false,
             ),
@@ -95,7 +95,7 @@ void main() {
             widget: getScreenWrapper(
               child: ChangeNotifierProvider.value(
                 value: mockAuthProvider,
-                child: const MockDashboardScreen(),
+                child: const DashboardScreen(),
               ),
               locale: locale,
               isAndroid: false,
@@ -146,7 +146,7 @@ void main() {
           await takeScreenshot(
             tester: tester,
             widget: getScreenWrapper(
-              child: const MockMetersListWidget(),
+              child: const MetersListScreen(),
               locale: locale,
               isAndroid: false,
               overrides: [
@@ -216,7 +216,7 @@ void main() {
           await takeScreenshot(
             tester: tester,
             widget: getScreenWrapper(
-              child: const MockLoginScreen(),
+              child: const LoginScreen(),
               locale: locale,
               isAndroid: true,
             ),
@@ -267,7 +267,7 @@ void main() {
             widget: getScreenWrapper(
               child: ChangeNotifierProvider.value(
                 value: mockAuthProvider,
-                child: const MockDashboardScreen(),
+                child: const DashboardScreen(),
               ),
               locale: locale,
               isAndroid: true,
@@ -319,7 +319,7 @@ void main() {
           await takeScreenshot(
             tester: tester,
             widget: getScreenWrapper(
-              child: const MockMetersListWidget(),
+              child: const MetersListScreen(),
               locale: locale,
               isAndroid: true,
               overrides: [

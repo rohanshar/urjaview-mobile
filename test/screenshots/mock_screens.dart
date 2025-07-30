@@ -158,7 +158,7 @@ class MockDashboardScreen extends StatelessWidget {
                     Text(
                       'Monitor your energy consumption',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white.withValues(alpha: 0.9),
                         fontSize: 16,
                       ),
                     ),
@@ -319,7 +319,7 @@ class MockDashboardScreen extends StatelessWidget {
   ) {
     return ListTile(
       leading: CircleAvatar(
-        backgroundColor: color.withOpacity(0.1),
+        backgroundColor: color.withValues(alpha: 0.1),
         child: Icon(icon, color: color, size: 20),
       ),
       title: Text(title),
