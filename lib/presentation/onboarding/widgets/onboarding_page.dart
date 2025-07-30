@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../models/onboarding_page_model.dart';
-import 'custom_illustrations.dart';
 
 class OnboardingPage extends StatelessWidget {
   final OnboardingPageModel page;
@@ -22,11 +21,11 @@ class OnboardingPage extends StatelessWidget {
             height: 300,
             width: double.infinity,
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Center(
-              child: _getIllustrationForPage(page.title),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: _getImageForPage(page.imagePath),
             ),
           ),
           const SizedBox(height: 48),
@@ -54,16 +53,38 @@ class OnboardingPage extends StatelessWidget {
     );
   }
 
-  Widget _getIllustrationForPage(String title) {
-    if (title.contains('Welcome')) {
-      return const WelcomeIllustration();
-    } else if (title.contains('Real-time')) {
-      return const RealtimeMonitoringIllustration();
-    } else if (title.contains('Scheduling')) {
-      return const SchedulingIllustration();
-    } else if (title.contains('Secure')) {
-      return const SecurityIllustration();
+  Widget _getImageForPage(String imagePath) {
+    // Check if it's a PNG file or SVG
+    if (imagePath.endsWith('.png')) {
+      return Image.asset(
+        imagePath,
+        fit: BoxFit.contain,
+      );
+    } else {
+      // For placeholder SVGs, show a placeholder container
+      return Container(
+        color: Colors.grey[100],
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.image_outlined,
+                size: 60,
+                color: Colors.grey[400],
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Image placeholder',
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
     }
-    return const WelcomeIllustration();
   }
 }

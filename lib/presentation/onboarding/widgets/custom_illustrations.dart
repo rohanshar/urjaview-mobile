@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'realtime_monitoring_illustration.dart';
+
+export 'realtime_monitoring_illustration.dart';
 
 class WelcomeIllustration extends StatelessWidget {
   const WelcomeIllustration({super.key});
@@ -82,104 +85,11 @@ class WelcomeIllustration extends StatelessWidget {
   }
 }
 
-class RealtimeMonitoringIllustration extends StatelessWidget {
+// Use the new implementation from realtime_monitoring_illustration.dart
+class RealtimeMonitoringIllustration extends RealtimeMonitoringIllustrationV2 {
   const RealtimeMonitoringIllustration({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        // Chart background
-        Container(
-          width: 250,
-          height: 180,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: CustomPaint(
-            painter: LineChartPainter(
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-        ),
-        // Gauge overlays
-        Positioned(
-          bottom: 10,
-          right: 10,
-          child: _buildGauge(context, 'V', Colors.blue),
-        ),
-        Positioned(
-          bottom: 10,
-          left: 10,
-          child: _buildGauge(context, 'A', Colors.green),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildGauge(BuildContext context, String label, Color color) {
-    return Container(
-      width: 60,
-      height: 60,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 4,
-          ),
-        ],
-      ),
-      child: Center(
-        child: Text(
-          label,
-          style: TextStyle(
-            color: color,
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
-        ),
-      ),
-    );
-  }
 }
 
-class LineChartPainter extends CustomPainter {
-  final Color color;
-
-  LineChartPainter({required this.color});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color.withValues(alpha: 0.3)
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
-
-    final path = Path();
-    path.moveTo(0, size.height * 0.5);
-    path.quadraticBezierTo(
-      size.width * 0.25,
-      size.height * 0.3,
-      size.width * 0.5,
-      size.height * 0.4,
-    );
-    path.quadraticBezierTo(
-      size.width * 0.75,
-      size.height * 0.6,
-      size.width,
-      size.height * 0.3,
-    );
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
 
 class SchedulingIllustration extends StatelessWidget {
   const SchedulingIllustration({super.key});

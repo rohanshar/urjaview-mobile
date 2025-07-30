@@ -23,25 +23,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       title: 'Welcome to UrjaView',
       description:
           'Your comprehensive smart meter management solution. Monitor and control your energy infrastructure with ease.',
-      imagePath: 'assets/images/onboarding_1.svg',
+      imagePath: 'assets/images/onboarding_1.png',
     ),
     const OnboardingPageModel(
       title: 'Real-time Monitoring',
       description:
           'Track energy consumption, voltage, current, and power factor in real-time. Get instant insights into your meter performance.',
-      imagePath: 'assets/images/onboarding_2.svg',
+      imagePath: 'assets/images/onboarding_2.png',
     ),
     const OnboardingPageModel(
       title: 'Intelligent Scheduling',
       description:
           'Schedule meter readings, create automated jobs, and manage your entire meter fleet efficiently from one platform.',
-      imagePath: 'assets/images/onboarding_3.svg',
+      imagePath: 'assets/images/onboarding_3.png',
     ),
     const OnboardingPageModel(
       title: 'Secure & Reliable',
       description:
           'Built with enterprise-grade security and DLMS protocol compliance. Your data is always protected and accessible.',
-      imagePath: 'assets/images/onboarding_4.svg',
+      imagePath: 'assets/images/onboarding_4.png',
     ),
   ];
 

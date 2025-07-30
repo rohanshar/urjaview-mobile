@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:provider/provider.dart';
-import 'package:urjaview_mobile/presentation/auth/screens/login_screen.dart';
-import 'package:urjaview_mobile/presentation/meters/screens/meters_list_screen.dart';
-import 'package:urjaview_mobile/presentation/dashboard/screens/dashboard_screen.dart';
+import 'mock_screens.dart';
 import 'screenshot_utils.dart';
 
 void main() {
@@ -45,7 +43,7 @@ void main() {
           await takeScreenshot(
             tester: tester,
             widget: getScreenWrapper(
-              child: const LoginScreen(),
+              child: const MockLoginScreen(),
               locale: locale,
               isAndroid: false,
             ),
@@ -95,7 +93,7 @@ void main() {
             widget: getScreenWrapper(
               child: ChangeNotifierProvider.value(
                 value: mockAuthProvider,
-                child: const DashboardScreen(),
+                child: const MockDashboardScreen(),
               ),
               locale: locale,
               isAndroid: false,
@@ -140,18 +138,19 @@ void main() {
 
           // Mock providers
           final mockAuthProvider = MockAuthProvider();
+          final mockMeterProvider = MockMeterProvider();
           
           // Take screenshot of meters list
           await takeScreenshot(
             tester: tester,
             widget: getScreenWrapper(
-              child: ChangeNotifierProvider.value(
-                value: mockAuthProvider,
-                child: const MetersListScreen(),
-              ),
+              child: const MockMetersListWidget(),
               locale: locale,
               isAndroid: false,
-              overrides: [],
+              overrides: [
+                ChangeNotifierProvider.value(value: mockAuthProvider),
+                ChangeNotifierProvider.value(value: mockMeterProvider),
+              ],
             ),
             pageName: pageName,
             isFinal: false,
@@ -215,7 +214,7 @@ void main() {
           await takeScreenshot(
             tester: tester,
             widget: getScreenWrapper(
-              child: const LoginScreen(),
+              child: const MockLoginScreen(),
               locale: locale,
               isAndroid: true,
             ),
@@ -266,7 +265,7 @@ void main() {
             widget: getScreenWrapper(
               child: ChangeNotifierProvider.value(
                 value: mockAuthProvider,
-                child: const DashboardScreen(),
+                child: const MockDashboardScreen(),
               ),
               locale: locale,
               isAndroid: true,
@@ -312,18 +311,19 @@ void main() {
 
           // Mock providers
           final mockAuthProvider = MockAuthProvider();
+          final mockMeterProvider = MockMeterProvider();
           
           // Take screenshot of meters list
           await takeScreenshot(
             tester: tester,
             widget: getScreenWrapper(
-              child: ChangeNotifierProvider.value(
-                value: mockAuthProvider,
-                child: const MetersListScreen(),
-              ),
+              child: const MockMetersListWidget(),
               locale: locale,
               isAndroid: true,
-              overrides: [],
+              overrides: [
+                ChangeNotifierProvider.value(value: mockAuthProvider),
+                ChangeNotifierProvider.value(value: mockMeterProvider),
+              ],
             ),
             pageName: pageName,
             isFinal: false,

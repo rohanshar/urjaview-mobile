@@ -4,8 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:urjaview_mobile/core/theme/app_theme.dart';
+// Remove app theme import to avoid Google Fonts issues
 import 'package:urjaview_mobile/data/models/user_model.dart';
+import 'package:urjaview_mobile/data/models/meter_model.dart';
 
 // Provider for platform-specific UI adjustments
 final platformScreenshotProvider = Provider<bool?>.value(value: null);
@@ -94,8 +95,15 @@ Widget getScreenWrapper({
         GlobalWidgetsLocalizations.delegate,
       ],
       locale: locale,
-      theme: AppTheme.lightTheme.copyWith(
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF1976D2),
+          brightness: Brightness.light,
+        ),
         platform: isAndroid ? TargetPlatform.android : TargetPlatform.iOS,
+        // Use default Roboto font which is bundled with Flutter
+        fontFamily: 'Roboto',
       ),
       home: Column(
         children: [
@@ -167,9 +175,8 @@ class MockAuthProvider extends ChangeNotifier {
     email: 'test@example.com',
     name: 'Test User',
     role: 'user',
+    clientId: 'test-client',
     companyId: '1',
-    createdAt: DateTime.now(),
-    updatedAt: DateTime.now(),
   );
   
   Future<void> signIn(String email, String password) async {}
@@ -183,48 +190,42 @@ class MockAuthProvider extends ChangeNotifier {
 
 // Mock meter provider for screenshots
 class MockMeterProvider extends ChangeNotifier {
-  List<Meter> get meters => [
-    Meter(
+  List<MeterModel> get meters => [
+    MeterModel(
       id: 'MTR-1234567890-abc',
+      name: 'Main Building Meter',
       serialNumber: '98525130',
-      meterName: 'Main Building Meter',
-      address: 'Building A, Floor 1',
+      meterIp: '2401:4900:9852:5130:0::2',
+      port: 4059,
+      status: 'active',
       manufacturer: 'Schneider Electric',
-      modelNumber: 'EM6400',
-      firmwareVersion: '2.1.0',
-      meterType: 'Three Phase',
-      voltage: '415V',
-      current: '100A',
-      frequency: '50Hz',
-      accuracy: 'Class 1',
-      operational: MeterOperational(
-        connectionStatus: 'online',
-        lastReadStatus: 'success',
-        lastReadTimestamp: DateTime.now().subtract(const Duration(minutes: 5)),
-      ),
+      model: 'EM6400',
+      location: 'Building A, Floor 1',
+      notes: 'Three phase power meter',
+      connectionStatus: 'online',
+      lastReadTime: DateTime.now().subtract(const Duration(minutes: 5)),
+      createdAt: DateTime.now().subtract(const Duration(days: 30)),
+      updatedAt: DateTime.now().subtract(const Duration(minutes: 5)),
     ),
-    Meter(
+    MeterModel(
       id: 'MTR-1234567891-def',
+      name: 'Solar Panel Meter',
       serialNumber: '98525131',
-      meterName: 'Solar Panel Meter',
-      address: 'Rooftop Installation',
+      meterIp: '2401:4900:9852:5130:0::3',
+      port: 4059,
+      status: 'active',
       manufacturer: 'ABB',
-      modelNumber: 'B23-212',
-      firmwareVersion: '1.5.3',
-      meterType: 'Net Meter',
-      voltage: '230V',
-      current: '50A',
-      frequency: '50Hz',
-      accuracy: 'Class 0.5',
-      operational: MeterOperational(
-        connectionStatus: 'online',
-        lastReadStatus: 'success',
-        lastReadTimestamp: DateTime.now().subtract(const Duration(minutes: 15)),
-      ),
+      model: 'B23-212',
+      location: 'Rooftop Installation',
+      notes: 'Net metering for solar generation',
+      connectionStatus: 'online',
+      lastReadTime: DateTime.now().subtract(const Duration(minutes: 15)),
+      createdAt: DateTime.now().subtract(const Duration(days: 60)),
+      updatedAt: DateTime.now().subtract(const Duration(minutes: 15)),
     ),
   ];
   
-  List<Meter> get filteredMeters => meters;
+  List<MeterModel> get filteredMeters => meters;
   
   bool get isLoading => false;
   
@@ -239,6 +240,10 @@ class MockMeterProvider extends ChangeNotifier {
   Future<void> pingMeter(String meterId) async {}
   
   Future<void> testMeterConnection(String meterId) async {}
+  
+  Future<void> loadMeters() async {}
+  
+  void clearError() {}
 }
 
 // Custom app bar back icon for screenshots
@@ -256,6 +261,7 @@ class AppBarBackIcon extends StatelessWidget {
     );
   }
 }
+
 
 // Decorate screenshot with device frame and text
 Widget getDecoratedScreen({

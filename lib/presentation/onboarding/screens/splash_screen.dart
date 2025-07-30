@@ -58,7 +58,8 @@ class _SplashScreenState extends State<SplashScreen>
 
     if (!mounted) return;
 
-    if (prefsService.isFirstTime) {
+    // Force onboarding for testing (remove this in production)
+    if (true || prefsService.isFirstTime) {
       context.go('/onboarding');
     } else {
       context.go('/login');

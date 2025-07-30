@@ -344,7 +344,7 @@ Use `scripts/pre_push_check.sh` to catch compile-time type errors that flutter a
 - Minimum iOS deployment target: 12.0 (set in iOS project)
 - CocoaPods must be installed (`sudo gem install cocoapods`)
 - Run `cd ios && pod install` after adding new Flutter plugins
-- App display name: "Urjaview Mobile" (configured in Info.plist)
+- App display name: "Urja View" (configured in Info.plist)
 - Supports iPhone and iPad orientations
 
 ### Android Build Requirements

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/constants/app_constants.dart';
+import '../../../data/services/preferences_service.dart';
 import '../providers/auth_provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -201,6 +203,37 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       },
                     ),
+                    
+                    // Debug button to reset onboarding (remove in production)
+                    if (true) // Change to false in production
+                      Column(
+                        children: [
+                          const SizedBox(height: 16),
+                          TextButton(
+                            onPressed: () async {
+                              final prefs = await PreferencesService.getInstance();
+                              await prefs.setFirstTime(true);
+                              await prefs.setOnboardingCompleted(false);
+                              if (mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Onboarding reset! Restart the app.'),
+                                  ),
+                                );
+                                // Navigate to splash screen
+                                context.go('/');
+                              }
+                            },
+                            child: Text(
+                              'Reset Onboarding (Debug)',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                   ],
                 ),
               ),
