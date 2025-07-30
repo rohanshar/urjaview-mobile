@@ -2,13 +2,21 @@ workflows:
   ios-workflow:
     name: iOS Release
     instance_type: mac_mini_m1
+    max_build_duration: 60
+    integrations:
+      app_store_connect: codemagic
     environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.indotech.urjaview
       flutter: stable
       xcode: latest
       cocoapods: default
       vars:
         BUNDLE_ID: "com.indotech.urjaview"
         APP_NAME: "UrjaView"
+        # Increment build number automatically
+        APP_STORE_APPLE_ID: 6749311837
     triggering:
       events:
         - tag
@@ -17,21 +25,26 @@ workflows:
           include: true
       cancel_previous_builds: true
     scripts:
+      - name: Set up local properties
+        script: |
+          echo "Building version ${CM_TAG:-1.0.0}"
       - name: Set up dependencies
         script: |
           flutter pub get
           cd ios && pod install
       - name: Flutter analyze
         script: |
-          flutter analyze || true
+          flutter analyze --fatal-warnings
+      - name: Set up code signing
+        script: |
+          xcode-project use-profiles
       - name: Flutter build iOS
         script: |
-          flutter build ios --release --no-codesign
-      - name: Build IPA
-        script: |
+          BUILD_NUMBER=$(($(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID") + 1))
           flutter build ipa --release \
-            --export-options-plist=/tmp/export_options.plist || \
-          flutter build ios --release --no-codesign
+            --build-name=$(echo ${CM_TAG:-1.0.0} | sed 's/ios-//') \
+            --build-number=$BUILD_NUMBER \
+            --export-options-plist=/Users/builder/export_options.plist
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
@@ -43,6 +56,13 @@ workflows:
         notify:
           success: true
           failure: true
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        expire_build_submitted_for_review: true
+        beta_groups:
+          - Internal Testers
+        submit_to_app_store: false
 
   android-workflow:
     name: Android Release
