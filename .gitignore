@@ -84,3 +84,8 @@ devtools_options.yaml
 # pubspec.lock
 # /ios/Podfile.lock
 # /ios/Pods/Manifest.lock
+
+# Local environment files
+.env.local
+scripts/artifacts-*
+scripts/build-*-logs.txt
