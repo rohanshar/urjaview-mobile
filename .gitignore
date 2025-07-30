@@ -89,3 +89,15 @@ devtools_options.yaml
 .env.local
 scripts/artifacts-*
 scripts/build-*-logs.txt
+
+# Fastlane
+/android/fastlane/metadata/android/*/images/
+/android/google-play-store.json
+/android/Gemfile.lock
+/ios/fastlane/screenshots/
+/ios/app_store_connect.json
+/ios/Gemfile.lock
+
+# Golden test failures and generated screenshots
+test/screenshots/goldens/*.png
+test/failures/

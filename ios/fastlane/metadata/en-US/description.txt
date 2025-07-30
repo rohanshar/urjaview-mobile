@@ -1,0 +1,20 @@
+UrjaView is a comprehensive smart meter management application that allows you to monitor, control, and analyze your DLMS-compliant smart meters in real-time.
+
+Key Features:
+• Real-time Monitoring: Track your energy consumption patterns with live data updates
+• Multi-meter Support: Connect and manage multiple smart meters from a single dashboard
+• Advanced Analytics: View detailed consumption reports and identify usage trends
+• Remote Control: Configure meter settings and parameters remotely
+• Scheduled Operations: Set up automated meter reading schedules
+• Secure Authentication: Enterprise-grade security with JWT-based authentication
+• Offline Support: Continue viewing cached data even without internet connection
+
+Perfect for:
+• Energy managers and facility administrators
+• Utility companies and service providers
+• Building owners and property managers
+• Anyone looking to optimize their energy consumption
+
+The app supports all DLMS/COSEM compliant smart meters and provides a user-friendly interface for both technical and non-technical users.
+
+Note: This app requires compatible DLMS smart meters and appropriate access credentials provided by your utility company or meter manufacturer.

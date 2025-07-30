@@ -1,0 +1,4 @@
+app_identifier("com.indotech.urjaview") # The bundle identifier of your app
+apple_id("your_apple_id@example.com") # Your Apple Developer Portal username
+itc_team_id("123456789") # App Store Connect Team ID
+team_id("B7ZBWF8ZM2") # Developer Portal Team ID

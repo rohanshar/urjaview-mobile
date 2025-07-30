@@ -1,0 +1,5 @@
+# Path to the json secret file, relative to the "android" directory:
+json_key_file("google-play-store.json")
+
+# Package name (actually your application ID):
+package_name("com.indotech.urjaview")

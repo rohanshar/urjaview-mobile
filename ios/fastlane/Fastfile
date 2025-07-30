@@ -1,0 +1,69 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Deploy app with screenshots to App Store Connect"
+  lane :deployapp do |options|
+    deliver(
+      api_key_path: "./app_store_connect.json",
+      app_version: options[:versionName],
+      ipa: "../build/ios/ipa/urjaview.ipa",
+      submit_for_review: true,
+      skip_binary_upload: false,
+      skip_metadata: false,
+      skip_app_version_update: false,
+      skip_screenshots: false,
+      overwrite_screenshots: true,
+      metadata_path: "./fastlane/metadata",
+      screenshots_path: "./fastlane/screenshots",
+      languages: ['en-US', 'fr-FR'],
+      precheck_include_in_app_purchases: false,
+      force: true,
+      submission_information: {
+        add_id_info_limits_tracking: true,
+        add_id_info_serves_ads: false,
+        add_id_info_tracks_action: true,
+        add_id_info_tracks_install: true,
+        add_id_info_uses_idfa: false,
+        content_rights_has_rights: true,
+        content_rights_contains_third_party_content: false,
+        export_compliance_platform: "ios",
+        export_compliance_compliance_required: false,
+        export_compliance_encryption_updated: false,
+        export_compliance_app_type: nil,
+        export_compliance_uses_encryption: false,
+        export_compliance_is_exempt: false,
+        export_compliance_contains_third_party_cryptography: false,
+        export_compliance_contains_proprietary_cryptography: false,
+        export_compliance_available_on_french_store: true
+      }
+    )
+  end
+
+  desc "Upload only screenshots to App Store Connect"
+  lane :upload_screenshots do
+    deliver(
+      api_key_path: "./app_store_connect.json",
+      skip_binary_upload: true,
+      skip_metadata: true,
+      skip_app_version_update: true,
+      skip_screenshots: false,
+      overwrite_screenshots: true,
+      screenshots_path: "./fastlane/screenshots",
+      languages: ['en-US', 'fr-FR'],
+      force: true
+    )
+  end
+
+  desc "Download metadata and screenshots from App Store Connect"
+  lane :download_metadata do
+    deliver(
+      api_key_path: "./app_store_connect.json",
+      metadata_path: "./fastlane/metadata",
+      screenshots_path: "./fastlane/screenshots",
+      skip_binary_upload: true,
+      download_metadata: true,
+      download_screenshots: true,
+      force: true
+    )
+  end
+end
