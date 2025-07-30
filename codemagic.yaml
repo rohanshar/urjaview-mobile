@@ -1,0 +1,113 @@
+workflows:
+  ios-workflow:
+    name: iOS Release
+    instance_type: mac_mini_m1
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      groups:
+        - app_store_credentials
+        - ios_signing
+      vars:
+        BUNDLE_ID: "com.indotech.urjaview"
+        APP_NAME: "UrjaView"
+    triggering:
+      events:
+        - tag
+      tag_patterns:
+        - pattern: ios-*
+          include: true
+      cancel_previous_builds: true
+    scripts:
+      - name: Set up dependencies
+        script: |
+          flutter pub get
+          cd ios && pod install
+      - name: Flutter analyze
+        script: |
+          flutter analyze --fatal-warnings
+      - name: Flutter build iOS
+        script: |
+          flutter build ios --release --no-codesign
+      - name: iOS code signing
+        script: |
+          xcode-project use-profiles
+      - name: Build IPA
+        script: |
+          xcode-project build-ipa \
+            --workspace "ios/Runner.xcworkspace" \
+            --scheme "Runner" \
+            --config "Release"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log
+    publishing:
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        submit_to_testflight: true
+        expire_build_submitted_for_review: true
+      email:
+        recipients:
+          - team@indotechworks.com
+        notify:
+          success: true
+          failure: true
+
+  android-workflow:
+    name: Android Release
+    instance_type: linux_x2
+    environment:
+      flutter: stable
+      java: 11
+      groups:
+        - google_play_credentials
+        - android_signing
+      vars:
+        BUNDLE_ID: "com.indotech.urjaview"
+        APP_NAME: "UrjaView"
+    triggering:
+      events:
+        - tag
+      tag_patterns:
+        - pattern: android-*
+          include: true
+      cancel_previous_builds: true
+    scripts:
+      - name: Set up key.properties
+        script: |
+          echo "storePassword=$ANDROID_KEYSTORE_PASSWORD" > "$CM_BUILD_DIR/android/key.properties"
+          echo "keyPassword=$ANDROID_KEY_PASSWORD" >> "$CM_BUILD_DIR/android/key.properties"
+          echo "keyAlias=$ANDROID_KEY_ALIAS" >> "$CM_BUILD_DIR/android/key.properties"
+          echo "storeFile=$CM_KEYSTORE_PATH" >> "$CM_BUILD_DIR/android/key.properties"
+      - name: Set up dependencies
+        script: |
+          flutter pub get
+      - name: Flutter analyze
+        script: |
+          flutter analyze --fatal-warnings
+      - name: Flutter build app bundle
+        script: |
+          BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$BUNDLE_ID") + 1))
+          flutter build appbundle --release \
+            --build-number=$BUILD_NUMBER \
+            --build-name=$(echo $CM_TAG | sed 's/android-//')
+    artifacts:
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - flutter_drive.log
+    publishing:
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal
+        submit_as_draft: false
+        in_app_update_priority: 3
+      email:
+        recipients:
+          - team@indotechworks.com
+        notify:
+          success: true
+          failure: true
