@@ -60,10 +60,10 @@ class MeterLiveMenuScreen extends StatelessWidget {
               _buildMenuCard(
                 context: context,
                 icon: Icons.speed,
-                title: 'Real-time Data',
-                subtitle: 'Live readings and measurements',
+                title: 'Instant Readings',
+                subtitle: 'Live electrical measurements',
                 color: AppTheme.secondaryColor,
-                onTap: () => context.go('/meters/$meterId/realtime'),
+                onTap: () => context.go('/meters/$meterId/instant'),
               ),
               const SizedBox(height: 12),
               _buildMenuCard(

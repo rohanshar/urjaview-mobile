@@ -1,5 +1,5 @@
-/// OBIS code definitions for real-time meter data
-class RealtimeObisConstants {
+/// OBIS code definitions for instant meter data
+class InstantObisConstants {
   // Voltage OBIS codes
   static const List<String> voltageCodes = [
     '1.0.32.7.0.255', // L1 Voltage

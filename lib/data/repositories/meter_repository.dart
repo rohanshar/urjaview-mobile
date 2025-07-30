@@ -110,4 +110,13 @@ class MeterRepository {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> readInstantValues(String meterId) async {
+    try {
+      return await _apiService.readInstantValues(meterId);
+    } catch (e) {
+      debugPrint('Error in readInstantValues repository: $e');
+      rethrow;
+    }
+  }
 }

@@ -219,6 +219,7 @@ Key API endpoints:
 - `GET /meters/:id/read-clock` - Read meter clock (requires auth)
 - `POST /meters/:id/set-clock` - Set meter clock (requires auth)
 - `POST /meters/:id/discover-objects` - Discover available OBIS objects (requires auth)
+- `POST /meters/:id/read-instant-values` - Read instant electrical values (requires auth)
 
 ### Meter ID Format
 Meters use IDs in the format: `MTR-{timestamp}-{random}` (e.g., `MTR-1753776501278-ybyo42h9d`). Always use meter IDs from the meters list API response.

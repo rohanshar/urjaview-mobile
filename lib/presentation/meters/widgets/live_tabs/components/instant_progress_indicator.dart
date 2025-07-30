@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_theme.dart';
 
-class RealtimeProgressIndicator extends StatelessWidget {
+class InstantProgressIndicator extends StatelessWidget {
   final String? currentOperation;
   final String? currentParameter;
   final int currentChunk;
@@ -9,7 +9,7 @@ class RealtimeProgressIndicator extends StatelessWidget {
   final int processedParameters;
   final int totalParameters;
 
-  const RealtimeProgressIndicator({
+  const InstantProgressIndicator({
     super.key,
     this.currentOperation,
     this.currentParameter,

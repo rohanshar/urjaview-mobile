@@ -5,7 +5,7 @@ import '../../../../data/models/meter_model.dart';
 import '../../navigation/meter_navigation_controller.dart';
 import 'live/meter_live_general_screen.dart';
 import 'live/meter_live_objects_screen.dart';
-import 'live/meter_live_realtime_screen.dart';
+import 'live/meter_live_instant_screen.dart';
 import 'live/meter_live_events_screen.dart';
 import 'live/meter_live_load_survey_screen.dart';
 import 'live/meter_live_billing_screen.dart';
@@ -60,7 +60,7 @@ class _MeterLiveScreenState extends State<MeterLiveScreen>
             tabs: const [
               Tab(text: 'General'),
               Tab(text: 'Objects'),
-              Tab(text: 'Real Time'),
+              Tab(text: 'Instant'),
               Tab(text: 'Events'),
               Tab(text: 'Load Survey'),
               Tab(text: 'Billing'),
@@ -73,7 +73,7 @@ class _MeterLiveScreenState extends State<MeterLiveScreen>
             children: [
               MeterLiveGeneralScreen(meter: widget.meter),
               MeterLiveObjectsScreen(meter: widget.meter),
-              MeterLiveRealtimeScreen(meter: widget.meter),
+              MeterLiveInstantScreen(meter: widget.meter),
               MeterLiveEventsScreen(meter: widget.meter),
               MeterLiveLoadSurveyScreen(meter: widget.meter),
               MeterLiveBillingScreen(meter: widget.meter),

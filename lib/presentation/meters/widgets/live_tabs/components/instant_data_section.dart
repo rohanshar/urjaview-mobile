@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_theme.dart';
 
-class RealtimeDataSection extends StatelessWidget {
+class InstantDataSection extends StatelessWidget {
   final String title;
   final IconData icon;
   final Map<String, dynamic> data;
   final List<String> obisCodes;
   final String Function(String) getParameterName;
 
-  const RealtimeDataSection({
+  const InstantDataSection({
     super.key,
     required this.title,
     required this.icon,

@@ -3,7 +3,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../../data/models/meter_model.dart';
 import 'live_tabs/general_tab.dart';
 import 'live_tabs/objects_tab.dart';
-import 'live_tabs/realtime_tab_v2.dart';
+import 'live_tabs/instant_tab_v2.dart';
 import 'live_tabs/events_tab.dart';
 import 'live_tabs/load_survey_tab.dart';
 import 'live_tabs/billing_tab.dart';
@@ -48,7 +48,7 @@ class _MeterLiveTabState extends State<MeterLiveTab>
             tabs: const [
               Tab(text: 'General'),
               Tab(text: 'Objects'),
-              Tab(text: 'Real Time'),
+              Tab(text: 'Instant'),
               Tab(text: 'Events'),
               Tab(text: 'Load Survey'),
               Tab(text: 'Billing'),
@@ -61,7 +61,7 @@ class _MeterLiveTabState extends State<MeterLiveTab>
             children: [
               GeneralTab(meter: widget.meter),
               ObjectsTab(meter: widget.meter),
-              RealtimeTabV2(meter: widget.meter),
+              InstantTabV2(meter: widget.meter),
               EventsTab(meter: widget.meter),
               LoadSurveyTab(meter: widget.meter),
               BillingTab(meter: widget.meter),

@@ -113,4 +113,13 @@ class MeterProvider extends ChangeNotifier {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> readInstantValues(String meterId) async {
+    try {
+      return await _meterRepository.readInstantValues(meterId);
+    } catch (e) {
+      debugPrint('Error reading instant values: $e');
+      rethrow;
+    }
+  }
 }

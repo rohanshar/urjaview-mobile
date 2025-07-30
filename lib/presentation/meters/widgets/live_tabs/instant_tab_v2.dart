@@ -3,23 +3,23 @@ import 'package:provider/provider.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../data/models/meter_model.dart';
 import '../../providers/meter_provider.dart';
-import 'components/realtime_progress_indicator.dart';
-import 'components/realtime_data_section.dart';
-import 'components/realtime_success_message.dart';
-import 'components/realtime_obis_constants.dart';
+import 'components/instant_progress_indicator.dart';
+import 'components/instant_data_section.dart';
+import 'components/instant_success_message.dart';
+import 'components/instant_obis_constants.dart';
 
-class RealtimeTabV2 extends StatefulWidget {
+class InstantTabV2 extends StatefulWidget {
   final MeterModel meter;
 
-  const RealtimeTabV2({super.key, required this.meter});
+  const InstantTabV2({super.key, required this.meter});
 
   @override
-  State<RealtimeTabV2> createState() => _RealtimeTabV2State();
+  State<InstantTabV2> createState() => _InstantTabV2State();
 }
 
-class _RealtimeTabV2State extends State<RealtimeTabV2> {
+class _InstantTabV2State extends State<InstantTabV2> {
   bool _isLoading = false;
-  Map<String, dynamic>? _realtimeData;
+  Map<String, dynamic>? _instantData;
   String? _error;
   DateTime? _lastUpdated;
 
@@ -47,7 +47,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
 
           // Success Message Display
           if (_successMessage != null && !_isLoading)
-            RealtimeSuccessMessage(
+            InstantSuccessMessage(
               message: _successMessage!,
               onDismiss: () {
                 setState(() {
@@ -56,9 +56,9 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
               },
             ),
 
-          // Real-time Data Display
+          // Instant Data Display
           if (_isLoading)
-            RealtimeProgressIndicator(
+            InstantProgressIndicator(
               currentOperation: _currentOperation,
               currentParameter: _currentParameter,
               currentChunk: _currentChunk,
@@ -68,8 +68,8 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
             )
           else if (_error != null)
             _buildErrorCard()
-          else if (_realtimeData != null)
-            _buildRealtimeDataDisplay()
+          else if (_instantData != null)
+            _buildInstantDataDisplay()
           else
             _buildEmptyState(),
         ],
@@ -89,7 +89,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
                 Icon(Icons.bolt, color: AppTheme.primaryColor),
                 const SizedBox(width: 8),
                 Text(
-                  'Real-time Data',
+                  'Instant Readings',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -105,7 +105,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: _isLoading ? null : _fetchRealtimeData,
+                onPressed: _isLoading ? null : _fetchInstantData,
                 icon:
                     _isLoading
                         ? const SizedBox(
@@ -120,7 +120,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
                         )
                         : const Icon(Icons.refresh),
                 label: Text(
-                  _isLoading ? 'Fetching Data...' : 'Fetch Real-time Data',
+                  _isLoading ? 'Fetching Data...' : 'Fetch Instant Data',
                 ),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -183,12 +183,12 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
           ),
           const SizedBox(height: 16),
           Text(
-            'No real-time data available',
+            'No instant data available',
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 8),
           Text(
-            'Click "Fetch Real-time Data" to retrieve current values',
+            'Click "Fetch Instant Data" to retrieve current values',
             style: TextStyle(color: AppTheme.textSecondary),
           ),
         ],
@@ -196,12 +196,12 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
     );
   }
 
-  Widget _buildRealtimeDataDisplay() {
-    if (_realtimeData == null || _realtimeData!['data'] == null) {
+  Widget _buildInstantDataDisplay() {
+    if (_instantData == null || _instantData!['data'] == null) {
       return const SizedBox.shrink();
     }
 
-    final data = _realtimeData!['data'] as Map<String, dynamic>;
+    final data = _instantData!['data'] as Map<String, dynamic>;
 
     return Column(
       children: [
@@ -210,85 +210,85 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
         const SizedBox(height: 16),
 
         // Data Sections
-        RealtimeDataSection(
+        InstantDataSection(
           title: 'Voltage',
           icon: Icons.electric_bolt,
           data: data,
-          obisCodes: RealtimeObisConstants.voltageCodes,
-          getParameterName: RealtimeObisConstants.getParameterName,
+          obisCodes: InstantObisConstants.voltageCodes,
+          getParameterName: InstantObisConstants.getParameterName,
         ),
         const SizedBox(height: 16),
 
-        RealtimeDataSection(
+        InstantDataSection(
           title: 'Current',
           icon: Icons.show_chart,
           data: data,
-          obisCodes: RealtimeObisConstants.currentCodes,
-          getParameterName: RealtimeObisConstants.getParameterName,
+          obisCodes: InstantObisConstants.currentCodes,
+          getParameterName: InstantObisConstants.getParameterName,
         ),
         const SizedBox(height: 16),
 
-        RealtimeDataSection(
+        InstantDataSection(
           title: 'Power',
           icon: Icons.power,
           data: data,
-          obisCodes: RealtimeObisConstants.activePowerCodes,
-          getParameterName: RealtimeObisConstants.getParameterName,
+          obisCodes: InstantObisConstants.activePowerCodes,
+          getParameterName: InstantObisConstants.getParameterName,
         ),
         const SizedBox(height: 16),
 
-        RealtimeDataSection(
+        InstantDataSection(
           title: 'Power Factor',
           icon: Icons.analytics,
           data: data,
-          obisCodes: RealtimeObisConstants.powerFactorCodes,
-          getParameterName: RealtimeObisConstants.getParameterName,
+          obisCodes: InstantObisConstants.powerFactorCodes,
+          getParameterName: InstantObisConstants.getParameterName,
         ),
         const SizedBox(height: 16),
 
-        RealtimeDataSection(
+        InstantDataSection(
           title: 'Frequency',
           icon: Icons.waves,
           data: data,
-          obisCodes: RealtimeObisConstants.frequencyCodes,
-          getParameterName: RealtimeObisConstants.getParameterName,
+          obisCodes: InstantObisConstants.frequencyCodes,
+          getParameterName: InstantObisConstants.getParameterName,
         ),
         const SizedBox(height: 16),
 
-        RealtimeDataSection(
+        InstantDataSection(
           title: 'Energy',
           icon: Icons.battery_charging_full,
           data: data,
-          obisCodes: RealtimeObisConstants.energyCodes,
-          getParameterName: RealtimeObisConstants.getParameterName,
+          obisCodes: InstantObisConstants.energyCodes,
+          getParameterName: InstantObisConstants.getParameterName,
         ),
         const SizedBox(height: 16),
 
-        RealtimeDataSection(
+        InstantDataSection(
           title: 'Reactive Power',
           icon: Icons.transform,
           data: data,
-          obisCodes: RealtimeObisConstants.reactivePowerCodes,
-          getParameterName: RealtimeObisConstants.getParameterName,
+          obisCodes: InstantObisConstants.reactivePowerCodes,
+          getParameterName: InstantObisConstants.getParameterName,
         ),
         const SizedBox(height: 16),
 
-        RealtimeDataSection(
+        InstantDataSection(
           title: 'Apparent Power',
           icon: Icons.electrical_services,
           data: data,
-          obisCodes: RealtimeObisConstants.apparentPowerCodes,
-          getParameterName: RealtimeObisConstants.getParameterName,
+          obisCodes: InstantObisConstants.apparentPowerCodes,
+          getParameterName: InstantObisConstants.getParameterName,
         ),
       ],
     );
   }
 
   Widget _buildMetadataCard() {
-    final objectsRead = _realtimeData!['objectsRead'] ?? 0;
-    final objectsRequested = _realtimeData!['objectsRequested'] ?? 0;
-    final errors = _realtimeData!['errors'] as Map<String, dynamic>?;
-    final duration = _realtimeData!['duration'] ?? 0;
+    final objectsRead = _instantData!['objectsRead'] ?? 0;
+    final objectsRequested = _instantData!['objectsRequested'] ?? 0;
+    final errors = _instantData!['errors'] as Map<String, dynamic>?;
+    final duration = _instantData!['duration'] ?? 0;
 
     return Card(
       child: Padding(
@@ -365,7 +365,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
     }
   }
 
-  Future<void> _fetchRealtimeData() async {
+  Future<void> _fetchInstantData() async {
     setState(() {
       _isLoading = true;
       _error = null;
@@ -373,7 +373,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
       _currentChunk = 0;
       _totalChunks = 0;
       _processedParameters = 0;
-      _totalParameters = RealtimeObisConstants.allCodes.length;
+      _totalParameters = InstantObisConstants.allCodes.length;
       _currentParameter = null;
     });
 
@@ -386,14 +386,14 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
 
       for (
         var i = 0;
-        i < RealtimeObisConstants.allCodes.length;
+        i < InstantObisConstants.allCodes.length;
         i += chunkSize
       ) {
         final end =
-            (i + chunkSize < RealtimeObisConstants.allCodes.length)
+            (i + chunkSize < InstantObisConstants.allCodes.length)
                 ? i + chunkSize
-                : RealtimeObisConstants.allCodes.length;
-        chunks.add(RealtimeObisConstants.allCodes.sublist(i, end));
+                : InstantObisConstants.allCodes.length;
+        chunks.add(InstantObisConstants.allCodes.sublist(i, end));
       }
 
       setState(() {
@@ -405,7 +405,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
         'data': <String, dynamic>{},
         'errors': <String, dynamic>{},
         'duration': 0,
-        'objectsRequested': RealtimeObisConstants.allCodes.length,
+        'objectsRequested': InstantObisConstants.allCodes.length,
         'objectsRead': 0,
       };
 
@@ -419,7 +419,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
 
         // Update current parameter being read
         for (final obisCode in chunk) {
-          final parameterName = RealtimeObisConstants.getParameterName(
+          final parameterName = InstantObisConstants.getParameterName(
             obisCode,
           );
           if (mounted) {
@@ -465,7 +465,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
 
       if (mounted) {
         setState(() {
-          _realtimeData = combinedData;
+          _instantData = combinedData;
           _lastUpdated = DateTime.now();
           _isLoading = false;
           _error = null;
@@ -478,7 +478,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
     } catch (e) {
       if (mounted) {
         setState(() {
-          _error = 'Failed to fetch real-time data: ${e.toString()}';
+          _error = 'Failed to fetch instant data: ${e.toString()}';
           _isLoading = false;
           _currentOperation = null;
           _currentParameter = null;

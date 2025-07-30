@@ -380,6 +380,22 @@ class ApiService {
     }
   }
 
+  Future<Map<String, dynamic>> readInstantValues(String meterId) async {
+    try {
+      final response = await _meterDio.post('/meters/$meterId/read-instant-values');
+      debugPrint('Read instant values response: ${response.data}');
+      if (response.data['success'] == true) {
+        return response.data['data'] ?? {};
+      } else {
+        throw Exception(
+          response.data['message'] ?? 'Failed to read instant values',
+        );
+      }
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
   String _handleError(DioException error) {
     if (error.type == DioExceptionType.connectionTimeout ||
         error.type == DioExceptionType.receiveTimeout ||

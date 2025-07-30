@@ -3,12 +3,12 @@ import 'package:provider/provider.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../data/models/meter_model.dart';
 import '../providers/meter_provider.dart';
-import '../widgets/live_tabs/realtime_tab_v2.dart';
+import '../widgets/live_tabs/instant_tab_v2.dart';
 
-class MeterRealtimeScreen extends StatelessWidget {
+class MeterInstantScreen extends StatelessWidget {
   final String meterId;
 
-  const MeterRealtimeScreen({super.key, required this.meterId});
+  const MeterInstantScreen({super.key, required this.meterId});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class MeterRealtimeScreen extends StatelessWidget {
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Real-time Data'),
+                const Text('Instant Readings'),
                 Text(
                   meter.name,
                   style: const TextStyle(
@@ -42,7 +42,7 @@ class MeterRealtimeScreen extends StatelessWidget {
               ),
             ],
           ),
-          body: RealtimeTabV2(meter: meter),
+          body: InstantTabV2(meter: meter),
         );
       },
     );

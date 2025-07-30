@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_theme.dart';
 
-class RealtimeSuccessMessage extends StatelessWidget {
+class InstantSuccessMessage extends StatelessWidget {
   final String message;
   final VoidCallback onDismiss;
 
-  const RealtimeSuccessMessage({
+  const InstantSuccessMessage({
     super.key,
     required this.message,
     required this.onDismiss,
