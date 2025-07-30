@@ -17,12 +17,9 @@ class OnboardingPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Illustration
-          Container(
+          SizedBox(
             height: 300,
             width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-            ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: _getImageForPage(page.imagePath),

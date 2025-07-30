@@ -20,7 +20,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   final List<OnboardingPageModel> _pages = [
     const OnboardingPageModel(
-      title: 'Welcome to UrjaView',
+      title: 'Welcome to Urja View',
       description:
           'Your comprehensive smart meter management solution. Monitor and control your energy infrastructure with ease.',
       imagePath: 'assets/images/onboarding_1.png',
@@ -88,7 +88,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Stack(
           children: [

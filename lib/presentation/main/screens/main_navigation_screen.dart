@@ -40,7 +40,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       case '/settings':
         return 'Settings';
       default:
-        return 'UrjaView';
+        return 'Urja View';
     }
   }
 

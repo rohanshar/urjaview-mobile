@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-UrjaView Mobile is a Flutter-based mobile application for managing DLMS smart meters. It connects to the DLMS Cloud backend API and provides features for meter management, real-time data monitoring, and job scheduling.
+Urja View Mobile is a Flutter-based mobile application for managing DLMS smart meters. It connects to the DLMS Cloud backend API and provides features for meter management, real-time data monitoring, and job scheduling.
 
 ## Dependencies & Environment
 

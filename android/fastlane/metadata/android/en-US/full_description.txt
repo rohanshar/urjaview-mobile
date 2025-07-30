@@ -1,4 +1,4 @@
-UrjaView is a comprehensive smart meter management application that allows you to monitor, control, and analyze your DLMS-compliant smart meters in real-time.
+Urja View is a comprehensive smart meter management application that allows you to monitor, control, and analyze your DLMS-compliant smart meters in real-time.
 
 Key Features:
 • Real-time Monitoring: Track your energy consumption patterns with live data updates

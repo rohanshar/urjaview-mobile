@@ -1,6 +1,6 @@
-# UrjaView Mobile
+# Urja View Mobile
 
-UrjaView by Indotech Meters - Advanced DLMS smart meter management mobile application built with Flutter.
+Urja View by Indotech Meters - Advanced DLMS smart meter management mobile application built with Flutter.
 
 ## Features
 

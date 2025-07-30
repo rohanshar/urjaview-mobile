@@ -5,7 +5,7 @@ class AppConstants {
   static const Duration apiTimeout = Duration(seconds: 30);
 
   // App Info
-  static const String appName = 'UrjaView';
+  static const String appName = 'Urja View';
   static const String appTagline = 'Smart Meter Management';
   static const String companyName = 'Indotech Meters';
   static const String poweredBy = 'Powered by Indotech Meters';

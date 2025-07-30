@@ -45,7 +45,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'UrjaView',
+                        'Urja View',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -77,7 +77,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'UrjaView',
+                          'Urja View',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
