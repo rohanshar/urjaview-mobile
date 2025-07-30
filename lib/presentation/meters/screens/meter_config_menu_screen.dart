@@ -8,10 +8,7 @@ import '../widgets/meter_config_tab.dart';
 class MeterConfigMenuScreen extends StatelessWidget {
   final String meterId;
 
-  const MeterConfigMenuScreen({
-    super.key,
-    required this.meterId,
-  });
+  const MeterConfigMenuScreen({super.key, required this.meterId});
 
   @override
   Widget build(BuildContext context) {
@@ -55,23 +52,14 @@ class MeterConfigMenuScreen extends StatelessWidget {
 
   Widget _buildErrorScreen(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Error'),
-      ),
+      appBar: AppBar(title: const Text('Error')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.error_outline,
-              size: 64,
-              color: AppTheme.errorColor,
-            ),
+            Icon(Icons.error_outline, size: 64, color: AppTheme.errorColor),
             const SizedBox(height: 16),
-            const Text(
-              'Meter not found',
-              style: TextStyle(fontSize: 18),
-            ),
+            const Text('Meter not found', style: TextStyle(fontSize: 18)),
             const SizedBox(height: 8),
             TextButton.icon(
               onPressed: () => Navigator.of(context).pop(),

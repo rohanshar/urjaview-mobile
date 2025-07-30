@@ -11,10 +11,7 @@ class RecentJobsCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppTheme.surfaceColor,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: AppTheme.dividerColor,
-          width: 1,
-        ),
+        border: Border.all(color: AppTheme.dividerColor, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,9 +21,9 @@ class RecentJobsCard extends StatelessWidget {
             children: [
               Text(
                 'Recent Jobs',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
               TextButton(
                 onPressed: () {
@@ -39,10 +36,7 @@ class RecentJobsCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             'Latest background tasks and meter operations',
-            style: TextStyle(
-              fontSize: 14,
-              color: AppTheme.textSecondary,
-            ),
+            style: TextStyle(fontSize: 14, color: AppTheme.textSecondary),
           ),
           const SizedBox(height: 24),
           // Empty state
@@ -57,10 +51,7 @@ class RecentJobsCard extends StatelessWidget {
                 const SizedBox(height: 16),
                 Text(
                   'No recent jobs to display',
-                  style: TextStyle(
-                    color: AppTheme.textSecondary,
-                    fontSize: 14,
-                  ),
+                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 14),
                 ),
               ],
             ),

@@ -42,7 +42,7 @@ lib/
 1. Clone the repository
 2. Navigate to the project directory:
    ```bash
-   cd urjaview_mobile
+   cd urjaview-mobile
    ```
 
 3. Install dependencies:
@@ -50,7 +50,12 @@ lib/
    flutter pub get
    ```
 
-4. Run the app:
+4. Install git hooks (recommended):
+   ```bash
+   ./scripts/install-hooks.sh
+   ```
+
+5. Run the app:
    ```bash
    flutter run
    ```
@@ -99,12 +104,50 @@ flutter build apk --release
 flutter build ios --release
 ```
 
+## Development
+
+### Code Quality
+
+This project enforces code quality through:
+
+1. **Pre-commit hooks**: Automatically runs `flutter analyze` before commits
+   - Install hooks: `./scripts/install-hooks.sh`
+   - Skip hooks (when needed): `git commit --no-verify`
+
+2. **Code formatting**: Dart format is checked in pre-commit
+   - Format code: `dart format .`
+   - Check formatting: `dart format --set-exit-if-changed --output=none .`
+
+3. **Static analysis**: Flutter analyze catches potential issues
+   - Run manually: `flutter analyze`
+
+### Useful Commands
+
+```bash
+# Quick development script
+./run_app.sh
+
+# Run analysis
+flutter analyze
+
+# Format code
+dart format .
+
+# Run tests
+flutter test
+
+# Clean build artifacts
+flutter clean
+```
+
 ## Contributing
 
-1. Follow the existing code structure and naming conventions
-2. Write clean, documented code
-3. Test on both iOS and Android platforms
-4. Submit pull requests with detailed descriptions
+1. Install git hooks before making changes: `./scripts/install-hooks.sh`
+2. Follow the existing code structure and naming conventions
+3. Ensure `flutter analyze` passes before committing
+4. Write clean, documented code
+5. Test on both iOS and Android platforms
+6. Submit pull requests with detailed descriptions
 
 ## License
 

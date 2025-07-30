@@ -31,13 +31,11 @@ class _GeneralTabState extends State<GeneralTab> {
           // Connection Tests Section
           _buildConnectionTestsCard(),
           const SizedBox(height: 16),
-          
+
           // Results Section
-          if (_pingResult != null || _pingError != null)
-            _buildPingResultCard(),
-          
-          if (_testResult != null || _testError != null)
-            _buildTestResultCard(),
+          if (_pingResult != null || _pingError != null) _buildPingResultCard(),
+
+          if (_testResult != null || _testError != null) _buildTestResultCard(),
         ],
       ),
     );
@@ -63,7 +61,7 @@ class _GeneralTabState extends State<GeneralTab> {
               ],
             ),
             const SizedBox(height: 16),
-            
+
             // Ping Test
             _buildTestSection(
               title: 'Ping Test',
@@ -73,9 +71,9 @@ class _GeneralTabState extends State<GeneralTab> {
               onPressed: _pingMeter,
               buttonLabel: 'Ping Meter',
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Connection Test
             _buildTestSection(
               title: 'DLMS Connection Test',
@@ -108,36 +106,31 @@ class _GeneralTabState extends State<GeneralTab> {
             const SizedBox(width: 8),
             Text(
               title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
           ],
         ),
         const SizedBox(height: 4),
         Text(
           description,
-          style: TextStyle(
-            fontSize: 14,
-            color: AppTheme.textSecondary,
-          ),
+          style: TextStyle(fontSize: 14, color: AppTheme.textSecondary),
         ),
         const SizedBox(height: 12),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton.icon(
             onPressed: isLoading ? null : onPressed,
-            icon: isLoading
-                ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    ),
-                  )
-                : Icon(icon),
+            icon:
+                isLoading
+                    ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    )
+                    : Icon(icon),
             label: Text(isLoading ? 'Testing...' : buttonLabel),
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 12),
@@ -150,11 +143,12 @@ class _GeneralTabState extends State<GeneralTab> {
 
   Widget _buildPingResultCard() {
     final isSuccess = _pingError == null;
-    
+
     return Card(
-      color: isSuccess 
-          ? AppTheme.successColor.withValues(alpha: 0.1)
-          : AppTheme.errorColor.withValues(alpha: 0.1),
+      color:
+          isSuccess
+              ? AppTheme.successColor.withValues(alpha: 0.1)
+              : AppTheme.errorColor.withValues(alpha: 0.1),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -164,14 +158,16 @@ class _GeneralTabState extends State<GeneralTab> {
               children: [
                 Icon(
                   isSuccess ? Icons.check_circle : Icons.error,
-                  color: isSuccess ? AppTheme.successColor : AppTheme.errorColor,
+                  color:
+                      isSuccess ? AppTheme.successColor : AppTheme.errorColor,
                 ),
                 const SizedBox(width: 8),
                 Text(
                   'Ping Result',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: isSuccess ? AppTheme.successColor : AppTheme.errorColor,
+                    color:
+                        isSuccess ? AppTheme.successColor : AppTheme.errorColor,
                   ),
                 ),
               ],
@@ -181,7 +177,7 @@ class _GeneralTabState extends State<GeneralTab> {
               _buildResultRow('Status', 'Success'),
               if (_pingResult!['response_time'] != null)
                 _buildResultRow(
-                  'Response Time', 
+                  'Response Time',
                   '${_pingResult!['response_time']} ms',
                 ),
               if (_pingResult!['ip_address'] != null)
@@ -199,11 +195,12 @@ class _GeneralTabState extends State<GeneralTab> {
 
   Widget _buildTestResultCard() {
     final isSuccess = _testError == null;
-    
+
     return Card(
-      color: isSuccess 
-          ? AppTheme.successColor.withValues(alpha: 0.1)
-          : AppTheme.errorColor.withValues(alpha: 0.1),
+      color:
+          isSuccess
+              ? AppTheme.successColor.withValues(alpha: 0.1)
+              : AppTheme.errorColor.withValues(alpha: 0.1),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -213,14 +210,16 @@ class _GeneralTabState extends State<GeneralTab> {
               children: [
                 Icon(
                   isSuccess ? Icons.check_circle : Icons.error,
-                  color: isSuccess ? AppTheme.successColor : AppTheme.errorColor,
+                  color:
+                      isSuccess ? AppTheme.successColor : AppTheme.errorColor,
                 ),
                 const SizedBox(width: 8),
                 Text(
                   'Connection Test Result',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: isSuccess ? AppTheme.successColor : AppTheme.errorColor,
+                    color:
+                        isSuccess ? AppTheme.successColor : AppTheme.errorColor,
                   ),
                 ),
               ],
@@ -232,14 +231,14 @@ class _GeneralTabState extends State<GeneralTab> {
                 _buildResultRow('Auth Level', _testResult!['auth_level']),
               if (_testResult!['client_address'] != null)
                 _buildResultRow(
-                  'Client Address', 
+                  'Client Address',
                   _testResult!['client_address'].toString(),
                 ),
               if (_testResult!['logical_name'] != null)
                 _buildResultRow('Logical Name', _testResult!['logical_name']),
               if (_testResult!['physical_address'] != null)
                 _buildResultRow(
-                  'Physical Address', 
+                  'Physical Address',
                   _testResult!['physical_address'].toString(),
                 ),
             ] else
@@ -261,17 +260,11 @@ class _GeneralTabState extends State<GeneralTab> {
         children: [
           Text(
             label,
-            style: TextStyle(
-              fontSize: 14,
-              color: AppTheme.textSecondary,
-            ),
+            style: TextStyle(fontSize: 14, color: AppTheme.textSecondary),
           ),
           Text(
             value,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ),
         ],
       ),
@@ -288,7 +281,7 @@ class _GeneralTabState extends State<GeneralTab> {
     try {
       final provider = context.read<MeterProvider>();
       final result = await provider.pingMeter(widget.meter.id);
-      
+
       setState(() {
         _pingResult = result;
         _isPinging = false;
@@ -311,7 +304,7 @@ class _GeneralTabState extends State<GeneralTab> {
     try {
       final provider = context.read<MeterProvider>();
       final result = await provider.testMeterConnection(widget.meter.id);
-      
+
       setState(() {
         _testResult = result;
         _isTesting = false;

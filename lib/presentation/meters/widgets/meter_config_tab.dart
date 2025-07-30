@@ -6,10 +6,7 @@ import '../../../data/models/meter_model.dart';
 class MeterConfigTab extends StatelessWidget {
   final MeterModel meter;
 
-  const MeterConfigTab({
-    super.key,
-    required this.meter,
-  });
+  const MeterConfigTab({super.key, required this.meter});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +25,7 @@ class MeterConfigTab extends StatelessWidget {
           canWrite: meter.canWrite, // Set requires high auth
         ),
         const SizedBox(height: 12),
-        
+
         // More config options can be added here
         _buildConfigCard(
           context: context,
@@ -41,7 +38,7 @@ class MeterConfigTab extends StatelessWidget {
           canWrite: meter.canWrite,
         ),
         const SizedBox(height: 12),
-        
+
         _buildConfigCard(
           context: context,
           icon: Icons.electrical_services,
@@ -53,7 +50,7 @@ class MeterConfigTab extends StatelessWidget {
           canWrite: meter.canWrite,
         ),
         const SizedBox(height: 12),
-        
+
         _buildConfigCard(
           context: context,
           icon: Icons.security,
@@ -79,15 +76,16 @@ class MeterConfigTab extends StatelessWidget {
     required bool canWrite,
   }) {
     final isDisabled = !canAccess;
-    
+
     return Card(
       elevation: isDisabled ? 0 : 2,
       color: isDisabled ? AppTheme.surfaceVariant : null,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: isDisabled 
-            ? BorderSide(color: AppTheme.borderColor)
-            : BorderSide.none,
+        side:
+            isDisabled
+                ? BorderSide(color: AppTheme.borderColor)
+                : BorderSide.none,
       ),
       child: InkWell(
         onTap: isDisabled ? null : onTap,
@@ -100,9 +98,10 @@ class MeterConfigTab extends StatelessWidget {
                 width: 56,
                 height: 56,
                 decoration: BoxDecoration(
-                  color: isDisabled 
-                      ? Colors.grey[300] 
-                      : color.withValues(alpha: 0.1),
+                  color:
+                      isDisabled
+                          ? Colors.grey[300]
+                          : color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
@@ -154,9 +153,8 @@ class MeterConfigTab extends StatelessWidget {
                       subtitle,
                       style: TextStyle(
                         fontSize: 14,
-                        color: isDisabled 
-                            ? Colors.grey 
-                            : AppTheme.textSecondary,
+                        color:
+                            isDisabled ? Colors.grey : AppTheme.textSecondary,
                       ),
                     ),
                     if (isDisabled) ...[
@@ -176,9 +174,7 @@ class MeterConfigTab extends StatelessWidget {
               Icon(
                 Icons.arrow_forward_ios,
                 size: 16,
-                color: isDisabled 
-                    ? Colors.grey 
-                    : AppTheme.textSecondary,
+                color: isDisabled ? Colors.grey : AppTheme.textSecondary,
               ),
             ],
           ),
@@ -192,9 +188,7 @@ class MeterConfigTab extends StatelessWidget {
       SnackBar(
         content: Text('$feature - Coming Soon'),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     );
   }

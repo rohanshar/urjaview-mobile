@@ -42,16 +42,18 @@ class MeterModel {
   factory MeterModel.fromJson(Map<String, dynamic> json) {
     // Handle nested network object
     final network = json['network'] as Map<String, dynamic>?;
-    
+
     // Extract metadata
     final metadata = json['metadata'] as Map<String, dynamic>?;
-    
+
     // Extract operational data
     final operational = json['operational'] as Map<String, dynamic>?;
-    
+
     return MeterModel(
       id: json['meter_id'] ?? json['id'] ?? '',
-      name: metadata?['notes'] ?? 'Meter ${json['serial_number'] ?? json['meter_id']?.toString().split('-').last ?? ''}',
+      name:
+          metadata?['notes'] ??
+          'Meter ${json['serial_number'] ?? json['meter_id']?.toString().split('-').last ?? ''}',
       serialNumber: json['serial_number'] ?? '',
       meterIp: network?['ip_address'] ?? json['meterIp'] ?? '',
       port: network?['port'] ?? json['port'] ?? 4059,
@@ -67,18 +69,20 @@ class MeterModel {
           metadata?['created_at'] != null
               ? DateTime.parse(metadata!['created_at'])
               : json['createdAt'] != null
-                  ? DateTime.parse(json['createdAt'])
-                  : DateTime.now(),
+              ? DateTime.parse(json['createdAt'])
+              : DateTime.now(),
       updatedAt:
           metadata?['updated_at'] != null
               ? DateTime.parse(metadata!['updated_at'])
               : json['updatedAt'] != null
-                  ? DateTime.parse(json['updatedAt'])
-                  : DateTime.now(),
-      connectionStatus: operational?['connection_status'] ?? json['connectionStatus'],
-      lastReadTime: operational?['last_read_timestamp'] != null
-          ? DateTime.parse(operational!['last_read_timestamp'])
-          : json['lastReadTime'] != null
+              ? DateTime.parse(json['updatedAt'])
+              : DateTime.now(),
+      connectionStatus:
+          operational?['connection_status'] ?? json['connectionStatus'],
+      lastReadTime:
+          operational?['last_read_timestamp'] != null
+              ? DateTime.parse(operational!['last_read_timestamp'])
+              : json['lastReadTime'] != null
               ? DateTime.parse(json['lastReadTime'])
               : null,
     );
@@ -108,10 +112,10 @@ class MeterModel {
 
   bool get isActive => status == 'active';
   bool get hasSyncData => lastSyncData != null && lastSyncData!.isNotEmpty;
-  
+
   // Check if meter has write capabilities (requires high auth)
   bool get canWrite => authentication?.canWrite ?? false;
-  
+
   // Get available authentication level
   String get authLevel => authentication?.bestAvailableLevel ?? 'None';
 }

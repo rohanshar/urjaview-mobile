@@ -11,10 +11,7 @@ import 'components/realtime_obis_constants.dart';
 class RealtimeTabV2 extends StatefulWidget {
   final MeterModel meter;
 
-  const RealtimeTabV2({
-    super.key,
-    required this.meter,
-  });
+  const RealtimeTabV2({super.key, required this.meter});
 
   @override
   State<RealtimeTabV2> createState() => _RealtimeTabV2State();
@@ -25,7 +22,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
   Map<String, dynamic>? _realtimeData;
   String? _error;
   DateTime? _lastUpdated;
-  
+
   // Progress tracking
   String? _currentOperation;
   int _currentChunk = 0;
@@ -33,7 +30,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
   int _processedParameters = 0;
   int _totalParameters = 0;
   String? _currentParameter;
-  
+
   // Success message tracking
   String? _successMessage;
 
@@ -58,7 +55,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
                 });
               },
             ),
-          
+
           // Real-time Data Display
           if (_isLoading)
             RealtimeProgressIndicator(
@@ -102,27 +99,29 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
             const SizedBox(height: 8),
             Text(
               'Fetch live electrical parameters from the meter',
-              style: TextStyle(
-                fontSize: 14,
-                color: AppTheme.textSecondary,
-              ),
+              style: TextStyle(fontSize: 14, color: AppTheme.textSecondary),
             ),
             const SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: _isLoading ? null : _fetchRealtimeData,
-                icon: _isLoading
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                        ),
-                      )
-                    : const Icon(Icons.refresh),
-                label: Text(_isLoading ? 'Fetching Data...' : 'Fetch Real-time Data'),
+                icon:
+                    _isLoading
+                        ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.white,
+                            ),
+                          ),
+                        )
+                        : const Icon(Icons.refresh),
+                label: Text(
+                  _isLoading ? 'Fetching Data...' : 'Fetch Real-time Data',
+                ),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
@@ -133,11 +132,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.schedule,
-                    size: 14,
-                    color: AppTheme.textSecondary,
-                  ),
+                  Icon(Icons.schedule, size: 14, color: AppTheme.textSecondary),
                   const SizedBox(width: 4),
                   Text(
                     'Last updated: ${_formatTime(_lastUpdated!)}',
@@ -162,17 +157,12 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            Icon(
-              Icons.error_outline,
-              color: AppTheme.errorColor,
-            ),
+            Icon(Icons.error_outline, color: AppTheme.errorColor),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
                 _error!,
-                style: TextStyle(
-                  color: AppTheme.errorColor,
-                ),
+                style: TextStyle(color: AppTheme.errorColor),
               ),
             ),
           ],
@@ -199,9 +189,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
           const SizedBox(height: 8),
           Text(
             'Click "Fetch Real-time Data" to retrieve current values',
-            style: TextStyle(
-              color: AppTheme.textSecondary,
-            ),
+            style: TextStyle(color: AppTheme.textSecondary),
           ),
         ],
       ),
@@ -220,7 +208,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
         // Metadata Card
         _buildMetadataCard(),
         const SizedBox(height: 16),
-        
+
         // Data Sections
         RealtimeDataSection(
           title: 'Voltage',
@@ -230,7 +218,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
           getParameterName: RealtimeObisConstants.getParameterName,
         ),
         const SizedBox(height: 16),
-        
+
         RealtimeDataSection(
           title: 'Current',
           icon: Icons.show_chart,
@@ -239,7 +227,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
           getParameterName: RealtimeObisConstants.getParameterName,
         ),
         const SizedBox(height: 16),
-        
+
         RealtimeDataSection(
           title: 'Power',
           icon: Icons.power,
@@ -248,7 +236,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
           getParameterName: RealtimeObisConstants.getParameterName,
         ),
         const SizedBox(height: 16),
-        
+
         RealtimeDataSection(
           title: 'Power Factor',
           icon: Icons.analytics,
@@ -257,7 +245,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
           getParameterName: RealtimeObisConstants.getParameterName,
         ),
         const SizedBox(height: 16),
-        
+
         RealtimeDataSection(
           title: 'Frequency',
           icon: Icons.waves,
@@ -266,7 +254,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
           getParameterName: RealtimeObisConstants.getParameterName,
         ),
         const SizedBox(height: 16),
-        
+
         RealtimeDataSection(
           title: 'Energy',
           icon: Icons.battery_charging_full,
@@ -275,7 +263,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
           getParameterName: RealtimeObisConstants.getParameterName,
         ),
         const SizedBox(height: 16),
-        
+
         RealtimeDataSection(
           title: 'Reactive Power',
           icon: Icons.transform,
@@ -284,7 +272,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
           getParameterName: RealtimeObisConstants.getParameterName,
         ),
         const SizedBox(height: 16),
-        
+
         RealtimeDataSection(
           title: 'Apparent Power',
           icon: Icons.electrical_services,
@@ -320,7 +308,9 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
                   'Errors',
                   '${errors?.length ?? 0}',
                   Icons.error_outline,
-                  errors?.isNotEmpty == true ? AppTheme.errorColor : AppTheme.textSecondary,
+                  errors?.isNotEmpty == true
+                      ? AppTheme.errorColor
+                      : AppTheme.textSecondary,
                 ),
                 _buildMetadataItem(
                   'Duration',
@@ -336,7 +326,12 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
     );
   }
 
-  Widget _buildMetadataItem(String label, String value, IconData icon, Color color) {
+  Widget _buildMetadataItem(
+    String label,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
     return Column(
       children: [
         Icon(icon, color: color, size: 24),
@@ -351,10 +346,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
         ),
         Text(
           label,
-          style: TextStyle(
-            fontSize: 12,
-            color: AppTheme.textSecondary,
-          ),
+          style: TextStyle(fontSize: 12, color: AppTheme.textSecondary),
         ),
       ],
     );
@@ -363,7 +355,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
   String _formatTime(DateTime time) {
     final now = DateTime.now();
     final difference = now.difference(time);
-    
+
     if (difference.inSeconds < 60) {
       return '${difference.inSeconds}s ago';
     } else if (difference.inMinutes < 60) {
@@ -387,22 +379,27 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
 
     try {
       final meterProvider = context.read<MeterProvider>();
-      
+
       // Create chunks (4 OBIS codes per chunk)
       const chunkSize = 4;
       final chunks = <List<String>>[];
-      
-      for (var i = 0; i < RealtimeObisConstants.allCodes.length; i += chunkSize) {
-        final end = (i + chunkSize < RealtimeObisConstants.allCodes.length)
-            ? i + chunkSize
-            : RealtimeObisConstants.allCodes.length;
+
+      for (
+        var i = 0;
+        i < RealtimeObisConstants.allCodes.length;
+        i += chunkSize
+      ) {
+        final end =
+            (i + chunkSize < RealtimeObisConstants.allCodes.length)
+                ? i + chunkSize
+                : RealtimeObisConstants.allCodes.length;
         chunks.add(RealtimeObisConstants.allCodes.sublist(i, end));
       }
-      
+
       setState(() {
         _totalChunks = chunks.length;
       });
-      
+
       // Combined result
       final combinedData = {
         'data': <String, dynamic>{},
@@ -411,7 +408,7 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
         'objectsRequested': RealtimeObisConstants.allCodes.length,
         'objectsRead': 0,
       };
-      
+
       // Process chunks sequentially
       for (var i = 0; i < chunks.length; i++) {
         final chunk = chunks[i];
@@ -419,44 +416,53 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
           _currentChunk = i + 1;
           _currentOperation = 'Reading chunk ${i + 1} of ${chunks.length}';
         });
-        
+
         // Update current parameter being read
         for (final obisCode in chunk) {
-          final parameterName = RealtimeObisConstants.getParameterName(obisCode);
+          final parameterName = RealtimeObisConstants.getParameterName(
+            obisCode,
+          );
           if (mounted) {
             setState(() {
               _currentParameter = parameterName;
             });
           }
-          
+
           // Small delay to show parameter name
           await Future.delayed(const Duration(milliseconds: 50));
         }
-        
-        final result = await meterProvider.readMeterObjects(widget.meter.id, chunk);
-        
+
+        final result = await meterProvider.readMeterObjects(
+          widget.meter.id,
+          chunk,
+        );
+
         // Combine data
         if (result['data'] != null) {
           (combinedData['data'] as Map<String, dynamic>).addAll(result['data']);
         }
-        
+
         // Combine errors
         if (result['errors'] != null) {
-          (combinedData['errors'] as Map<String, dynamic>).addAll(result['errors']);
+          (combinedData['errors'] as Map<String, dynamic>).addAll(
+            result['errors'],
+          );
         }
-        
+
         // Add duration
-        combinedData['duration'] = (combinedData['duration'] as int) + (result['duration'] ?? 0);
-        
+        combinedData['duration'] =
+            (combinedData['duration'] as int) + (result['duration'] ?? 0);
+
         // Update objects read count
-        combinedData['objectsRead'] = (combinedData['data'] as Map<String, dynamic>).length;
-        
+        combinedData['objectsRead'] =
+            (combinedData['data'] as Map<String, dynamic>).length;
+
         // Update processed parameters count
         setState(() {
           _processedParameters += chunk.length;
         });
       }
-      
+
       if (mounted) {
         setState(() {
           _realtimeData = combinedData;
@@ -465,7 +471,8 @@ class _RealtimeTabV2State extends State<RealtimeTabV2> {
           _error = null;
           _currentOperation = null;
           _currentParameter = null;
-          _successMessage = 'Successfully fetched ${combinedData['objectsRead']} of ${combinedData['objectsRequested']} parameters in ${((combinedData['duration'] as int) / 1000).toStringAsFixed(1)}s';
+          _successMessage =
+              'Successfully fetched ${combinedData['objectsRead']} of ${combinedData['objectsRequested']} parameters in ${((combinedData['duration'] as int) / 1000).toStringAsFixed(1)}s';
         });
       }
     } catch (e) {

@@ -13,10 +13,7 @@ import 'live/meter_live_billing_screen.dart';
 class MeterLiveScreen extends StatefulWidget {
   final MeterModel meter;
 
-  const MeterLiveScreen({
-    super.key,
-    required this.meter,
-  });
+  const MeterLiveScreen({super.key, required this.meter});
 
   @override
   State<MeterLiveScreen> createState() => _MeterLiveScreenState();
@@ -30,11 +27,11 @@ class _MeterLiveScreenState extends State<MeterLiveScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 6, vsync: this);
-    
+
     // Sync with navigation controller
     final navController = context.read<MeterNavigationController>();
     _tabController.index = navController.selectedLiveSubTabIndex;
-    
+
     _tabController.addListener(() {
       if (!_tabController.indexIsChanging) {
         navController.setLiveSubTabIndex(_tabController.index);

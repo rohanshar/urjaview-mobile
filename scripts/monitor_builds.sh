@@ -75,7 +75,7 @@ setup_credentials() {
     if [ -z "$CODEMAGIC_API_TOKEN" ]; then
         echo ""
         echo "Enter your Codemagic API Token:"
-        echo "(Get it from: https://codemagic.io/team/<team-id>/settings/integrations/api)"
+        echo "(Get it from: Teams → Personal Account → Integrations → Codemagic API → Show)"
         read -r -s api_token
         echo "CODEMAGIC_API_TOKEN=$api_token" >> "$ENV_FILE"
         echo ""

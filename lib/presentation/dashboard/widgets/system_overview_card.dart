@@ -10,50 +10,35 @@ class SystemOverviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final meterProvider = context.watch<MeterProvider>();
     final totalMeters = meterProvider.meters.length;
-    
+
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: AppTheme.surfaceColor,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: AppTheme.dividerColor,
-          width: 1,
-        ),
+        border: Border.all(color: AppTheme.dividerColor, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'System Overview',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           Text(
             'Quick access to system features',
-            style: TextStyle(
-              fontSize: 14,
-              color: AppTheme.textSecondary,
-            ),
+            style: TextStyle(fontSize: 14, color: AppTheme.textSecondary),
           ),
           const SizedBox(height: 32),
           // Overview items
-          _buildOverviewItem(
-            'Company',
-            'Not assigned',
-          ),
+          _buildOverviewItem('Company', 'Not assigned'),
           const SizedBox(height: 20),
-          _buildOverviewItem(
-            'Total Meters',
-            totalMeters.toString(),
-          ),
+          _buildOverviewItem('Total Meters', totalMeters.toString()),
           const SizedBox(height: 20),
-          _buildOverviewItem(
-            'Jobs Today',
-            '0',
-          ),
+          _buildOverviewItem('Jobs Today', '0'),
         ],
       ),
     );
@@ -65,17 +50,11 @@ class SystemOverviewCard extends StatelessWidget {
       children: [
         Text(
           label,
-          style: TextStyle(
-            fontSize: 14,
-            color: AppTheme.textSecondary,
-          ),
+          style: TextStyle(fontSize: 14, color: AppTheme.textSecondary),
         ),
         Text(
           value,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
       ],
     );

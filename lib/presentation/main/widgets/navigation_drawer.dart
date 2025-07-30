@@ -15,16 +15,13 @@ class NavigationDrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDesktop = MediaQuery.of(context).size.width >= 1200;
-    
+
     return Container(
       width: isDesktop ? 240 : null,
       decoration: BoxDecoration(
         color: AppTheme.surfaceColor,
         border: Border(
-          right: BorderSide(
-            color: AppTheme.dividerColor,
-            width: 1,
-          ),
+          right: BorderSide(color: AppTheme.dividerColor, width: 1),
         ),
       ),
       child: Column(
@@ -173,7 +170,7 @@ class NavigationDrawerWidget extends StatelessWidget {
     required String route,
   }) {
     final isSelected = currentRoute == route;
-    
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       child: Material(
@@ -185,7 +182,10 @@ class NavigationDrawerWidget extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
-              color: isSelected ? AppTheme.primaryColor.withValues(alpha: 0.1) : null,
+              color:
+                  isSelected
+                      ? AppTheme.primaryColor.withValues(alpha: 0.1)
+                      : null,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
@@ -193,7 +193,10 @@ class NavigationDrawerWidget extends StatelessWidget {
                 Icon(
                   icon,
                   size: 20,
-                  color: isSelected ? AppTheme.primaryColor : AppTheme.textSecondary,
+                  color:
+                      isSelected
+                          ? AppTheme.primaryColor
+                          : AppTheme.textSecondary,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -201,8 +204,12 @@ class NavigationDrawerWidget extends StatelessWidget {
                     label,
                     style: TextStyle(
                       fontSize: 14,
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                      color: isSelected ? AppTheme.primaryColor : AppTheme.textPrimary,
+                      fontWeight:
+                          isSelected ? FontWeight.w600 : FontWeight.normal,
+                      color:
+                          isSelected
+                              ? AppTheme.primaryColor
+                              : AppTheme.textPrimary,
                     ),
                   ),
                 ),

@@ -7,7 +7,7 @@ class RealtimeDataSection extends StatelessWidget {
   final Map<String, dynamic> data;
   final List<String> obisCodes;
   final String Function(String) getParameterName;
-  
+
   const RealtimeDataSection({
     super.key,
     required this.title,
@@ -16,15 +16,15 @@ class RealtimeDataSection extends StatelessWidget {
     required this.obisCodes,
     required this.getParameterName,
   });
-  
+
   @override
   Widget build(BuildContext context) {
     final sectionData = _getSectionData();
-    
+
     if (sectionData.isEmpty) {
       return const SizedBox.shrink();
     }
-    
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -44,40 +44,41 @@ class RealtimeDataSection extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            ...sectionData.map((item) => _buildDataRow(
-              context,
-              item.label,
-              item.value,
-              item.unit,
-            )),
+            ...sectionData.map(
+              (item) =>
+                  _buildDataRow(context, item.label, item.value, item.unit),
+            ),
           ],
         ),
       ),
     );
   }
-  
+
   List<_DataItem> _getSectionData() {
     final List<_DataItem> sectionData = [];
-    
+
     for (final obisCode in obisCodes) {
       if (data.containsKey(obisCode)) {
         final value = data[obisCode];
         if (value != null && value is Map) {
           final displayValue = value['value']?.toString() ?? 'N/A';
           final unit = value['unit']?.toString() ?? '';
-          sectionData.add(_DataItem(
-            getParameterName(obisCode),
-            displayValue,
-            unit,
-          ));
+          sectionData.add(
+            _DataItem(getParameterName(obisCode), displayValue, unit),
+          );
         }
       }
     }
-    
+
     return sectionData;
   }
-  
-  Widget _buildDataRow(BuildContext context, String label, String value, String unit) {
+
+  Widget _buildDataRow(
+    BuildContext context,
+    String label,
+    String value,
+    String unit,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -86,10 +87,7 @@ class RealtimeDataSection extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: TextStyle(
-                fontSize: 14,
-                color: AppTheme.textSecondary,
-              ),
+              style: TextStyle(fontSize: 14, color: AppTheme.textSecondary),
             ),
           ),
           Row(
@@ -105,10 +103,7 @@ class RealtimeDataSection extends StatelessWidget {
                 const SizedBox(width: 4),
                 Text(
                   unit,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: AppTheme.textSecondary,
-                  ),
+                  style: TextStyle(fontSize: 14, color: AppTheme.textSecondary),
                 ),
               ],
             ],
@@ -123,6 +118,6 @@ class _DataItem {
   final String label;
   final String value;
   final String unit;
-  
+
   _DataItem(this.label, this.value, this.unit);
 }

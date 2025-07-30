@@ -15,10 +15,7 @@ import 'tabs/meter_settings_screen.dart';
 class MeterDetailScreenV2 extends StatefulWidget {
   final String meterId;
 
-  const MeterDetailScreenV2({
-    super.key,
-    required this.meterId,
-  });
+  const MeterDetailScreenV2({super.key, required this.meterId});
 
   @override
   State<MeterDetailScreenV2> createState() => _MeterDetailScreenV2State();
@@ -81,23 +78,14 @@ class _MeterDetailScreenV2State extends State<MeterDetailScreenV2>
 
   Widget _buildErrorScreen() {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Meter Not Found'),
-      ),
+      appBar: AppBar(title: const Text('Meter Not Found')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.error_outline,
-              size: 64,
-              color: AppTheme.errorColor,
-            ),
+            Icon(Icons.error_outline, size: 64, color: AppTheme.errorColor),
             const SizedBox(height: 16),
-            const Text(
-              'Meter not found',
-              style: TextStyle(fontSize: 18),
-            ),
+            const Text('Meter not found', style: TextStyle(fontSize: 18)),
             const SizedBox(height: 8),
             TextButton.icon(
               onPressed: () => Navigator.of(context).pop(),
@@ -119,7 +107,10 @@ class _MeterDetailScreenV2State extends State<MeterDetailScreenV2>
             Text(meter.name),
             Text(
               meter.serialNumber,
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+              ),
             ),
           ],
         ),
@@ -136,10 +127,7 @@ class _MeterDetailScreenV2State extends State<MeterDetailScreenV2>
                 decoration: BoxDecoration(
                   color: Theme.of(context).scaffoldBackgroundColor,
                   border: Border(
-                    bottom: BorderSide(
-                      color: AppTheme.dividerColor,
-                      width: 1,
-                    ),
+                    bottom: BorderSide(color: AppTheme.dividerColor, width: 1),
                   ),
                 ),
                 child: TabBar(
@@ -186,9 +174,7 @@ class _MeterDetailScreenV2State extends State<MeterDetailScreenV2>
             },
             icon: const Icon(Icons.sync, size: 20),
             label: const Text('Sync Now'),
-            style: TextButton.styleFrom(
-              foregroundColor: AppTheme.primaryColor,
-            ),
+            style: TextButton.styleFrom(foregroundColor: AppTheme.primaryColor),
           ),
           const SizedBox(width: 8),
         ],

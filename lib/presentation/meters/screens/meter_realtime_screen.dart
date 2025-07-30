@@ -8,10 +8,7 @@ import '../widgets/live_tabs/realtime_tab_v2.dart';
 class MeterRealtimeScreen extends StatelessWidget {
   final String meterId;
 
-  const MeterRealtimeScreen({
-    super.key,
-    required this.meterId,
-  });
+  const MeterRealtimeScreen({super.key, required this.meterId});
 
   @override
   Widget build(BuildContext context) {
@@ -61,23 +58,14 @@ class MeterRealtimeScreen extends StatelessWidget {
 
   Widget _buildErrorScreen(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Error'),
-      ),
+      appBar: AppBar(title: const Text('Error')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.error_outline,
-              size: 64,
-              color: AppTheme.errorColor,
-            ),
+            Icon(Icons.error_outline, size: 64, color: AppTheme.errorColor),
             const SizedBox(height: 16),
-            const Text(
-              'Meter not found',
-              style: TextStyle(fontSize: 18),
-            ),
+            const Text('Meter not found', style: TextStyle(fontSize: 18)),
             const SizedBox(height: 8),
             TextButton.icon(
               onPressed: () => Navigator.of(context).pop(),
@@ -93,20 +81,21 @@ class MeterRealtimeScreen extends StatelessWidget {
   void _showInfoDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Real-time Data'),
-        content: const Text(
-          'This screen shows live data from the meter. '
-          'Use the connection test buttons to verify meter connectivity, '
-          'then fetch real-time readings.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Real-time Data'),
+            content: const Text(
+              'This screen shows live data from the meter. '
+              'Use the connection test buttons to verify meter connectivity, '
+              'then fetch real-time readings.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('OK'),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 }

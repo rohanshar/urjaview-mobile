@@ -4,13 +4,13 @@ import '../../../../../core/theme/app_theme.dart';
 class RealtimeSuccessMessage extends StatelessWidget {
   final String message;
   final VoidCallback onDismiss;
-  
+
   const RealtimeSuccessMessage({
     super.key,
     required this.message,
     required this.onDismiss,
   });
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,17 +19,11 @@ class RealtimeSuccessMessage extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppTheme.successColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: AppTheme.successColor.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: AppTheme.successColor.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.check_circle,
-            color: AppTheme.successColor,
-            size: 24,
-          ),
+          Icon(Icons.check_circle, color: AppTheme.successColor, size: 24),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
@@ -42,11 +36,7 @@ class RealtimeSuccessMessage extends StatelessWidget {
           ),
           IconButton(
             onPressed: onDismiss,
-            icon: Icon(
-              Icons.close,
-              color: AppTheme.successColor,
-              size: 20,
-            ),
+            icon: Icon(Icons.close, color: AppTheme.successColor, size: 20),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
           ),

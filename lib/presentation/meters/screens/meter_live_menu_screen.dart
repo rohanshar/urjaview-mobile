@@ -8,10 +8,7 @@ import '../providers/meter_provider.dart';
 class MeterLiveMenuScreen extends StatelessWidget {
   final String meterId;
 
-  const MeterLiveMenuScreen({
-    super.key,
-    required this.meterId,
-  });
+  const MeterLiveMenuScreen({super.key, required this.meterId});
 
   @override
   Widget build(BuildContext context) {
@@ -112,9 +109,7 @@ class MeterLiveMenuScreen extends StatelessWidget {
   }) {
     return Card(
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
@@ -129,11 +124,7 @@ class MeterLiveMenuScreen extends StatelessWidget {
                   color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(
-                  icon,
-                  size: 28,
-                  color: color,
-                ),
+                child: Icon(icon, size: 28, color: color),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -180,23 +171,14 @@ class MeterLiveMenuScreen extends StatelessWidget {
 
   Widget _buildErrorScreen(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Error'),
-      ),
+      appBar: AppBar(title: const Text('Error')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.error_outline,
-              size: 64,
-              color: AppTheme.errorColor,
-            ),
+            Icon(Icons.error_outline, size: 64, color: AppTheme.errorColor),
             const SizedBox(height: 16),
-            const Text(
-              'Meter not found',
-              style: TextStyle(fontSize: 18),
-            ),
+            const Text('Meter not found', style: TextStyle(fontSize: 18)),
             const SizedBox(height: 8),
             TextButton.icon(
               onPressed: () => Navigator.of(context).pop(),
@@ -214,9 +196,7 @@ class MeterLiveMenuScreen extends StatelessWidget {
       SnackBar(
         content: Text('$feature - Coming Soon'),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     );
   }

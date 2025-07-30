@@ -8,7 +8,7 @@ class RealtimeProgressIndicator extends StatelessWidget {
   final int totalChunks;
   final int processedParameters;
   final int totalParameters;
-  
+
   const RealtimeProgressIndicator({
     super.key,
     this.currentOperation,
@@ -18,13 +18,12 @@ class RealtimeProgressIndicator extends StatelessWidget {
     required this.processedParameters,
     required this.totalParameters,
   });
-  
+
   @override
   Widget build(BuildContext context) {
-    final double overallProgress = totalParameters > 0
-        ? processedParameters / totalParameters
-        : 0.0;
-        
+    final double overallProgress =
+        totalParameters > 0 ? processedParameters / totalParameters : 0.0;
+
     return Center(
       child: Card(
         elevation: 8,
@@ -40,7 +39,7 @@ class RealtimeProgressIndicator extends StatelessWidget {
                 backgroundColor: AppTheme.dividerColor,
               ),
               const SizedBox(height: 24),
-              
+
               if (currentOperation != null) ...[
                 Text(
                   currentOperation!,
@@ -49,30 +48,24 @@ class RealtimeProgressIndicator extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
               ],
-              
+
               if (currentParameter != null) ...[
                 Text(
                   'Reading: $currentParameter',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: AppTheme.textSecondary,
-                  ),
+                  style: TextStyle(fontSize: 14, color: AppTheme.textSecondary),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
               ],
-              
+
               if (totalChunks > 0)
                 Text(
                   'Chunk $currentChunk of $totalChunks',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: AppTheme.textSecondary,
-                  ),
+                  style: TextStyle(fontSize: 13, color: AppTheme.textSecondary),
                 ),
-              
+
               const SizedBox(height: 16),
-              
+
               // Progress bar
               Column(
                 children: [

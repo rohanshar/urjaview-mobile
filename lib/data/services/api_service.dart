@@ -18,7 +18,7 @@ class ApiService {
         headers: {'Content-Type': 'application/json'},
       ),
     );
-    
+
     // Add logging interceptor in debug mode
     if (kDebugMode) {
       _dio.interceptors.add(
@@ -44,16 +44,13 @@ class ApiService {
             debugPrint('API Request: ${options.method} ${options.path}');
             debugPrint('Headers before processing: ${options.headers}');
           }
-          
+
           // List of endpoints that don't require authentication
-          final publicEndpoints = [
-            '/auth/refresh',
-            '/auth/signin',
-          ];
-          
+          final publicEndpoints = ['/auth/refresh', '/auth/signin'];
+
           // Check if this is a public endpoint
           final isPublicEndpoint = publicEndpoints.contains(options.path);
-          
+
           if (isPublicEndpoint) {
             if (kDebugMode) {
               debugPrint('Skipping auth for endpoint: ${options.path}');
@@ -64,32 +61,37 @@ class ApiService {
             handler.next(options);
             return;
           }
-          
+
           // Add auth token to requests
           final token = await _tokenManager.getToken();
           if (token != null) {
             // Trim any whitespace from the token
             final trimmedToken = token.trim();
-            
+
             // Ensure the token is properly formatted
             options.headers['Authorization'] = 'Bearer $trimmedToken';
-            
+
             // Debug log to check token format
             if (kDebugMode) {
-              final tokenPreview = trimmedToken.length > 20 ? '${trimmedToken.substring(0, 20)}...' : trimmedToken;
-              debugPrint('Setting auth header for ${options.path}: Bearer $tokenPreview');
+              final tokenPreview =
+                  trimmedToken.length > 20
+                      ? '${trimmedToken.substring(0, 20)}...'
+                      : trimmedToken;
+              debugPrint(
+                'Setting auth header for ${options.path}: Bearer $tokenPreview',
+              );
             }
           } else {
             if (kDebugMode) {
               debugPrint('No token available for ${options.path}');
             }
           }
-          
+
           // Final debug log
           if (kDebugMode) {
             debugPrint('Final headers for ${options.path}: ${options.headers}');
           }
-          
+
           handler.next(options);
         },
         onError: (error, handler) async {
@@ -99,13 +101,13 @@ class ApiService {
             debugPrint('Status: ${error.response?.statusCode}');
             debugPrint('Headers: ${error.requestOptions.headers}');
           }
-          
+
           // Skip retry for refresh endpoint to avoid loops
           if (error.requestOptions.path == '/auth/refresh') {
             handler.next(error);
             return;
           }
-          
+
           if (error.response?.statusCode == 401) {
             // Token expired, try to refresh
             final refreshToken = await _storage.read(
@@ -115,10 +117,13 @@ class ApiService {
               try {
                 await refreshAuthToken(refreshToken);
                 // Get the new token directly from storage to avoid recursive calls
-                final newToken = await _storage.read(key: AppConstants.tokenKey);
+                final newToken = await _storage.read(
+                  key: AppConstants.tokenKey,
+                );
                 if (newToken != null) {
                   // Update the authorization header with new token
-                  error.requestOptions.headers['Authorization'] = 'Bearer $newToken';
+                  error.requestOptions.headers['Authorization'] =
+                      'Bearer $newToken';
                 }
                 // Retry the request
                 final response = await _dio.request(
@@ -163,7 +168,7 @@ class ApiService {
       );
 
       final data = response.data['data'];
-      
+
       // Debug log the token format
       if (kDebugMode) {
         final idToken = data['idToken'] as String?;
@@ -276,7 +281,10 @@ class ApiService {
     }
   }
 
-  Future<Map<String, dynamic>> readMeterObjects(String meterId, List<String> obisCodes) async {
+  Future<Map<String, dynamic>> readMeterObjects(
+    String meterId,
+    List<String> obisCodes,
+  ) async {
     try {
       final response = await _dio.post(
         '/meters/$meterId/read-objects',
@@ -307,19 +315,18 @@ class ApiService {
     }
   }
 
-  Future<Map<String, dynamic>> setMeterClock(String meterId, {
+  Future<Map<String, dynamic>> setMeterClock(
+    String meterId, {
     bool useCurrentTime = true,
     DateTime? dateTime,
   }) async {
     try {
-      final data = <String, dynamic>{
-        'useCurrentTime': useCurrentTime,
-      };
-      
+      final data = <String, dynamic>{'useCurrentTime': useCurrentTime};
+
       if (!useCurrentTime && dateTime != null) {
         data['dateTime'] = dateTime.toIso8601String();
       }
-      
+
       final response = await _dio.post(
         '/meters/$meterId/set-clock',
         data: data,
@@ -342,7 +349,9 @@ class ApiService {
       if (response.data['success'] == true) {
         return response.data['data'] ?? {};
       } else {
-        throw Exception(response.data['message'] ?? 'Failed to discover objects');
+        throw Exception(
+          response.data['message'] ?? 'Failed to discover objects',
+        );
       }
     } on DioException catch (e) {
       throw _handleError(e);
@@ -362,7 +371,9 @@ class ApiService {
       if (response.data['success'] == true) {
         return response.data['data'] ?? {};
       } else {
-        throw Exception(response.data['message'] ?? 'Failed to read multiple objects');
+        throw Exception(
+          response.data['message'] ?? 'Failed to read multiple objects',
+        );
       }
     } on DioException catch (e) {
       throw _handleError(e);
@@ -378,19 +389,19 @@ class ApiService {
 
     if (error.response != null) {
       final statusCode = error.response!.statusCode;
-      
+
       // Log error details for debugging
       if (kDebugMode) {
         debugPrint('API Error - Status: $statusCode');
         debugPrint('API Error - Response: ${error.response!.data}');
         debugPrint('API Error - Path: ${error.requestOptions.path}');
       }
-      
+
       // Handle different response formats
       String? message;
       if (error.response!.data is Map) {
         final data = error.response!.data as Map<String, dynamic>;
-        
+
         // Check for nested error object with message
         if (data['error'] is Map && data['error']['message'] != null) {
           message = data['error']['message'];

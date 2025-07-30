@@ -52,7 +52,10 @@ class MeterRepository {
     }
   }
 
-  Future<Map<String, dynamic>> readMeterObjects(String meterId, List<String> obisCodes) async {
+  Future<Map<String, dynamic>> readMeterObjects(
+    String meterId,
+    List<String> obisCodes,
+  ) async {
     try {
       return await _apiService.readMeterObjects(meterId, obisCodes);
     } catch (e) {
@@ -70,7 +73,8 @@ class MeterRepository {
     }
   }
 
-  Future<Map<String, dynamic>> setMeterClock(String meterId, {
+  Future<Map<String, dynamic>> setMeterClock(
+    String meterId, {
     bool useCurrentTime = true,
     DateTime? dateTime,
   }) async {

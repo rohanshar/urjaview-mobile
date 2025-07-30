@@ -25,7 +25,9 @@ Run the setup command to configure your credentials:
 
 You'll need:
 - **App ID**: Found in your Codemagic app URL: `https://codemagic.io/app/{APP_ID}`
-- **API Token**: Generate from https://codemagic.io/teams/{TEAM_ID}/settings/integrations/api
+- **API Token**: Get from: Teams > Personal Account > Integrations > Codemagic API > Show
+  - Or navigate to https://codemagic.io/teams and find your token under Integrations
+  - Note: This token is constant and doesn't change
 
 ### 3. Source Environment Variables
 ```bash

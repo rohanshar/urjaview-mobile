@@ -36,13 +36,17 @@ class AppRouter {
         GoRoute(
           path: '/dashboard',
           name: 'dashboard',
-          builder: (context, state) => const MainNavigationScreen(currentRoute: '/dashboard'),
+          builder:
+              (context, state) =>
+                  const MainNavigationScreen(currentRoute: '/dashboard'),
         ),
         // Meters route
         GoRoute(
           path: '/meters',
           name: 'meters',
-          builder: (context, state) => const MainNavigationScreen(currentRoute: '/meters'),
+          builder:
+              (context, state) =>
+                  const MainNavigationScreen(currentRoute: '/meters'),
           routes: [
             GoRoute(
               path: ':id',
@@ -58,37 +62,49 @@ class AppRouter {
         GoRoute(
           path: '/companies',
           name: 'companies',
-          builder: (context, state) => const MainNavigationScreen(currentRoute: '/companies'),
+          builder:
+              (context, state) =>
+                  const MainNavigationScreen(currentRoute: '/companies'),
         ),
         // Users route
         GoRoute(
           path: '/users',
           name: 'users',
-          builder: (context, state) => const MainNavigationScreen(currentRoute: '/users'),
+          builder:
+              (context, state) =>
+                  const MainNavigationScreen(currentRoute: '/users'),
         ),
         // Data route
         GoRoute(
           path: '/data',
           name: 'data',
-          builder: (context, state) => const MainNavigationScreen(currentRoute: '/data'),
+          builder:
+              (context, state) =>
+                  const MainNavigationScreen(currentRoute: '/data'),
         ),
         // Schedules route
         GoRoute(
           path: '/schedules',
           name: 'schedules',
-          builder: (context, state) => const MainNavigationScreen(currentRoute: '/schedules'),
+          builder:
+              (context, state) =>
+                  const MainNavigationScreen(currentRoute: '/schedules'),
         ),
         // Jobs route
         GoRoute(
           path: '/jobs',
           name: 'jobs',
-          builder: (context, state) => const MainNavigationScreen(currentRoute: '/jobs'),
+          builder:
+              (context, state) =>
+                  const MainNavigationScreen(currentRoute: '/jobs'),
         ),
         // Settings route
         GoRoute(
           path: '/settings',
           name: 'settings',
-          builder: (context, state) => const MainNavigationScreen(currentRoute: '/settings'),
+          builder:
+              (context, state) =>
+                  const MainNavigationScreen(currentRoute: '/settings'),
         ),
       ],
       errorBuilder:

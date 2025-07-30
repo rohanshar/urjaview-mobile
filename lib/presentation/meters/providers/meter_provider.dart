@@ -55,7 +55,10 @@ class MeterProvider extends ChangeNotifier {
     }
   }
 
-  Future<Map<String, dynamic>> readMeterObjects(String meterId, List<String> obisCodes) async {
+  Future<Map<String, dynamic>> readMeterObjects(
+    String meterId,
+    List<String> obisCodes,
+  ) async {
     try {
       return await _meterRepository.readMeterObjects(meterId, obisCodes);
     } catch (e) {
@@ -73,7 +76,8 @@ class MeterProvider extends ChangeNotifier {
     }
   }
 
-  Future<Map<String, dynamic>> setMeterClock(String meterId, {
+  Future<Map<String, dynamic>> setMeterClock(
+    String meterId, {
     bool useCurrentTime = true,
     DateTime? dateTime,
   }) async {

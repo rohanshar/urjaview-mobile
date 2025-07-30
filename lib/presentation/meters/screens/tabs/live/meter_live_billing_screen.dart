@@ -5,10 +5,7 @@ import '../../../widgets/live_tabs/billing_tab.dart';
 class MeterLiveBillingScreen extends StatelessWidget {
   final MeterModel meter;
 
-  const MeterLiveBillingScreen({
-    super.key,
-    required this.meter,
-  });
+  const MeterLiveBillingScreen({super.key, required this.meter});
 
   @override
   Widget build(BuildContext context) {

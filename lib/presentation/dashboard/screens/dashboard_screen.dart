@@ -30,13 +30,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     final authProvider = context.watch<AuthProvider>();
     final meterProvider = context.watch<MeterProvider>();
-    
+
     // Calculate metrics
     final totalMeters = meterProvider.meters.length;
-    final activeMeters = meterProvider.meters.where((m) => m.status.toLowerCase() == 'active').length;
-    final faultyMeters = meterProvider.meters.where((m) => m.status.toLowerCase() == 'faulty').length;
+    final activeMeters =
+        meterProvider.meters
+            .where((m) => m.status.toLowerCase() == 'active')
+            .length;
+    final faultyMeters =
+        meterProvider.meters
+            .where((m) => m.status.toLowerCase() == 'faulty')
+            .length;
     final inactiveMeters = totalMeters - activeMeters - faultyMeters;
-    
+
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       body: RefreshIndicator(
@@ -57,9 +63,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     children: [
                       Text(
                         'Dashboard',
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.headlineMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 4),
                       Text(
@@ -74,7 +79,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
               ),
               const SizedBox(height: 32),
-              
+
               // Metrics Row
               Row(
                 children: [
@@ -92,9 +97,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: MetricCard(
                       title: 'Active Meters',
                       value: activeMeters.toString(),
-                      subtitle: totalMeters > 0 
-                        ? '${((activeMeters / totalMeters) * 100).toStringAsFixed(0)}% of total'
-                        : '0% of total',
+                      subtitle:
+                          totalMeters > 0
+                              ? '${((activeMeters / totalMeters) * 100).toStringAsFixed(0)}% of total'
+                              : '0% of total',
                       icon: Icons.power,
                       color: AppTheme.successColor,
                     ),
@@ -126,11 +132,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
               ),
               const SizedBox(height: 32),
-              
+
               // Recent Jobs Section
               const RecentJobsCard(),
               const SizedBox(height: 24),
-              
+
               // Charts Row
               LayoutBuilder(
                 builder: (context, constraints) {
@@ -147,9 +153,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         ),
                         const SizedBox(width: 24),
-                        const Expanded(
-                          child: SystemOverviewCard(),
-                        ),
+                        const Expanded(child: SystemOverviewCard()),
                       ],
                     );
                   } else {

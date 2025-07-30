@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Pre-commit hook to run flutter analyze before allowing commits
+# This ensures code quality standards are met
+
+echo "🔍 Running flutter analyze..."
+
+# Run flutter analyze
+flutter analyze
+
+# Capture the exit code
+RESULT=$?
+
+# If flutter analyze failed, prevent the commit
+if [ $RESULT -ne 0 ]; then
+    echo ""
+    echo "❌ Flutter analyze failed! Please fix the issues before committing."
+    echo ""
+    echo "💡 Tip: Run 'flutter analyze' to see all issues"
+    echo "💡 Fix the issues and try committing again"
+    exit 1
+fi
+
+echo "✅ Flutter analyze passed! Proceeding with commit..."
+echo ""
+
+# Optional: Run dart format check
+echo "🔍 Checking code formatting..."
+if ! dart format --set-exit-if-changed --output=none .; then
+    echo ""
+    echo "❌ Code formatting issues found!"
+    echo ""
+    echo "💡 Run 'dart format .' to fix formatting"
+    echo "💡 Or commit with --no-verify to skip this check"
+    exit 1
+fi
+
+echo "✅ Code formatting check passed!"
+echo ""
+
+exit 0

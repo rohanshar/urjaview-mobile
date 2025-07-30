@@ -9,13 +9,11 @@ import '../widgets/meter_overview_tab.dart';
 class MeterDetailMobileScreen extends StatefulWidget {
   final String meterId;
 
-  const MeterDetailMobileScreen({
-    super.key,
-    required this.meterId,
-  });
+  const MeterDetailMobileScreen({super.key, required this.meterId});
 
   @override
-  State<MeterDetailMobileScreen> createState() => _MeterDetailMobileScreenState();
+  State<MeterDetailMobileScreen> createState() =>
+      _MeterDetailMobileScreenState();
 }
 
 class _MeterDetailMobileScreenState extends State<MeterDetailMobileScreen> {
@@ -51,11 +49,11 @@ class _MeterDetailMobileScreenState extends State<MeterDetailMobileScreen> {
                     // Overview section (always visible)
                     MeterOverviewTab(meter: meter),
                     const SizedBox(height: 16),
-                    
+
                     // Action Cards
                     _buildActionSection(meter),
                     const SizedBox(height: 16),
-                    
+
                     // Quick Actions
                     _buildQuickActions(meter),
                     const SizedBox(height: 32),
@@ -158,7 +156,7 @@ class _MeterDetailMobileScreenState extends State<MeterDetailMobileScreen> {
     Color backgroundColor;
     Color textColor;
     IconData icon;
-    
+
     switch (meter.status.toLowerCase()) {
       case 'active':
         backgroundColor = Colors.green;
@@ -213,9 +211,9 @@ class _MeterDetailMobileScreenState extends State<MeterDetailMobileScreen> {
         children: [
           Text(
             'Actions',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           _buildActionGrid(meter),
@@ -289,18 +287,12 @@ class _MeterDetailMobileScreenState extends State<MeterDetailMobileScreen> {
         decoration: BoxDecoration(
           color: action.color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: action.color.withValues(alpha: 0.3),
-          ),
+          border: Border.all(color: action.color.withValues(alpha: 0.3)),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              action.icon,
-              size: 32,
-              color: action.color,
-            ),
+            Icon(action.icon, size: 32, color: action.color),
             const SizedBox(height: 8),
             Text(
               action.label,
@@ -325,9 +317,9 @@ class _MeterDetailMobileScreenState extends State<MeterDetailMobileScreen> {
         children: [
           Text(
             'Quick Actions',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           _buildQuickActionCard(
@@ -365,9 +357,7 @@ class _MeterDetailMobileScreenState extends State<MeterDetailMobileScreen> {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(
-          color: AppTheme.primaryColor.withValues(alpha: 0.2),
-        ),
+        side: BorderSide(color: AppTheme.primaryColor.withValues(alpha: 0.2)),
       ),
       child: ListTile(
         leading: Container(
@@ -378,10 +368,7 @@ class _MeterDetailMobileScreenState extends State<MeterDetailMobileScreen> {
           ),
           child: Icon(icon, color: AppTheme.primaryColor),
         ),
-        title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
         subtitle: Text(subtitle),
         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
         onTap: onTap,
@@ -399,23 +386,14 @@ class _MeterDetailMobileScreenState extends State<MeterDetailMobileScreen> {
 
   Widget _buildErrorScreen() {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Meter Not Found'),
-      ),
+      appBar: AppBar(title: const Text('Meter Not Found')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.error_outline,
-              size: 64,
-              color: AppTheme.errorColor,
-            ),
+            Icon(Icons.error_outline, size: 64, color: AppTheme.errorColor),
             const SizedBox(height: 16),
-            const Text(
-              'Meter not found',
-              style: TextStyle(fontSize: 18),
-            ),
+            const Text('Meter not found', style: TextStyle(fontSize: 18)),
             const SizedBox(height: 8),
             TextButton.icon(
               onPressed: () => Navigator.of(context).pop(),
@@ -476,9 +454,7 @@ class _MeterDetailMobileScreenState extends State<MeterDetailMobileScreen> {
       SnackBar(
         content: Text('$feature - Coming Soon'),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     );
   }

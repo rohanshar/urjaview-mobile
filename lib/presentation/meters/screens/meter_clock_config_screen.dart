@@ -8,10 +8,7 @@ import '../providers/meter_provider.dart';
 class MeterClockConfigScreen extends StatefulWidget {
   final String meterId;
 
-  const MeterClockConfigScreen({
-    super.key,
-    required this.meterId,
-  });
+  const MeterClockConfigScreen({super.key, required this.meterId});
 
   @override
   State<MeterClockConfigScreen> createState() => _MeterClockConfigScreenState();
@@ -31,16 +28,17 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
     final meterProvider = context.watch<MeterProvider>();
     final meter = meterProvider.meters.firstWhere(
       (m) => m.id == widget.meterId,
-      orElse: () => MeterModel(
-        id: '',
-        name: 'Unknown',
-        serialNumber: '',
-        meterIp: '',
-        port: 0,
-        status: 'unknown',
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-      ),
+      orElse:
+          () => MeterModel(
+            id: '',
+            name: 'Unknown',
+            serialNumber: '',
+            meterIp: '',
+            port: 0,
+            status: 'unknown',
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+          ),
     );
 
     if (meter.id.isEmpty) {
@@ -81,7 +79,7 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
 
             // Set Clock Section
             if (meter.canWrite) _buildSetClockSection(meter),
-            
+
             // Info message for read-only meters
             if (!meter.canWrite) _buildReadOnlyMessage(),
           ],
@@ -103,15 +101,12 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
                 const SizedBox(width: 8),
                 const Text(
                   'Meter Clock Status',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
               ],
             ),
             const SizedBox(height: 16),
-            
+
             if (_currentMeterTime != null) ...[
               _buildStatusRow('Meter Time', _currentMeterTime!),
               if (_lastReadTime != null)
@@ -138,7 +133,7 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
                 style: TextStyle(fontSize: 14),
               ),
             ],
-            
+
             if (_error != null) ...[
               const SizedBox(height: 12),
               Container(
@@ -149,9 +144,11 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.error_outline, 
-                         color: AppTheme.errorColor, 
-                         size: 20),
+                    Icon(
+                      Icons.error_outline,
+                      color: AppTheme.errorColor,
+                      size: 20,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
@@ -180,10 +177,7 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
         children: [
           Text(
             label,
-            style: TextStyle(
-              color: AppTheme.textSecondary,
-              fontSize: 14,
-            ),
+            style: TextStyle(color: AppTheme.textSecondary, fontSize: 14),
           ),
           Text(
             value,
@@ -207,10 +201,7 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
           children: [
             const Text(
               'Read Clock',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
             const Text(
@@ -221,19 +212,19 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: _isReadingClock || _isSettingClock 
-                    ? null 
-                    : _readMeterClock,
-                icon: _isReadingClock
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colors.white,
-                        ),
-                      )
-                    : const Icon(Icons.refresh),
+                onPressed:
+                    _isReadingClock || _isSettingClock ? null : _readMeterClock,
+                icon:
+                    _isReadingClock
+                        ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                        : const Icon(Icons.refresh),
                 label: Text(_isReadingClock ? 'Reading...' : 'Read Clock'),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -257,10 +248,7 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
               children: [
                 const Text(
                   'Set Clock',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(width: 8),
                 Container(
@@ -284,7 +272,7 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
               ],
             ),
             const SizedBox(height: 16),
-            
+
             // Time selection mode
             RadioListTile<bool>(
               title: const Text('Use Current IST Time'),
@@ -301,7 +289,7 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
               },
               contentPadding: EdgeInsets.zero,
             ),
-            
+
             RadioListTile<bool>(
               title: const Text('Use Custom Time'),
               value: false,
@@ -313,7 +301,7 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
               },
               contentPadding: EdgeInsets.zero,
             ),
-            
+
             if (!_useCurrentTime) ...[
               const SizedBox(height: 8),
               Row(
@@ -340,9 +328,9 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
                 ],
               ),
             ],
-            
+
             const SizedBox(height: 16),
-            
+
             // Warning message
             Container(
               padding: const EdgeInsets.all(12),
@@ -353,9 +341,11 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Icons.warning_amber_rounded, 
-                       color: AppTheme.warningColor, 
-                       size: 20),
+                  Icon(
+                    Icons.warning_amber_rounded,
+                    color: AppTheme.warningColor,
+                    size: 20,
+                  ),
                   const SizedBox(width: 8),
                   const Expanded(
                     child: Text(
@@ -366,25 +356,27 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: _isSettingClock || _isReadingClock 
-                    ? null 
-                    : () => _setMeterClock(meter),
-                icon: _isSettingClock
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colors.white,
-                        ),
-                      )
-                    : const Icon(Icons.update),
+                onPressed:
+                    _isSettingClock || _isReadingClock
+                        ? null
+                        : () => _setMeterClock(meter),
+                icon:
+                    _isSettingClock
+                        ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                        : const Icon(Icons.update),
                 label: Text(_isSettingClock ? 'Setting...' : 'Set Clock'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.warningColor,
@@ -479,12 +471,13 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
     try {
       final meterProvider = context.read<MeterProvider>();
       final result = await meterProvider.readMeterClock(widget.meterId);
-      
+
       if (mounted) {
         setState(() {
-          _currentMeterTime = result['clock']?['formatted'] ?? 
-                             result['clock']?['raw'] ?? 
-                             'Unknown';
+          _currentMeterTime =
+              result['clock']?['formatted'] ??
+              result['clock']?['raw'] ??
+              'Unknown';
           _lastReadTime = DateTime.now();
           _isReadingClock = false;
         });
@@ -503,36 +496,37 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
     // Show confirmation dialog
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Confirm Clock Update'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Are you sure you want to update the meter clock?'),
-            const SizedBox(height: 16),
-            Text(
-              _useCurrentTime
-                  ? 'New time: Current IST time'
-                  : 'New time: ${DateFormat('MM/dd/yy HH:mm:ss').format(_selectedDateTime)}',
-              style: const TextStyle(fontWeight: FontWeight.w600),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Confirm Clock Update'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Are you sure you want to update the meter clock?'),
+                const SizedBox(height: 16),
+                Text(
+                  _useCurrentTime
+                      ? 'New time: Current IST time'
+                      : 'New time: ${DateFormat('MM/dd/yy HH:mm:ss').format(_selectedDateTime)}',
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+              ],
             ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.warningColor,
+                ),
+                child: const Text('Update Clock'),
+              ),
+            ],
           ),
-          ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.warningColor,
-            ),
-            child: const Text('Update Clock'),
-          ),
-        ],
-      ),
     );
 
     if (confirmed != true) return;
@@ -550,12 +544,12 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
         useCurrentTime: _useCurrentTime,
         dateTime: _useCurrentTime ? null : _selectedDateTime,
       );
-      
+
       if (mounted) {
         setState(() {
           _isSettingClock = false;
         });
-        
+
         // Show success message
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -565,7 +559,7 @@ class _MeterClockConfigScreenState extends State<MeterClockConfigScreen> {
             ),
           );
         }
-        
+
         // Automatically read clock to verify
         await Future.delayed(const Duration(seconds: 1));
         if (mounted) {

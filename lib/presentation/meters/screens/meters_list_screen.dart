@@ -41,9 +41,7 @@ class _MetersListScreenState extends State<MetersListScreen> {
           Container(
             decoration: BoxDecoration(
               color: AppTheme.surfaceColor,
-              border: Border(
-                bottom: BorderSide(color: AppTheme.dividerColor),
-              ),
+              border: Border(bottom: BorderSide(color: AppTheme.dividerColor)),
             ),
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -81,18 +79,22 @@ class _MetersListScreenState extends State<MetersListScreen> {
                   },
                   decoration: InputDecoration(
                     hintText: 'Search meters...',
-                    prefixIcon: Icon(Icons.search, color: AppTheme.textSecondary),
-                    suffixIcon: _searchQuery.isNotEmpty
-                        ? IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: () {
-                              _searchController.clear();
-                              setState(() {
-                                _searchQuery = '';
-                              });
-                            },
-                          )
-                        : null,
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: AppTheme.textSecondary,
+                    ),
+                    suffixIcon:
+                        _searchQuery.isNotEmpty
+                            ? IconButton(
+                              icon: const Icon(Icons.clear),
+                              onPressed: () {
+                                _searchController.clear();
+                                setState(() {
+                                  _searchQuery = '';
+                                });
+                              },
+                            )
+                            : null,
                     filled: true,
                     fillColor: AppTheme.backgroundColor,
                     border: OutlineInputBorder(
@@ -110,9 +112,7 @@ class _MetersListScreenState extends State<MetersListScreen> {
             child: Consumer<MeterProvider>(
               builder: (context, meterProvider, child) {
                 if (meterProvider.isLoading && meterProvider.meters.isEmpty) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return const Center(child: CircularProgressIndicator());
                 }
 
                 if (meterProvider.error != null) {
@@ -148,14 +148,21 @@ class _MetersListScreenState extends State<MetersListScreen> {
                 }
 
                 // Filter meters based on search
-                final filteredMeters = meterProvider.meters.where((meter) {
-                  if (_searchQuery.isEmpty) return true;
-                  return meter.name.toLowerCase().contains(_searchQuery) ||
-                      meter.serialNumber.toLowerCase().contains(_searchQuery) ||
-                      meter.meterIp.toLowerCase().contains(_searchQuery) ||
-                      (meter.location?.toLowerCase().contains(_searchQuery) ?? false) ||
-                      (meter.notes?.toLowerCase().contains(_searchQuery) ?? false);
-                }).toList();
+                final filteredMeters =
+                    meterProvider.meters.where((meter) {
+                      if (_searchQuery.isEmpty) return true;
+                      return meter.name.toLowerCase().contains(_searchQuery) ||
+                          meter.serialNumber.toLowerCase().contains(
+                            _searchQuery,
+                          ) ||
+                          meter.meterIp.toLowerCase().contains(_searchQuery) ||
+                          (meter.location?.toLowerCase().contains(
+                                _searchQuery,
+                              ) ??
+                              false) ||
+                          (meter.notes?.toLowerCase().contains(_searchQuery) ??
+                              false);
+                    }).toList();
 
                 if (filteredMeters.isEmpty) {
                   return Center(
@@ -169,7 +176,9 @@ class _MetersListScreenState extends State<MetersListScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          _searchQuery.isEmpty ? 'No meters found' : 'No meters match your search',
+                          _searchQuery.isEmpty
+                              ? 'No meters found'
+                              : 'No meters match your search',
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const SizedBox(height: 8),
@@ -191,7 +200,10 @@ class _MetersListScreenState extends State<MetersListScreen> {
                       // Table header
                       Container(
                         color: AppTheme.surfaceColor,
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
                         child: Row(
                           children: [
                             Expanded(
@@ -255,10 +267,11 @@ class _MetersListScreenState extends State<MetersListScreen> {
                         child: ListView.separated(
                           padding: const EdgeInsets.only(bottom: 80),
                           itemCount: filteredMeters.length,
-                          separatorBuilder: (context, index) => Divider(
-                            height: 1,
-                            color: AppTheme.dividerColor,
-                          ),
+                          separatorBuilder:
+                              (context, index) => Divider(
+                                height: 1,
+                                color: AppTheme.dividerColor,
+                              ),
                           itemBuilder: (context, index) {
                             final meter = filteredMeters[index];
                             return _MeterListItem(meter: meter);
@@ -296,7 +309,10 @@ class _MetersListScreenState extends State<MetersListScreen> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           icon: const Icon(Icons.add, color: Colors.white),
-          label: const Text('Add Meter', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+          label: const Text(
+            'Add Meter',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+          ),
         ),
       ),
     );
@@ -341,9 +357,14 @@ class _MeterListItem extends StatelessWidget {
                         const SizedBox(width: 8),
                         if (meter.model != null)
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 2,
+                            ),
                             decoration: BoxDecoration(
-                              color: AppTheme.primaryColor.withValues(alpha: 0.1),
+                              color: AppTheme.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
@@ -385,9 +406,10 @@ class _MeterListItem extends StatelessWidget {
                   meter.location ?? meter.notes ?? 'Unknown',
                   style: TextStyle(
                     fontSize: 14,
-                    color: meter.location != null || meter.notes != null
-                        ? AppTheme.textPrimary
-                        : AppTheme.textSecondary,
+                    color:
+                        meter.location != null || meter.notes != null
+                            ? AppTheme.textPrimary
+                            : AppTheme.textSecondary,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -408,10 +430,7 @@ class _MeterListItem extends StatelessWidget {
               ),
               // Action button
               const SizedBox(width: 8),
-              Icon(
-                Icons.chevron_right,
-                color: AppTheme.textSecondary,
-              ),
+              Icon(Icons.chevron_right, color: AppTheme.textSecondary),
             ],
           ),
         ),
@@ -435,9 +454,10 @@ class _MeterListItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
-        color: isActive
-            ? AppTheme.successColor.withValues(alpha: 0.1)
-            : AppTheme.textSecondary.withValues(alpha: 0.1),
+        color:
+            isActive
+                ? AppTheme.successColor.withValues(alpha: 0.1)
+                : AppTheme.textSecondary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(

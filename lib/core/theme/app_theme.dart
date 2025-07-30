@@ -3,22 +3,28 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   // Modern Energy-focused Color Palette
-  static const Color primaryColor = Color(0xFF059669); // Emerald-600 - represents energy, sustainability
+  static const Color primaryColor = Color(
+    0xFF059669,
+  ); // Emerald-600 - represents energy, sustainability
   static const Color primaryLight = Color(0xFF10B981); // Emerald-500
   static const Color primaryDark = Color(0xFF047857); // Emerald-700
-  
-  static const Color secondaryColor = Color(0xFFF59E0B); // Amber-500 - energy, warmth
+
+  static const Color secondaryColor = Color(
+    0xFFF59E0B,
+  ); // Amber-500 - energy, warmth
   static const Color secondaryLight = Color(0xFFFBBF24); // Amber-400
   static const Color secondaryDark = Color(0xFFD97706); // Amber-600
-  
+
   // Status Colors
   static const Color successColor = Color(0xFF10B981); // Emerald-500
   static const Color errorColor = Color(0xFFEF4444); // Red-500
   static const Color warningColor = Color(0xFFF59E0B); // Amber-500
   static const Color infoColor = Color(0xFF3B82F6); // Blue-500
-  
+
   // Neutral Colors
-  static const Color backgroundColor = Color(0xFFF8FAFC); // Slate-50 - cleaner background
+  static const Color backgroundColor = Color(
+    0xFFF8FAFC,
+  ); // Slate-50 - cleaner background
   static const Color surfaceColor = Color(0xFFFFFFFF);
   static const Color surfaceVariant = Color(0xFFF1F5F9); // Slate-100
   static const Color textPrimary = Color(0xFF0F172A); // Slate-900
@@ -26,14 +32,14 @@ class AppTheme {
   static const Color textTertiary = Color(0xFF94A3B8); // Slate-400
   static const Color dividerColor = Color(0xFFE2E8F0); // Slate-200
   static const Color borderColor = Color(0xFFCBD5E1); // Slate-300
-  
+
   // Gradient Colors
   static const LinearGradient primaryGradient = LinearGradient(
     colors: [primaryColor, primaryLight],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
-  
+
   static const LinearGradient cardGradient = LinearGradient(
     colors: [Color(0xFFFFFFFF), Color(0xFFF8FAFC)],
     begin: Alignment.topLeft,
@@ -60,7 +66,7 @@ class AppTheme {
       onSurface: textPrimary,
       outline: borderColor,
     ),
-    
+
     // Enhanced AppBar Theme
     appBarTheme: AppBarTheme(
       elevation: 0,
@@ -73,12 +79,9 @@ class AppTheme {
         fontWeight: FontWeight.w600,
         letterSpacing: -0.5,
       ),
-      iconTheme: const IconThemeData(
-        color: textPrimary,
-        size: 24,
-      ),
+      iconTheme: const IconThemeData(color: textPrimary, size: 24),
     ),
-    
+
     // Enhanced Button Themes
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -93,20 +96,20 @@ class AppTheme {
           letterSpacing: -0.2,
         ),
       ).copyWith(
-        overlayColor: WidgetStateProperty.resolveWith<Color?>(
-          (Set<WidgetState> states) {
-            if (states.contains(WidgetState.pressed)) {
-              return Colors.white.withValues(alpha: 0.1);
-            }
-            if (states.contains(WidgetState.hovered)) {
-              return Colors.white.withValues(alpha: 0.05);
-            }
-            return null;
-          },
-        ),
+        overlayColor: WidgetStateProperty.resolveWith<Color?>((
+          Set<WidgetState> states,
+        ) {
+          if (states.contains(WidgetState.pressed)) {
+            return Colors.white.withValues(alpha: 0.1);
+          }
+          if (states.contains(WidgetState.hovered)) {
+            return Colors.white.withValues(alpha: 0.05);
+          }
+          return null;
+        }),
       ),
     ),
-    
+
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: primaryColor,
@@ -120,7 +123,7 @@ class AppTheme {
         ),
       ),
     ),
-    
+
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: primaryColor,
@@ -132,7 +135,7 @@ class AppTheme {
         ),
       ),
     ),
-    
+
     // Enhanced Input Decoration Theme
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
@@ -174,7 +177,7 @@ class AppTheme {
         fontWeight: FontWeight.w500,
       ),
     ),
-    
+
     // Enhanced Card Theme
     cardTheme: CardThemeData(
       elevation: 0,
@@ -186,27 +189,22 @@ class AppTheme {
       surfaceTintColor: Colors.transparent,
       clipBehavior: Clip.antiAlias,
     ),
-    
+
     // Enhanced Chip Theme
     chipTheme: ChipThemeData(
       backgroundColor: surfaceVariant,
       selectedColor: primaryLight.withValues(alpha: 0.2),
-      labelStyle: GoogleFonts.inter(
-        fontSize: 13,
-        fontWeight: FontWeight.w500,
-      ),
+      labelStyle: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w500),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
         side: const BorderSide(color: Colors.transparent),
       ),
     ),
-    
+
     // List Tile Theme
     listTileTheme: ListTileThemeData(
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       iconColor: textSecondary,
       titleTextStyle: GoogleFonts.inter(
         color: textPrimary,
@@ -219,15 +217,12 @@ class AppTheme {
         fontWeight: FontWeight.w400,
       ),
     ),
-    
+
     // Tab Bar Theme
     tabBarTheme: TabBarTheme(
       labelColor: primaryColor,
       unselectedLabelColor: textSecondary,
-      labelStyle: GoogleFonts.inter(
-        fontSize: 14,
-        fontWeight: FontWeight.w600,
-      ),
+      labelStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600),
       unselectedLabelStyle: GoogleFonts.inter(
         fontSize: 14,
         fontWeight: FontWeight.w500,
@@ -238,7 +233,7 @@ class AppTheme {
         borderRadius: BorderRadius.circular(3),
       ),
     ),
-    
+
     // Bottom Navigation Bar Theme
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: surfaceColor,
@@ -248,7 +243,7 @@ class AppTheme {
       type: BottomNavigationBarType.fixed,
       elevation: 8,
     ),
-    
+
     // Floating Action Button Theme
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: primaryColor,
@@ -256,19 +251,17 @@ class AppTheme {
       elevation: 4,
       shape: CircleBorder(),
     ),
-    
+
     // Divider Theme
     dividerTheme: const DividerThemeData(
       color: dividerColor,
       thickness: 1,
       space: 1,
     ),
-    
+
     // Dialog Theme
     dialogTheme: DialogTheme(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       elevation: 16,
       titleTextStyle: GoogleFonts.inter(
         color: textPrimary,
@@ -281,21 +274,19 @@ class AppTheme {
         fontWeight: FontWeight.w400,
       ),
     ),
-    
+
     // Snackbar Theme
     snackBarTheme: SnackBarThemeData(
       backgroundColor: textPrimary,
       behavior: SnackBarBehavior.floating,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       contentTextStyle: GoogleFonts.inter(
         color: Colors.white,
         fontSize: 14,
         fontWeight: FontWeight.w500,
       ),
     ),
-    
+
     // Text Theme
     textTheme: TextTheme(
       displayLarge: GoogleFonts.inter(
@@ -388,7 +379,7 @@ class AppTheme {
       ),
     ),
   );
-  
+
   // Helper method for status colors
   static Color getStatusColor(String status) {
     switch (status.toLowerCase()) {
@@ -409,7 +400,7 @@ class AppTheme {
         return textSecondary;
     }
   }
-  
+
   // Helper method for meter type colors
   static Color getMeterTypeColor(String type) {
     switch (type.toLowerCase()) {

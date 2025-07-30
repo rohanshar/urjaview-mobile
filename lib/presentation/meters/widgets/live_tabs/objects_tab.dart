@@ -33,14 +33,11 @@ class _ObjectsTabState extends State<ObjectsTab> {
           const SizedBox(height: 16),
 
           // Results
-          if (_error != null)
-            _buildErrorCard(_error!),
-          
-          if (_discoveredObjects != null)
-            _buildDiscoveredObjectsCard(),
-            
-          if (_readResults != null)
-            _buildReadResultsCard(),
+          if (_error != null) _buildErrorCard(_error!),
+
+          if (_discoveredObjects != null) _buildDiscoveredObjectsCard(),
+
+          if (_readResults != null) _buildReadResultsCard(),
         ],
       ),
     );
@@ -68,27 +65,29 @@ class _ObjectsTabState extends State<ObjectsTab> {
             const SizedBox(height: 8),
             Text(
               'Discover available OBIS objects from the meter',
-              style: TextStyle(
-                fontSize: 14,
-                color: AppTheme.textSecondary,
-              ),
+              style: TextStyle(fontSize: 14, color: AppTheme.textSecondary),
             ),
             const SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: _isDiscovering ? null : _discoverObjects,
-                icon: _isDiscovering
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                        ),
-                      )
-                    : const Icon(Icons.search),
-                label: Text(_isDiscovering ? 'Discovering...' : 'Discover Objects'),
+                icon:
+                    _isDiscovering
+                        ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.white,
+                            ),
+                          ),
+                        )
+                        : const Icon(Icons.search),
+                label: Text(
+                  _isDiscovering ? 'Discovering...' : 'Discover Objects',
+                ),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
@@ -110,10 +109,7 @@ class _ObjectsTabState extends State<ObjectsTab> {
             Icon(Icons.error_outline, color: AppTheme.errorColor),
             const SizedBox(width: 12),
             Expanded(
-              child: Text(
-                error,
-                style: TextStyle(color: AppTheme.errorColor),
-              ),
+              child: Text(error, style: TextStyle(color: AppTheme.errorColor)),
             ),
           ],
         ),
@@ -123,7 +119,7 @@ class _ObjectsTabState extends State<ObjectsTab> {
 
   Widget _buildDiscoveredObjectsCard() {
     final objects = _discoveredObjects!['objects'] as List<dynamic>? ?? [];
-    
+
     if (objects.isEmpty) {
       return Card(
         child: Padding(
@@ -177,21 +173,19 @@ class _ObjectsTabState extends State<ObjectsTab> {
                 ),
                 Text(
                   '${objects.length} objects',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: AppTheme.textSecondary,
-                  ),
+                  style: TextStyle(fontSize: 14, color: AppTheme.textSecondary),
                 ),
               ],
             ),
             const SizedBox(height: 16),
-            
+
             // Action buttons
             Row(
               children: [
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: _selectedObjects.isEmpty ? null : _clearSelection,
+                    onPressed:
+                        _selectedObjects.isEmpty ? null : _clearSelection,
                     icon: const Icon(Icons.clear),
                     label: Text('Clear (${_selectedObjects.length})'),
                   ),
@@ -199,27 +193,33 @@ class _ObjectsTabState extends State<ObjectsTab> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: ElevatedButton.icon(
-                    onPressed: _selectedObjects.isEmpty || _isReading ? null : _readSelectedObjects,
-                    icon: _isReading
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                            ),
-                          )
-                        : const Icon(Icons.download),
+                    onPressed:
+                        _selectedObjects.isEmpty || _isReading
+                            ? null
+                            : _readSelectedObjects,
+                    icon:
+                        _isReading
+                            ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
+                                ),
+                              ),
+                            )
+                            : const Icon(Icons.download),
                     label: Text(_isReading ? 'Reading...' : 'Read Selected'),
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 16),
-            
+
             // Object groups
-            ...groupedObjects.entries.map((entry) => 
-              _buildObjectGroup(entry.key, entry.value),
+            ...groupedObjects.entries.map(
+              (entry) => _buildObjectGroup(entry.key, entry.value),
             ),
           ],
         ),
@@ -231,16 +231,10 @@ class _ObjectsTabState extends State<ObjectsTab> {
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
-        title: Text(
-          type,
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
+        title: Text(type, style: const TextStyle(fontWeight: FontWeight.w600)),
         subtitle: Text(
           '${objects.length} objects',
-          style: TextStyle(
-            fontSize: 12,
-            color: AppTheme.textSecondary,
-          ),
+          style: TextStyle(fontSize: 12, color: AppTheme.textSecondary),
         ),
         children: objects.map((obj) => _buildObjectItem(obj)).toList(),
       ),
@@ -251,7 +245,7 @@ class _ObjectsTabState extends State<ObjectsTab> {
     final obisCode = obj['obis_code']?.toString() ?? '';
     final description = obj['description']?.toString() ?? 'Unknown object';
     final isSelected = _selectedObjects.contains(obisCode);
-    
+
     return ListTile(
       leading: Checkbox(
         value: isSelected,
@@ -267,17 +261,11 @@ class _ObjectsTabState extends State<ObjectsTab> {
       ),
       title: Text(
         obisCode,
-        style: const TextStyle(
-          fontFamily: 'monospace',
-          fontSize: 14,
-        ),
+        style: const TextStyle(fontFamily: 'monospace', fontSize: 14),
       ),
       subtitle: Text(
         description,
-        style: TextStyle(
-          fontSize: 12,
-          color: AppTheme.textSecondary,
-        ),
+        style: TextStyle(fontSize: 12, color: AppTheme.textSecondary),
       ),
       dense: true,
     );
@@ -285,7 +273,7 @@ class _ObjectsTabState extends State<ObjectsTab> {
 
   Widget _buildReadResultsCard() {
     final results = _readResults!['results'] as Map<String, dynamic>? ?? {};
-    
+
     if (results.isEmpty) {
       return Card(
         child: Padding(
@@ -327,12 +315,11 @@ class _ObjectsTabState extends State<ObjectsTab> {
               ],
             ),
             const SizedBox(height: 16),
-            
+
             // Results table
-            ...results.entries.map((entry) => _buildResultRow(
-              entry.key,
-              entry.value,
-            )),
+            ...results.entries.map(
+              (entry) => _buildResultRow(entry.key, entry.value),
+            ),
           ],
         ),
       ),
@@ -343,19 +330,20 @@ class _ObjectsTabState extends State<ObjectsTab> {
     final value = result['value']?.toString() ?? '--';
     final unit = result['unit']?.toString() ?? '';
     final scaler = result['scaler'];
-    
+
     String displayValue = value;
     if (scaler != null && value != '--') {
       try {
         final numValue = double.parse(value);
         final scalerInt = int.parse(scaler.toString());
-        final scaledValue = numValue * (scalerInt == 0 ? 1 : (10.0 * scalerInt));
+        final scaledValue =
+            numValue * (scalerInt == 0 ? 1 : (10.0 * scalerInt));
         displayValue = scaledValue.toStringAsFixed(2);
       } catch (e) {
         // Keep original value if parsing fails
       }
     }
-    
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -364,18 +352,12 @@ class _ObjectsTabState extends State<ObjectsTab> {
           Expanded(
             child: Text(
               obisCode,
-              style: const TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 14,
-              ),
+              style: const TextStyle(fontFamily: 'monospace', fontSize: 14),
             ),
           ),
           Text(
             '$displayValue $unit',
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 14,
-            ),
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
           ),
         ],
       ),
@@ -394,7 +376,7 @@ class _ObjectsTabState extends State<ObjectsTab> {
     try {
       final provider = context.read<MeterProvider>();
       final result = await provider.discoverObjects(widget.meter.id);
-      
+
       setState(() {
         _discoveredObjects = result;
         _isDiscovering = false;
@@ -409,7 +391,7 @@ class _ObjectsTabState extends State<ObjectsTab> {
 
   Future<void> _readSelectedObjects() async {
     if (_selectedObjects.isEmpty) return;
-    
+
     setState(() {
       _isReading = true;
       _error = null;
@@ -418,23 +400,24 @@ class _ObjectsTabState extends State<ObjectsTab> {
 
     try {
       final provider = context.read<MeterProvider>();
-      
+
       // Prepare objects for reading
-      final objectsToRead = _selectedObjects.map((obisCode) {
-        final obj = (_discoveredObjects!['objects'] as List<dynamic>)
-            .firstWhere((o) => o['obis_code'] == obisCode);
-        return {
-          'obis_code': obisCode,
-          'class_id': obj['class_id'],
-          'attribute_id': obj['attribute_id'] ?? 2,
-        };
-      }).toList();
-      
+      final objectsToRead =
+          _selectedObjects.map((obisCode) {
+            final obj = (_discoveredObjects!['objects'] as List<dynamic>)
+                .firstWhere((o) => o['obis_code'] == obisCode);
+            return {
+              'obis_code': obisCode,
+              'class_id': obj['class_id'],
+              'attribute_id': obj['attribute_id'] ?? 2,
+            };
+          }).toList();
+
       final result = await provider.readMultipleObjects(
         widget.meter.id,
         objectsToRead,
       );
-      
+
       setState(() {
         _readResults = result;
         _isReading = false;

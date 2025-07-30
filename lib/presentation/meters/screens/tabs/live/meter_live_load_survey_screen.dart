@@ -5,10 +5,7 @@ import '../../../widgets/live_tabs/load_survey_tab.dart';
 class MeterLiveLoadSurveyScreen extends StatelessWidget {
   final MeterModel meter;
 
-  const MeterLiveLoadSurveyScreen({
-    super.key,
-    required this.meter,
-  });
+  const MeterLiveLoadSurveyScreen({super.key, required this.meter});
 
   @override
   Widget build(BuildContext context) {

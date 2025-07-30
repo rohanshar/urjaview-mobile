@@ -134,6 +134,28 @@ flutter build appbundle --release
 3. Monitor TestFlight for iOS builds
 4. Check Google Play Console for Android builds
 
+### Using CLI Monitoring Tools
+
+1. Get your API token:
+   - Go to https://codemagic.io/teams
+   - Select your team (or Personal Account)
+   - Navigate to Integrations → Codemagic API
+   - Click "Show" to reveal your API token
+
+2. Set up monitoring:
+   ```bash
+   ./scripts/monitor_builds.sh setup
+   ```
+
+3. Monitor builds:
+   ```bash
+   # List recent builds
+   ./scripts/monitor_builds.sh list
+   
+   # Watch builds in real-time
+   ./scripts/codemagic_monitor.py watch
+   ```
+
 ## Troubleshooting
 
 ### iOS Build Failures

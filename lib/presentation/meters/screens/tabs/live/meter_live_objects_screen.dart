@@ -5,10 +5,7 @@ import '../../../widgets/live_tabs/objects_tab.dart';
 class MeterLiveObjectsScreen extends StatelessWidget {
   final MeterModel meter;
 
-  const MeterLiveObjectsScreen({
-    super.key,
-    required this.meter,
-  });
+  const MeterLiveObjectsScreen({super.key, required this.meter});
 
   @override
   Widget build(BuildContext context) {

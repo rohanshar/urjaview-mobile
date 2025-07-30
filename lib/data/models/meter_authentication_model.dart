@@ -3,23 +3,15 @@ class MeterAuthenticationModel {
   final AuthLevelConfig? low;
   final AuthLevelConfig? high;
 
-  MeterAuthenticationModel({
-    this.none,
-    this.low,
-    this.high,
-  });
+  MeterAuthenticationModel({this.none, this.low, this.high});
 
   factory MeterAuthenticationModel.fromJson(Map<String, dynamic> json) {
     return MeterAuthenticationModel(
-      none: json['none'] != null 
-          ? AuthLevelConfig.fromJson(json['none']) 
-          : null,
-      low: json['low'] != null 
-          ? AuthLevelConfig.fromJson(json['low']) 
-          : null,
-      high: json['high'] != null 
-          ? AuthLevelConfig.fromJson(json['high']) 
-          : null,
+      none:
+          json['none'] != null ? AuthLevelConfig.fromJson(json['none']) : null,
+      low: json['low'] != null ? AuthLevelConfig.fromJson(json['low']) : null,
+      high:
+          json['high'] != null ? AuthLevelConfig.fromJson(json['high']) : null,
     );
   }
 
@@ -31,9 +23,9 @@ class MeterAuthenticationModel {
     };
   }
 
-  bool get hasAnyEnabled => 
-      (none?.enabled ?? false) || 
-      (low?.enabled ?? false) || 
+  bool get hasAnyEnabled =>
+      (none?.enabled ?? false) ||
+      (low?.enabled ?? false) ||
       (high?.enabled ?? false);
 
   bool get hasHighAuth => high?.enabled ?? false;

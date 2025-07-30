@@ -38,14 +38,14 @@ class TokenManager {
   // Get current token
   Future<String?> getToken() async {
     final token = await _storage.read(key: AppConstants.tokenKey);
-    
+
     if (token != null && isTokenExpired(token)) {
       // Prevent recursive refresh attempts
       if (_isRefreshing) {
         debugPrint('Token refresh already in progress, skipping...');
         return null;
       }
-      
+
       debugPrint('Token expired, attempting refresh...');
       final refreshed = await attemptTokenRefresh();
       if (refreshed) {
@@ -53,7 +53,7 @@ class TokenManager {
       }
       return null;
     }
-    
+
     return token;
   }
 
@@ -87,11 +87,13 @@ class TokenManager {
       debugPrint('Token refresh already in progress');
       return false;
     }
-    
+
     _isRefreshing = true;
-    
+
     try {
-      final refreshToken = await _storage.read(key: AppConstants.refreshTokenKey);
+      final refreshToken = await _storage.read(
+        key: AppConstants.refreshTokenKey,
+      );
       if (refreshToken == null) {
         debugPrint('No refresh token available');
         _onTokenExpired?.call();
@@ -149,7 +151,10 @@ class TokenManager {
     required String refreshToken,
   }) async {
     await _storage.write(key: AppConstants.tokenKey, value: idToken);
-    await _storage.write(key: AppConstants.refreshTokenKey, value: refreshToken);
+    await _storage.write(
+      key: AppConstants.refreshTokenKey,
+      value: refreshToken,
+    );
     await _scheduleNextRefresh();
   }
 

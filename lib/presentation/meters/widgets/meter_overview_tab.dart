@@ -9,10 +9,7 @@ import '../providers/meter_provider.dart';
 class MeterOverviewTab extends StatefulWidget {
   final MeterModel meter;
 
-  const MeterOverviewTab({
-    super.key,
-    required this.meter,
-  });
+  const MeterOverviewTab({super.key, required this.meter});
 
   @override
   State<MeterOverviewTab> createState() => _MeterOverviewTabState();
@@ -30,7 +27,7 @@ class _MeterOverviewTabState extends State<MeterOverviewTab> {
 
   Future<void> _loadQuickStats() async {
     if (!mounted) return;
-    
+
     setState(() {
       _isLoadingStats = true;
     });
@@ -38,16 +35,13 @@ class _MeterOverviewTabState extends State<MeterOverviewTab> {
     try {
       final meterProvider = context.read<MeterProvider>();
       // Load some basic real-time data for quick stats
-      final data = await meterProvider.readMeterObjects(
-        widget.meter.id,
-        [
-          '1.0.32.7.0.255', // L1 Voltage
-          '1.0.31.7.0.255', // L1 Current  
-          '1.0.1.7.0.255',  // Active Power
-          '1.0.1.8.0.255',  // Import Energy
-        ],
-      );
-      
+      final data = await meterProvider.readMeterObjects(widget.meter.id, [
+        '1.0.32.7.0.255', // L1 Voltage
+        '1.0.31.7.0.255', // L1 Current
+        '1.0.1.7.0.255', // Active Power
+        '1.0.1.8.0.255', // Import Energy
+      ]);
+
       if (mounted) {
         setState(() {
           _quickStats = data;
@@ -141,9 +135,9 @@ class _MeterOverviewTabState extends State<MeterOverviewTab> {
                 children: [
                   _buildInfoRow(
                     'Last Sync',
-                    DateFormat('MMM d, y h:mm a').format(
-                      DateTime.parse(widget.meter.lastSyncTime!),
-                    ),
+                    DateFormat(
+                      'MMM d, y h:mm a',
+                    ).format(DateTime.parse(widget.meter.lastSyncTime!)),
                   ),
                   if (widget.meter.lastSyncData != null &&
                       widget.meter.lastSyncData!['dataPoints'] != null)
@@ -238,7 +232,7 @@ class _MeterOverviewTabState extends State<MeterOverviewTab> {
 
   Widget _buildQuickStats() {
     final hasData = _quickStats != null && _quickStats!['data'] != null;
-    
+
     return GridView.count(
       crossAxisCount: 2,
       shrinkWrap: true,
@@ -249,36 +243,40 @@ class _MeterOverviewTabState extends State<MeterOverviewTab> {
       children: [
         _buildStatCard(
           title: 'Voltage',
-          value: hasData && _quickStats!['data']['1.0.32.7.0.255'] != null
-              ? _getScaledValue(_quickStats!['data']['1.0.32.7.0.255'])
-              : '--',
+          value:
+              hasData && _quickStats!['data']['1.0.32.7.0.255'] != null
+                  ? _getScaledValue(_quickStats!['data']['1.0.32.7.0.255'])
+                  : '--',
           unit: 'V',
           icon: Icons.electric_bolt,
           color: AppTheme.infoColor,
         ),
         _buildStatCard(
           title: 'Current',
-          value: hasData && _quickStats!['data']['1.0.31.7.0.255'] != null
-              ? _getScaledValue(_quickStats!['data']['1.0.31.7.0.255'])
-              : '--',
+          value:
+              hasData && _quickStats!['data']['1.0.31.7.0.255'] != null
+                  ? _getScaledValue(_quickStats!['data']['1.0.31.7.0.255'])
+                  : '--',
           unit: 'A',
           icon: Icons.electrical_services,
           color: AppTheme.primaryColor,
         ),
         _buildStatCard(
           title: 'Power',
-          value: hasData && _quickStats!['data']['1.0.1.7.0.255'] != null
-              ? _getScaledValue(_quickStats!['data']['1.0.1.7.0.255'])
-              : '--',
+          value:
+              hasData && _quickStats!['data']['1.0.1.7.0.255'] != null
+                  ? _getScaledValue(_quickStats!['data']['1.0.1.7.0.255'])
+                  : '--',
           unit: 'kW',
           icon: Icons.power,
           color: AppTheme.secondaryColor,
         ),
         _buildStatCard(
           title: 'Energy',
-          value: hasData && _quickStats!['data']['1.0.1.8.0.255'] != null
-              ? _getScaledValue(_quickStats!['data']['1.0.1.8.0.255'])
-              : '--',
+          value:
+              hasData && _quickStats!['data']['1.0.1.8.0.255'] != null
+                  ? _getScaledValue(_quickStats!['data']['1.0.1.8.0.255'])
+                  : '--',
           unit: 'kWh',
           icon: Icons.battery_charging_full,
           color: AppTheme.warningColor,
@@ -306,10 +304,7 @@ class _MeterOverviewTabState extends State<MeterOverviewTab> {
                 const SizedBox(width: 4),
                 Text(
                   title,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: AppTheme.textSecondary,
-                  ),
+                  style: TextStyle(fontSize: 12, color: AppTheme.textSecondary),
                 ),
               ],
             ),
@@ -328,10 +323,7 @@ class _MeterOverviewTabState extends State<MeterOverviewTab> {
                 const SizedBox(width: 4),
                 Text(
                   unit,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: AppTheme.textSecondary,
-                  ),
+                  style: TextStyle(fontSize: 12, color: AppTheme.textSecondary),
                 ),
               ],
             ),
@@ -398,22 +390,23 @@ class _MeterOverviewTabState extends State<MeterOverviewTab> {
 
   String _getScaledValue(dynamic dataObj) {
     if (dataObj == null || dataObj['value'] == null) return '--';
-    
+
     String value = dataObj['value'].toString();
-    
+
     // Apply scaler if present
     if (dataObj['scaler'] != null) {
       try {
         double numValue = double.parse(value);
         int scaler = int.parse(dataObj['scaler'].toString());
         // Scaler is power of 10: -3 means multiply by 10^-3 (0.001)
-        double scaledValue = numValue * (scaler == 0 ? 1 : pow(10, scaler).toDouble());
+        double scaledValue =
+            numValue * (scaler == 0 ? 1 : pow(10, scaler).toDouble());
         value = scaledValue.toStringAsFixed(2);
       } catch (e) {
         // Keep original value if parsing fails
       }
     }
-    
+
     return value;
   }
 }
