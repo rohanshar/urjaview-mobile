@@ -22,9 +22,12 @@ class PageIndicator extends StatelessWidget {
           height: 8,
           width: currentPage == index ? 24 : 8,
           decoration: BoxDecoration(
-            color: currentPage == index
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.3),
+            color:
+                currentPage == index
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(
+                      context,
+                    ).colorScheme.onSurfaceVariant.withValues(alpha: 0.3),
             borderRadius: BorderRadius.circular(4),
           ),
         ),

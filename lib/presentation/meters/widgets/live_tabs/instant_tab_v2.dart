@@ -379,10 +379,10 @@ class _InstantTabV2State extends State<InstantTabV2> {
 
     try {
       final meterProvider = context.read<MeterProvider>();
-      
+
       // Use the new instant values API
       final result = await meterProvider.readInstantValues(widget.meter.id);
-      
+
       // The API returns data in the format we expect
       final combinedData = {
         'data': result,

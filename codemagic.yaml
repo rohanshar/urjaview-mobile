@@ -32,14 +32,19 @@ workflows:
           VERSION_TAG="${CM_TAG##*-}"
           echo "Version from tag: $VERSION_TAG"
           
-          # Update pubspec.yaml with new version and build number
-          sed -i '' "s/^version: .*/version: $VERSION_TAG+$CM_BUILD_ID/" pubspec.yaml
+          # Use PROJECT_BUILD_NUMBER for sequential numbering
+          BUILD_NUMBER="${PROJECT_BUILD_NUMBER:-1}"
+          echo "Build number: $BUILD_NUMBER"
           
-          echo "Updated version to: $VERSION_TAG+$CM_BUILD_ID"
+          # Update pubspec.yaml with new version and build number
+          sed -i '' "s/^version: .*/version: $VERSION_TAG+$BUILD_NUMBER/" pubspec.yaml
+          
+          echo "Updated version to: $VERSION_TAG+$BUILD_NUMBER"
 
       - name: Build iOS release
         script: |
-          flutter build ios --release --no-codesign --build-number=$CM_BUILD_ID
+          BUILD_NUMBER="${PROJECT_BUILD_NUMBER:-1}"
+          flutter build ios --release --no-codesign --build-number=$BUILD_NUMBER
 
       - name: Automatic code signing for iOS
         script: |
@@ -90,14 +95,19 @@ workflows:
           VERSION_TAG="${CM_TAG##*-}"
           echo "Version from tag: $VERSION_TAG"
           
-          # Update pubspec.yaml with new version and build number
-          sed -i '' "s/^version: .*/version: $VERSION_TAG+$CM_BUILD_ID/" pubspec.yaml
+          # Use PROJECT_BUILD_NUMBER for sequential numbering
+          BUILD_NUMBER="${PROJECT_BUILD_NUMBER:-1}"
+          echo "Build number: $BUILD_NUMBER"
           
-          echo "Updated version to: $VERSION_TAG+$CM_BUILD_ID"
+          # Update pubspec.yaml with new version and build number
+          sed -i '' "s/^version: .*/version: $VERSION_TAG+$BUILD_NUMBER/" pubspec.yaml
+          
+          echo "Updated version to: $VERSION_TAG+$BUILD_NUMBER"
 
       - name: Build Android App Bundle
         script: |
-          flutter build appbundle --release --build-number=$CM_BUILD_ID
+          BUILD_NUMBER="${PROJECT_BUILD_NUMBER:-1}"
+          flutter build appbundle --release --build-number=$BUILD_NUMBER
 
     artifacts:
       - build/**/outputs/**/*.aab

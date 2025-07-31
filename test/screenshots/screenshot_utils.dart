@@ -23,10 +23,7 @@ class ScreenshotDevice {
     required this.density,
   });
 
-  Size get sizeDp => Size(
-        sizePx.width / density,
-        sizePx.height / density,
-      );
+  Size get sizeDp => Size(sizePx.width / density, sizePx.height / density);
 
   static const androidSmartphone = ScreenshotDevice(
     name: 'android_smartphone',
@@ -79,16 +76,10 @@ Widget getScreenWrapper({
   List<InheritedProvider> overrides = const [],
 }) {
   return MultiProvider(
-    providers: [
-      Provider<bool?>.value(value: isAndroid),
-      ...overrides,
-    ],
+    providers: [Provider<bool?>.value(value: isAndroid), ...overrides],
     child: MaterialApp(
       debugShowCheckedModeBanner: false,
-      supportedLocales: const [
-        Locale('en', 'US'),
-        Locale('fr', 'FR'),
-      ],
+      supportedLocales: const [Locale('en', 'US'), Locale('fr', 'FR')],
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -101,10 +92,7 @@ Widget getScreenWrapper({
       home: Column(
         children: [
           // Fake status bar
-          Container(
-            color: Colors.black,
-            height: 24,
-          ),
+          Container(color: Colors.black, height: 24),
           // Main content
           Expanded(child: child),
         ],
@@ -158,11 +146,11 @@ class MockAuthProvider extends ChangeNotifier {
   bool get isAuthenticated => true;
 
   String? get token => "mock_token";
-  
+
   bool get isLoading => false;
-  
+
   String? get error => null;
-  
+
   UserModel? get user => UserModel(
     id: '1',
     email: 'test@example.com',
@@ -171,13 +159,13 @@ class MockAuthProvider extends ChangeNotifier {
     clientId: 'test-client',
     companyId: '1',
   );
-  
+
   Future<void> signIn(String email, String password) async {}
-  
+
   Future<void> signOut() async {}
-  
+
   Future<void> refreshToken() async {}
-  
+
   void clearError() {}
 }
 
@@ -217,25 +205,25 @@ class MockMeterProvider extends ChangeNotifier {
       updatedAt: DateTime.now().subtract(const Duration(minutes: 15)),
     ),
   ];
-  
+
   List<MeterModel> get filteredMeters => meters;
-  
+
   bool get isLoading => false;
-  
+
   String? get error => null;
-  
+
   Future<void> fetchMeters() async {}
-  
+
   Future<void> refreshMeters() async {}
-  
+
   void searchMeters(String query) {}
-  
+
   Future<void> pingMeter(String meterId) async {}
-  
+
   Future<void> testMeterConnection(String meterId) async {}
-  
+
   Future<void> loadMeters() async {}
-  
+
   void clearError() {}
 }
 
@@ -248,13 +236,10 @@ class AppBarBackIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Icon(
-      isAndroid == true
-          ? Icons.arrow_back_sharp
-          : Icons.arrow_back_ios_sharp,
+      isAndroid == true ? Icons.arrow_back_sharp : Icons.arrow_back_ios_sharp,
     );
   }
 }
-
 
 // Decorate screenshot with device frame and text
 Widget getDecoratedScreen({

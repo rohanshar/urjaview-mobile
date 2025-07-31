@@ -23,13 +23,13 @@ void main() {
 
       // Assert - Verify splash screen is shown
       expect(find.byType(SplashScreen), findsOneWidget);
-      
+
       // Check for logo (SVG)
       expect(find.byType(Container), findsWidgets);
-      
+
       // Check for app name
       expect(find.text('Urja View'), findsOneWidget);
-      
+
       // Check for tagline
       expect(find.textContaining('Smart'), findsOneWidget);
     });
@@ -91,20 +91,20 @@ void main() {
     testWidgets('shows animations during splash screen', (tester) async {
       // Act
       await tester.pumpWidget(const MyApp());
-      
+
       // Initial state
       await tester.pump();
       expect(find.byType(SplashScreen), findsOneWidget);
-      
+
       // Pump frames during animation
       await tester.pump(const Duration(milliseconds: 500));
       expect(find.byType(FadeTransition), findsWidgets);
       expect(find.byType(ScaleTransition), findsWidgets);
-      
+
       // Animation should still be running
       await tester.pump(const Duration(milliseconds: 500));
       expect(find.byType(SplashScreen), findsOneWidget);
-      
+
       // Complete animation
       await tester.pump(const Duration(seconds: 2, milliseconds: 100));
       await TestHelpers.pumpAndSettleWithTimeout(tester);
@@ -113,21 +113,21 @@ void main() {
     testWidgets('handles preference service errors gracefully', (tester) async {
       // This test ensures the app doesn't crash if preferences fail
       // The actual implementation would need error handling in splash screen
-      
+
       // Clear preferences to simulate default state
       await TestHelpers.clearAppData();
-      
+
       await tester.pumpWidget(const MyApp());
       await tester.pump();
-      
+
       // Should show splash screen
       expect(find.byType(SplashScreen), findsOneWidget);
-      
+
       // Wait for navigation with flexible timing
       bool foundDestination = false;
       for (int i = 0; i < 10; i++) {
         await tester.pump(const Duration(milliseconds: 500));
-        
+
         // Check if we navigated to either onboarding or login
         if (find.byType(OnboardingScreen).evaluate().isNotEmpty ||
             find.byType(LoginScreen).evaluate().isNotEmpty) {
@@ -135,10 +135,10 @@ void main() {
           break;
         }
       }
-      
+
       // Final settle
       await TestHelpers.pumpAndSettleWithTimeout(tester);
-      
+
       // Should navigate somewhere (either onboarding or login)
       expect(foundDestination, true);
       expect(find.byType(SplashScreen), findsNothing);

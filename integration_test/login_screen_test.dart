@@ -17,7 +17,7 @@ void main() {
       await TestHelpers.clearAppData();
       await TestHelpers.setFirstTimeUser(false);
     });
-    
+
     /// Helper to navigate to login screen for each test
     Future<void> navigateToLoginScreen(WidgetTester tester) async {
       await tester.pumpWidget(const MyApp());
@@ -28,34 +28,34 @@ void main() {
     testWidgets('displays login screen with all elements', (tester) async {
       // Act
       await tester.pumpWidget(const MyApp());
-      
+
       // Navigate through splash to login
       await NavigationHelpers.waitForSplashNavigation(tester);
       await NavigationHelpers.navigateToLogin(tester);
 
       // Assert - Verify login screen elements
       expect(find.byType(LoginScreen), findsOneWidget);
-      
+
       // Check for logo - using more flexible finder
       final svgFinder = find.byType(SvgPicture);
       expect(svgFinder, findsWidgets);
-      
+
       // Check for company name
       expect(find.textContaining('Indotech'), findsOneWidget);
-      
+
       // Check for tagline
       expect(find.textContaining('Smart'), findsOneWidget);
-      
+
       // Check for email field
       expect(find.byType(TextFormField), findsNWidgets(2));
       expect(find.text('Email'), findsOneWidget);
-      
+
       // Check for password field
       expect(find.text('Password'), findsOneWidget);
-      
+
       // Check for sign in button
       expect(find.widgetWithText(ElevatedButton, 'Sign In'), findsOneWidget);
-      
+
       // Check for debug reset button (in debug mode)
       expect(find.textContaining('Reset Onboarding'), findsOneWidget);
     });
@@ -68,7 +68,7 @@ void main() {
       final emailField = find.byType(TextFormField).first;
       await tester.tap(emailField);
       await tester.enterText(emailField, '');
-      
+
       // Try to submit
       await tester.tap(find.widgetWithText(ElevatedButton, 'Sign In'));
       await tester.pump();
@@ -85,7 +85,7 @@ void main() {
       final emailField = find.byType(TextFormField).first;
       await tester.tap(emailField);
       await tester.enterText(emailField, TestData.invalidEmail);
-      
+
       // Try to submit
       await tester.tap(find.widgetWithText(ElevatedButton, 'Sign In'));
       await tester.pump();
@@ -102,12 +102,12 @@ void main() {
       final passwordField = find.byType(TextFormField).last;
       await tester.tap(passwordField);
       await tester.enterText(passwordField, '');
-      
+
       // Enter valid email
       final emailField = find.byType(TextFormField).first;
       await tester.tap(emailField);
       await tester.enterText(emailField, TestData.validEmail);
-      
+
       // Try to submit
       await tester.tap(find.widgetWithText(ElevatedButton, 'Sign In'));
       await tester.pump();
@@ -124,13 +124,16 @@ void main() {
       final passwordField = find.byType(TextFormField).last;
       await tester.tap(passwordField);
       await tester.enterText(passwordField, TestData.invalidPassword);
-      
+
       // Try to submit
       await tester.tap(find.widgetWithText(ElevatedButton, 'Sign In'));
       await tester.pump();
 
       // Assert - Should show validation error
-      expect(find.text('Password must be at least 6 characters'), findsOneWidget);
+      expect(
+        find.text('Password must be at least 6 characters'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('toggles password visibility', (tester) async {
@@ -140,10 +143,7 @@ void main() {
       // Password should be obscured initially
       final passwordField = find.byType(TextFormField).last;
       final TextField textField = tester.widget<TextField>(
-        find.descendant(
-          of: passwordField,
-          matching: find.byType(TextField),
-        ),
+        find.descendant(of: passwordField, matching: find.byType(TextField)),
       );
       expect(textField.obscureText, true);
 
@@ -153,10 +153,7 @@ void main() {
 
       // Password should be visible
       final TextField visibleTextField = tester.widget<TextField>(
-        find.descendant(
-          of: passwordField,
-          matching: find.byType(TextField),
-        ),
+        find.descendant(of: passwordField, matching: find.byType(TextField)),
       );
       expect(visibleTextField.obscureText, false);
       expect(find.byIcon(Icons.visibility_off_outlined), findsOneWidget);
@@ -170,7 +167,7 @@ void main() {
       final emailField = find.byType(TextFormField).first;
       await tester.tap(emailField);
       await tester.enterText(emailField, TestData.validEmail);
-      
+
       final passwordField = find.byType(TextFormField).last;
       await tester.tap(passwordField);
       await tester.enterText(passwordField, TestData.validPassword);
@@ -180,10 +177,13 @@ void main() {
       await tester.pump();
 
       // Should show loading indicator in button
-      expect(find.descendant(
-        of: find.byType(ElevatedButton),
-        matching: find.byType(CircularProgressIndicator),
-      ), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byType(ElevatedButton),
+          matching: find.byType(CircularProgressIndicator),
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets('handles successful login and navigation', (tester) async {
@@ -194,14 +194,14 @@ void main() {
       final emailField = find.byType(TextFormField).first;
       await tester.tap(emailField);
       await tester.enterText(emailField, TestData.validEmail);
-      
+
       final passwordField = find.byType(TextFormField).last;
       await tester.tap(passwordField);
       await tester.enterText(passwordField, TestData.validPassword);
 
       // Submit form
       await tester.tap(find.widgetWithText(ElevatedButton, 'Sign In'));
-      
+
       // Wait for login process
       await tester.pump(const Duration(seconds: 2));
       await TestHelpers.pumpAndSettleWithTimeout(tester);
@@ -210,7 +210,9 @@ void main() {
       // For now, we're testing the UI flow
     });
 
-    testWidgets('displays error message for invalid credentials', (tester) async {
+    testWidgets('displays error message for invalid credentials', (
+      tester,
+    ) async {
       // Navigate to login
       await navigateToLoginScreen(tester);
 
@@ -218,14 +220,14 @@ void main() {
       final emailField = find.byType(TextFormField).first;
       await tester.tap(emailField);
       await tester.enterText(emailField, 'wrong@example.com');
-      
+
       final passwordField = find.byType(TextFormField).last;
       await tester.tap(passwordField);
       await tester.enterText(passwordField, TestData.wrongPassword);
 
       // Submit form
       await tester.tap(find.widgetWithText(ElevatedButton, 'Sign In'));
-      
+
       // Wait for API response
       await tester.pump(const Duration(seconds: 2));
       await TestHelpers.pumpAndSettleWithTimeout(tester);
@@ -234,7 +236,9 @@ void main() {
       // Note: This would need mocked API to test properly
     });
 
-    testWidgets('resets onboarding when debug button is pressed', (tester) async {
+    testWidgets('resets onboarding when debug button is pressed', (
+      tester,
+    ) async {
       // Navigate to login
       await navigateToLoginScreen(tester);
 
@@ -244,7 +248,7 @@ void main() {
 
       // Should show snackbar
       expect(find.text('Onboarding reset! Restart the app.'), findsOneWidget);
-      
+
       // Should navigate to splash
       expect(find.byType(SplashScreen), findsOneWidget);
     });
@@ -257,7 +261,7 @@ void main() {
       final emailField = find.byType(TextFormField).first;
       await tester.tap(emailField);
       await tester.enterText(emailField, TestData.validEmail);
-      
+
       final passwordField = find.byType(TextFormField).last;
       await tester.tap(passwordField);
       await tester.enterText(passwordField, TestData.validPassword);
@@ -267,10 +271,13 @@ void main() {
       await tester.pump();
 
       // Should show loading state
-      expect(find.descendant(
-        of: find.byType(ElevatedButton),
-        matching: find.byType(CircularProgressIndicator),
-      ), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byType(ElevatedButton),
+          matching: find.byType(CircularProgressIndicator),
+        ),
+        findsOneWidget,
+      );
     });
   });
 }

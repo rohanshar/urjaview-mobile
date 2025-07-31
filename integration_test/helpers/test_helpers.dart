@@ -80,10 +80,7 @@ class TestHelpers {
   }
 
   /// Take screenshot for debugging
-  static Future<void> takeScreenshot(
-    WidgetTester tester,
-    String name,
-  ) async {
+  static Future<void> takeScreenshot(WidgetTester tester, String name) async {
     // This is helpful for debugging failed tests
     // In CI, these could be saved as artifacts
     debugPrint('Screenshot would be taken here: $name');
@@ -95,37 +92,35 @@ class WidgetMatchers {
   /// Match text containing
   static Finder textContaining(String text) {
     return find.byWidgetPredicate(
-      (widget) => widget is Text && 
-        widget.data != null && 
-        widget.data!.contains(text),
+      (widget) =>
+          widget is Text && widget.data != null && widget.data!.contains(text),
     );
   }
 
   /// Match button with text
   static Finder buttonWithText(String text) {
-    return find.byWidgetPredicate(
-      (widget) {
-        if (widget is ElevatedButton) {
-          final child = widget.child;
-          return child is Text && child.data == text;
-        } else if (widget is TextButton) {
-          final child = widget.child;
-          return child is Text && child.data == text;
-        } else if (widget is OutlinedButton) {
-          final child = widget.child;
-          return child is Text && child.data == text;
-        }
-        return false;
-      },
-    );
+    return find.byWidgetPredicate((widget) {
+      if (widget is ElevatedButton) {
+        final child = widget.child;
+        return child is Text && child.data == text;
+      } else if (widget is TextButton) {
+        final child = widget.child;
+        return child is Text && child.data == text;
+      } else if (widget is OutlinedButton) {
+        final child = widget.child;
+        return child is Text && child.data == text;
+      }
+      return false;
+    });
   }
 
   /// Match text field with label
   static Finder textFieldWithLabel(String label) {
     return find.byWidgetPredicate(
-      (widget) => widget is TextField &&
-        widget.decoration != null &&
-        widget.decoration!.labelText == label,
+      (widget) =>
+          widget is TextField &&
+          widget.decoration != null &&
+          widget.decoration!.labelText == label,
     );
   }
 
@@ -148,9 +143,9 @@ class TestData {
 extension FinderExtension on Finder {
   Finder or(Finder other) {
     return find.byWidgetPredicate(
-      (widget) => 
-        evaluate().any((element) => element.widget == widget) ||
-        other.evaluate().any((element) => element.widget == widget),
+      (widget) =>
+          evaluate().any((element) => element.widget == widget) ||
+          other.evaluate().any((element) => element.widget == widget),
     );
   }
 }

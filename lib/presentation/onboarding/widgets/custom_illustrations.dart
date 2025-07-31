@@ -37,11 +37,7 @@ class WelcomeIllustration extends StatelessWidget {
         Positioned(
           top: 20,
           right: 30,
-          child: _buildFloatingElement(
-            context,
-            Icons.show_chart,
-            Colors.blue,
-          ),
+          child: _buildFloatingElement(context, Icons.show_chart, Colors.blue),
         ),
         Positioned(
           bottom: 20,
@@ -76,11 +72,7 @@ class WelcomeIllustration extends StatelessWidget {
         color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Icon(
-        icon,
-        size: 24,
-        color: color,
-      ),
+      child: Icon(icon, size: 24, color: color),
     );
   }
 }
@@ -89,7 +81,6 @@ class WelcomeIllustration extends StatelessWidget {
 class RealtimeMonitoringIllustration extends RealtimeMonitoringIllustrationV2 {
   const RealtimeMonitoringIllustration({super.key});
 }
-
 
 class SchedulingIllustration extends StatelessWidget {
   const SchedulingIllustration({super.key});
@@ -104,7 +95,9 @@ class SchedulingIllustration extends StatelessWidget {
           width: 200,
           height: 200,
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.3),
+            color: Theme.of(
+              context,
+            ).colorScheme.primaryContainer.withValues(alpha: 0.3),
             borderRadius: BorderRadius.circular(16),
           ),
           child: GridView.builder(
@@ -119,18 +112,16 @@ class SchedulingIllustration extends StatelessWidget {
               final isScheduled = index % 3 == 0;
               return Container(
                 decoration: BoxDecoration(
-                  color: isScheduled
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context).colorScheme.surface,
+                  color:
+                      isScheduled
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(4),
                 ),
-                child: isScheduled
-                    ? Icon(
-                        Icons.check,
-                        size: 12,
-                        color: Colors.white,
-                      )
-                    : null,
+                child:
+                    isScheduled
+                        ? Icon(Icons.check, size: 12, color: Colors.white)
+                        : null,
               );
             },
           ),
@@ -194,11 +185,7 @@ class SecurityIllustration extends StatelessWidget {
           ),
         ),
         // Lock icon
-        Icon(
-          Icons.lock,
-          size: 60,
-          color: Colors.green[700],
-        ),
+        Icon(Icons.lock, size: 60, color: Colors.green[700]),
         // Security badges
         Positioned(
           top: 20,
@@ -232,17 +219,10 @@ class SecurityIllustration extends StatelessWidget {
         color: Colors.white,
         shape: BoxShape.circle,
         boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 4,
-          ),
+          BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 4),
         ],
       ),
-      child: Icon(
-        icon,
-        size: 20,
-        color: Colors.green[700],
-      ),
+      child: Icon(icon, size: 20, color: Colors.green[700]),
     );
   }
 }

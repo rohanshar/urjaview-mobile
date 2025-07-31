@@ -203,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       },
                     ),
-                    
+
                     // Debug button to reset onboarding (remove in production)
                     if (true) // Change to false in production
                       Column(
@@ -211,13 +211,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(height: 16),
                           TextButton(
                             onPressed: () async {
-                              final prefs = await PreferencesService.getInstance();
+                              final prefs =
+                                  await PreferencesService.getInstance();
                               await prefs.setFirstTime(true);
                               await prefs.setOnboardingCompleted(false);
                               if (!context.mounted) return;
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text('Onboarding reset! Restart the app.'),
+                                  content: Text(
+                                    'Onboarding reset! Restart the app.',
+                                  ),
                                 ),
                               );
                               // Navigate to splash screen

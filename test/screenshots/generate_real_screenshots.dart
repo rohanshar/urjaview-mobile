@@ -32,9 +32,7 @@ void main() {
           home: MultiProvider(
             providers: [
               ChangeNotifierProvider(
-                create: (_) => AuthProvider(
-                  AuthRepository(ApiService()),
-                ),
+                create: (_) => AuthProvider(AuthRepository(ApiService())),
               ),
             ],
             child: const LoginScreen(),
@@ -42,34 +40,32 @@ void main() {
         ),
         surfaceSize: const Size(414, 896), // iPhone size
       );
-      
+
       await screenMatchesGolden(tester, 'simple/login');
     });
 
     testGoldens('Dashboard Screen', (tester) async {
       final mockAuthProvider = MockAuthProvider();
-      
+
       await tester.pumpWidgetBuilder(
         MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: TestAppTheme.lightTheme,
           home: MultiProvider(
-            providers: [
-              ChangeNotifierProvider.value(value: mockAuthProvider),
-            ],
+            providers: [ChangeNotifierProvider.value(value: mockAuthProvider)],
             child: const DashboardScreen(),
           ),
         ),
         surfaceSize: const Size(414, 896),
       );
-      
+
       await screenMatchesGolden(tester, 'simple/dashboard');
     });
 
     testGoldens('Meters List Screen', (tester) async {
       final mockAuthProvider = MockAuthProvider();
       final mockMeterProvider = MockMeterProvider();
-      
+
       // Create router with mocked providers
       final router = GoRouter(
         initialLocation: '/meters',
@@ -80,13 +76,13 @@ void main() {
           ),
           GoRoute(
             path: '/meters/:id',
-            builder: (context, state) => const Scaffold(
-              body: Center(child: Text('Meter Detail')),
-            ),
+            builder:
+                (context, state) =>
+                    const Scaffold(body: Center(child: Text('Meter Detail'))),
           ),
         ],
       );
-      
+
       await tester.pumpWidgetBuilder(
         MultiProvider(
           providers: [
@@ -101,11 +97,11 @@ void main() {
         ),
         surfaceSize: const Size(414, 896),
       );
-      
+
       // Wait for any animations
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
-      
+
       await screenMatchesGolden(tester, 'simple/meters');
     });
   });

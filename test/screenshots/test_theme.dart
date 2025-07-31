@@ -6,17 +6,17 @@ class TestAppTheme {
   static const Color primaryColor = Color(0xFF059669);
   static const Color primaryLight = Color(0xFF10B981);
   static const Color primaryDark = Color(0xFF047857);
-  
+
   static const Color secondaryColor = Color(0xFFF59E0B);
   static const Color secondaryLight = Color(0xFFFBBF24);
   static const Color secondaryDark = Color(0xFFD97706);
-  
+
   // Status Colors
   static const Color successColor = Color(0xFF10B981);
   static const Color errorColor = Color(0xFFEF4444);
   static const Color warningColor = Color(0xFFF59E0B);
   static const Color infoColor = Color(0xFF3B82F6);
-  
+
   // Neutral Colors
   static const Color backgroundColor = Color(0xFFF8FAFC);
   static const Color surfaceColor = Color(0xFFFFFFFF);
@@ -26,7 +26,7 @@ class TestAppTheme {
   static const Color textTertiary = Color(0xFF94A3B8);
   static const Color dividerColor = Color(0xFFE2E8F0);
   static const Color borderColor = Color(0xFFCBD5E1);
-  
+
   static ThemeData get lightTheme => ThemeData(
     useMaterial3: true,
     primaryColor: primaryColor,
@@ -47,7 +47,7 @@ class TestAppTheme {
       onSurface: textPrimary,
       outline: borderColor,
     ),
-    
+
     // Enhanced AppBar Theme
     appBarTheme: const AppBarTheme(
       elevation: 0,
@@ -62,7 +62,7 @@ class TestAppTheme {
       ),
       iconTheme: IconThemeData(color: textPrimary, size: 24),
     ),
-    
+
     // Enhanced Button Themes
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -78,7 +78,7 @@ class TestAppTheme {
         ),
       ),
     ),
-    
+
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: primaryColor,
@@ -92,7 +92,7 @@ class TestAppTheme {
         ),
       ),
     ),
-    
+
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: primaryColor,
@@ -104,7 +104,7 @@ class TestAppTheme {
         ),
       ),
     ),
-    
+
     // Enhanced Input Decoration Theme
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
@@ -146,7 +146,7 @@ class TestAppTheme {
         fontWeight: FontWeight.w500,
       ),
     ),
-    
+
     // Enhanced Card Theme
     cardTheme: CardThemeData(
       elevation: 0,
@@ -158,7 +158,7 @@ class TestAppTheme {
       surfaceTintColor: Colors.transparent,
       clipBehavior: Clip.antiAlias,
     ),
-    
+
     // List Tile Theme
     listTileTheme: ListTileThemeData(
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -175,7 +175,7 @@ class TestAppTheme {
         fontWeight: FontWeight.w400,
       ),
     ),
-    
+
     // Tab Bar Theme
     tabBarTheme: TabBarThemeData(
       labelColor: primaryColor,
@@ -191,7 +191,7 @@ class TestAppTheme {
         borderRadius: BorderRadius.circular(3),
       ),
     ),
-    
+
     // Floating Action Button Theme
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: primaryColor,
@@ -199,14 +199,14 @@ class TestAppTheme {
       elevation: 4,
       shape: CircleBorder(),
     ),
-    
+
     // Divider Theme
     dividerTheme: const DividerThemeData(
       color: dividerColor,
       thickness: 1,
       space: 1,
     ),
-    
+
     // Text Theme
     textTheme: const TextTheme(
       displayLarge: TextStyle(

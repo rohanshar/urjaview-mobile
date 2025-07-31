@@ -54,10 +54,7 @@ class RealtimeMonitoringIllustrationV2 extends StatelessWidget {
                 children: [
                   Text(
                     'Power Factor',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[700],
-                    ),
+                    style: TextStyle(fontSize: 12, color: Colors.grey[700]),
                   ),
                   const SizedBox(height: 4),
                   _buildPowerFactorBar(
@@ -71,10 +68,7 @@ class RealtimeMonitoringIllustrationV2 extends StatelessWidget {
                 children: [
                   Text(
                     'Power Factor',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[700],
-                    ),
+                    style: TextStyle(fontSize: 12, color: Colors.grey[700]),
                   ),
                   const SizedBox(height: 4),
                   _buildPowerFactorBar(
@@ -116,10 +110,7 @@ class RealtimeMonitoringIllustrationV2 extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           unit,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ],
     );
@@ -216,11 +207,12 @@ class GaugePainter extends CustomPainter {
     final radius = size.width * 0.4;
 
     // Draw background arc
-    final backgroundPaint = Paint()
-      ..color = Colors.grey[300]!
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 8
-      ..strokeCap = StrokeCap.round;
+    final backgroundPaint =
+        Paint()
+          ..color = Colors.grey[300]!
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 8
+          ..strokeCap = StrokeCap.round;
 
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
@@ -231,11 +223,12 @@ class GaugePainter extends CustomPainter {
     );
 
     // Draw value arc
-    final valuePaint = Paint()
-      ..color = color
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 8
-      ..strokeCap = StrokeCap.round;
+    final valuePaint =
+        Paint()
+          ..color = color
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 8
+          ..strokeCap = StrokeCap.round;
 
     final sweepAngle = math.pi * 1.5 * value;
     canvas.drawArc(
@@ -248,11 +241,12 @@ class GaugePainter extends CustomPainter {
 
     // Draw alert section if needed
     if (hasAlert) {
-      final alertPaint = Paint()
-        ..color = Colors.orange
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 8
-        ..strokeCap = StrokeCap.round;
+      final alertPaint =
+          Paint()
+            ..color = Colors.orange
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 8
+            ..strokeCap = StrokeCap.round;
 
       canvas.drawArc(
         Rect.fromCircle(center: center, radius: radius),
@@ -264,9 +258,10 @@ class GaugePainter extends CustomPainter {
     }
 
     // Draw needle
-    final needlePaint = Paint()
-      ..color = Colors.grey[800]!
-      ..style = PaintingStyle.fill;
+    final needlePaint =
+        Paint()
+          ..color = Colors.grey[800]!
+          ..style = PaintingStyle.fill;
 
     final needleAngle = math.pi * 0.75 + sweepAngle;
     final needleEnd = Offset(
@@ -275,13 +270,14 @@ class GaugePainter extends CustomPainter {
     );
 
     canvas.drawCircle(center, 6, needlePaint);
-    
-    final needlePath = Path()
-      ..moveTo(center.dx - 3, center.dy)
-      ..lineTo(center.dx + 3, center.dy)
-      ..lineTo(needleEnd.dx, needleEnd.dy)
-      ..close();
-    
+
+    final needlePath =
+        Path()
+          ..moveTo(center.dx - 3, center.dy)
+          ..lineTo(center.dx + 3, center.dy)
+          ..lineTo(needleEnd.dx, needleEnd.dy)
+          ..close();
+
     canvas.drawPath(needlePath, needlePaint);
   }
 
@@ -293,17 +289,14 @@ class LineChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // Draw grid lines
-    final gridPaint = Paint()
-      ..color = Colors.grey[300]!
-      ..strokeWidth = 1;
+    final gridPaint =
+        Paint()
+          ..color = Colors.grey[300]!
+          ..strokeWidth = 1;
 
     for (int i = 1; i < 4; i++) {
       final y = size.height * i / 4;
-      canvas.drawLine(
-        Offset(0, y),
-        Offset(size.width, y),
-        gridPaint,
-      );
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), gridPaint);
     }
 
     // Data points
@@ -322,36 +315,38 @@ class LineChartPainter extends CustomPainter {
     // Draw filled area
     final fillPath = Path();
     fillPath.moveTo(0, size.height);
-    
+
     for (final point in points) {
       fillPath.lineTo(point.dx * size.width, point.dy * size.height);
     }
-    
+
     fillPath.lineTo(size.width, size.height);
     fillPath.close();
 
     // Gradient fill
-    final fillPaint = Paint()
-      ..shader = LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          Colors.blue[300]!,
-          Colors.blue[100]!,
-        ],
-      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
+    final fillPaint =
+        Paint()
+          ..shader = LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.blue[300]!, Colors.blue[100]!],
+          ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
 
     canvas.drawPath(fillPath, fillPaint);
 
     // Draw line
-    final linePaint = Paint()
-      ..color = Colors.blue[600]!
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
+    final linePaint =
+        Paint()
+          ..color = Colors.blue[600]!
+          ..strokeWidth = 2
+          ..style = PaintingStyle.stroke;
 
     final linePath = Path();
-    linePath.moveTo(points.first.dx * size.width, points.first.dy * size.height);
-    
+    linePath.moveTo(
+      points.first.dx * size.width,
+      points.first.dy * size.height,
+    );
+
     for (final point in points.skip(1)) {
       linePath.lineTo(point.dx * size.width, point.dy * size.height);
     }
@@ -359,14 +354,16 @@ class LineChartPainter extends CustomPainter {
     canvas.drawPath(linePath, linePaint);
 
     // Draw points
-    final pointPaint = Paint()
-      ..color = Colors.white
-      ..style = PaintingStyle.fill;
+    final pointPaint =
+        Paint()
+          ..color = Colors.white
+          ..style = PaintingStyle.fill;
 
-    final pointBorderPaint = Paint()
-      ..color = Colors.blue[600]!
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
+    final pointBorderPaint =
+        Paint()
+          ..color = Colors.blue[600]!
+          ..strokeWidth = 2
+          ..style = PaintingStyle.stroke;
 
     for (final point in points) {
       final center = Offset(point.dx * size.width, point.dy * size.height);
@@ -375,21 +372,18 @@ class LineChartPainter extends CustomPainter {
     }
 
     // Draw dotted vertical lines from points
-    final dottedPaint = Paint()
-      ..color = Colors.blue[400]!
-      ..strokeWidth = 1;
+    final dottedPaint =
+        Paint()
+          ..color = Colors.blue[400]!
+          ..strokeWidth = 1;
 
     for (final point in points) {
       final x = point.dx * size.width;
       final y = point.dy * size.height;
-      
+
       // Draw dotted line
       for (double dy = y + 8; dy < size.height; dy += 6) {
-        canvas.drawLine(
-          Offset(x, dy),
-          Offset(x, dy + 3),
-          dottedPaint,
-        );
+        canvas.drawLine(Offset(x, dy), Offset(x, dy + 3), dottedPaint);
       }
     }
   }

@@ -28,17 +28,16 @@ void main() {
       ScreenshotDevice.iPadPro6thGen,
     ];
 
-    final locales = [
-      const Locale('en', 'US'),
-      const Locale('fr', 'FR'),
-    ];
+    final locales = [const Locale('en', 'US'), const Locale('fr', 'FR')];
 
     for (final locale in locales) {
       for (final device in devices) {
         final langCode = locale.languageCode;
         final isTablet = device.name.contains('ipad');
 
-        testGoldens('$langCode - ${device.name} - Login Screen', (tester) async {
+        testGoldens('$langCode - ${device.name} - Login Screen', (
+          tester,
+        ) async {
           final pageName = '$langCode.${device.name}.01_login';
 
           // Take screenshot of login screen
@@ -59,12 +58,14 @@ void main() {
           final image = Image(image: loadScreenshotImage(pageName));
           final decoratedScreen = getDecoratedScreen(
             image: image,
-            title: locale.languageCode == 'en' 
-                ? 'Smart Meter Management' 
-                : 'Gestion des Compteurs Intelligents',
-            subtitle: locale.languageCode == 'en'
-                ? 'Monitor and control your energy usage'
-                : 'Surveillez et contrôlez votre consommation',
+            title:
+                locale.languageCode == 'en'
+                    ? 'Smart Meter Management'
+                    : 'Gestion des Compteurs Intelligents',
+            subtitle:
+                locale.languageCode == 'en'
+                    ? 'Monitor and control your energy usage'
+                    : 'Surveillez et contrôlez votre consommation',
             isTablet: isTablet,
             locale: locale,
           );
@@ -88,7 +89,7 @@ void main() {
 
           // Mock providers
           final mockAuthProvider = MockAuthProvider();
-          
+
           // Take screenshot of dashboard
           await takeScreenshot(
             tester: tester,
@@ -111,12 +112,14 @@ void main() {
           final image = Image(image: loadScreenshotImage(pageName));
           final decoratedScreen = getDecoratedScreen(
             image: image,
-            title: locale.languageCode == 'en'
-                ? 'Real-time Analytics'
-                : 'Analyses en Temps Réel',
-            subtitle: locale.languageCode == 'en'
-                ? 'Track your energy consumption patterns'
-                : 'Suivez vos habitudes de consommation',
+            title:
+                locale.languageCode == 'en'
+                    ? 'Real-time Analytics'
+                    : 'Analyses en Temps Réel',
+            subtitle:
+                locale.languageCode == 'en'
+                    ? 'Track your energy consumption patterns'
+                    : 'Suivez vos habitudes de consommation',
             isTablet: isTablet,
             locale: locale,
           );
@@ -141,7 +144,7 @@ void main() {
           // Mock providers
           final mockAuthProvider = MockAuthProvider();
           final mockMeterProvider = MockMeterProvider();
-          
+
           // Take screenshot of meters list
           await takeScreenshot(
             tester: tester,
@@ -158,19 +161,23 @@ void main() {
             isFinal: false,
             sizeDp: device.sizeDp,
             density: device.density,
-            customPump: (tester) async => await tester.pump(const Duration(milliseconds: 200)),
+            customPump:
+                (tester) async =>
+                    await tester.pump(const Duration(milliseconds: 200)),
           );
 
           // Load and decorate screenshot
           final image = Image(image: loadScreenshotImage(pageName));
           final decoratedScreen = getDecoratedScreen(
             image: image,
-            title: locale.languageCode == 'en'
-                ? 'Manage Your Meters'
-                : 'Gérez Vos Compteurs',
-            subtitle: locale.languageCode == 'en'
-                ? 'Connect and monitor multiple devices'
-                : 'Connectez et surveillez plusieurs appareils',
+            title:
+                locale.languageCode == 'en'
+                    ? 'Manage Your Meters'
+                    : 'Gérez Vos Compteurs',
+            subtitle:
+                locale.languageCode == 'en'
+                    ? 'Connect and monitor multiple devices'
+                    : 'Connectez et surveillez plusieurs appareils',
             isTablet: isTablet,
             locale: locale,
           );
@@ -199,17 +206,16 @@ void main() {
       ScreenshotDevice.android10inchTablet,
     ];
 
-    final locales = [
-      const Locale('en', 'US'),
-      const Locale('fr', 'FR'),
-    ];
+    final locales = [const Locale('en', 'US'), const Locale('fr', 'FR')];
 
     for (final locale in locales) {
       for (final device in devices) {
         final langCode = locale.languageCode;
         final isTablet = device.name.contains('tablet');
 
-        testGoldens('$langCode - ${device.name} - Login Screen', (tester) async {
+        testGoldens('$langCode - ${device.name} - Login Screen', (
+          tester,
+        ) async {
           final pageName = '$langCode.${device.name}.01_login';
 
           // Take screenshot of login screen
@@ -230,12 +236,14 @@ void main() {
           final image = Image(image: loadScreenshotImage(pageName));
           final decoratedScreen = getDecoratedScreen(
             image: image,
-            title: locale.languageCode == 'en' 
-                ? 'Smart Meter Management' 
-                : 'Gestion des Compteurs Intelligents',
-            subtitle: locale.languageCode == 'en'
-                ? 'Monitor and control your energy usage'
-                : 'Surveillez et contrôlez votre consommation',
+            title:
+                locale.languageCode == 'en'
+                    ? 'Smart Meter Management'
+                    : 'Gestion des Compteurs Intelligents',
+            subtitle:
+                locale.languageCode == 'en'
+                    ? 'Monitor and control your energy usage'
+                    : 'Surveillez et contrôlez votre consommation',
             isTablet: isTablet,
             locale: locale,
             backgroundColor: const Color(0xFFF5F5F5),
@@ -260,7 +268,7 @@ void main() {
 
           // Mock providers
           final mockAuthProvider = MockAuthProvider();
-          
+
           // Take screenshot of dashboard
           await takeScreenshot(
             tester: tester,
@@ -283,12 +291,14 @@ void main() {
           final image = Image(image: loadScreenshotImage(pageName));
           final decoratedScreen = getDecoratedScreen(
             image: image,
-            title: locale.languageCode == 'en'
-                ? 'Real-time Analytics'
-                : 'Analyses en Temps Réel',
-            subtitle: locale.languageCode == 'en'
-                ? 'Track your energy consumption patterns'
-                : 'Suivez vos habitudes de consommation',
+            title:
+                locale.languageCode == 'en'
+                    ? 'Real-time Analytics'
+                    : 'Analyses en Temps Réel',
+            subtitle:
+                locale.languageCode == 'en'
+                    ? 'Track your energy consumption patterns'
+                    : 'Suivez vos habitudes de consommation',
             isTablet: isTablet,
             locale: locale,
             backgroundColor: const Color(0xFFF5F5F5),
@@ -314,7 +324,7 @@ void main() {
           // Mock providers
           final mockAuthProvider = MockAuthProvider();
           final mockMeterProvider = MockMeterProvider();
-          
+
           // Take screenshot of meters list
           await takeScreenshot(
             tester: tester,
@@ -331,19 +341,23 @@ void main() {
             isFinal: false,
             sizeDp: device.sizeDp,
             density: device.density,
-            customPump: (tester) async => await tester.pump(const Duration(milliseconds: 200)),
+            customPump:
+                (tester) async =>
+                    await tester.pump(const Duration(milliseconds: 200)),
           );
 
           // Load and decorate screenshot
           final image = Image(image: loadScreenshotImage(pageName));
           final decoratedScreen = getDecoratedScreen(
             image: image,
-            title: locale.languageCode == 'en'
-                ? 'Manage Your Meters'
-                : 'Gérez Vos Compteurs',
-            subtitle: locale.languageCode == 'en'
-                ? 'Connect and monitor multiple devices'
-                : 'Connectez et surveillez plusieurs appareils',
+            title:
+                locale.languageCode == 'en'
+                    ? 'Manage Your Meters'
+                    : 'Gérez Vos Compteurs',
+            subtitle:
+                locale.languageCode == 'en'
+                    ? 'Connect and monitor multiple devices'
+                    : 'Connectez et surveillez plusieurs appareils',
             isTablet: isTablet,
             locale: locale,
             backgroundColor: const Color(0xFFF5F5F5),

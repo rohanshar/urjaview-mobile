@@ -96,7 +96,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               children: [
                 // Skip button
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -106,7 +109,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           child: Text(
                             'Skip',
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSurfaceVariant,
+                              color:
+                                  Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
                               fontSize: 16,
                             ),
                           ),
@@ -138,30 +144,35 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       SizedBox(
                         width: double.infinity,
                         height: 56,
-                        child: _isLoading
-                            ? Center(
-                                child: LoadingAnimationWidget.threeArchedCircle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  size: 40,
-                                ),
-                              )
-                            : ElevatedButton(
-                                onPressed: _nextPage,
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
+                        child:
+                            _isLoading
+                                ? Center(
+                                  child:
+                                      LoadingAnimationWidget.threeArchedCircle(
+                                        color:
+                                            Theme.of(
+                                              context,
+                                            ).colorScheme.primary,
+                                        size: 40,
+                                      ),
+                                )
+                                : ElevatedButton(
+                                  onPressed: _nextPage,
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    _currentPage < _pages.length - 1
+                                        ? 'Next'
+                                        : 'Get Started',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
-                                child: Text(
-                                  _currentPage < _pages.length - 1
-                                      ? 'Next'
-                                      : 'Get Started',
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
                       ),
                     ],
                   ),

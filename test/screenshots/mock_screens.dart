@@ -41,9 +41,9 @@ class MockLoginScreen extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   'Smart Meter Management',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Colors.grey[600],
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyLarge?.copyWith(color: Colors.grey[600]),
                 ),
                 const SizedBox(height: 48),
                 // Email field
@@ -87,7 +87,10 @@ class MockLoginScreen extends StatelessWidget {
                     ),
                     child: const Text(
                       'Sign In',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
@@ -115,7 +118,7 @@ class MockDashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dashboard'),
@@ -149,7 +152,9 @@ class MockDashboardScreen extends StatelessWidget {
                   children: [
                     Text(
                       'Welcome back!',
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      style: Theme.of(
+                        context,
+                      ).textTheme.headlineSmall?.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
@@ -170,9 +175,9 @@ class MockDashboardScreen extends StatelessWidget {
             // Stats cards
             Text(
               'Quick Stats',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             Row(
@@ -226,9 +231,9 @@ class MockDashboardScreen extends StatelessWidget {
             // Recent activity
             Text(
               'Recent Activity',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             Card(
@@ -279,9 +284,7 @@ class MockDashboardScreen extends StatelessWidget {
   ) {
     return Card(
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -291,18 +294,12 @@ class MockDashboardScreen extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               title,
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 14,
-              ),
+              style: TextStyle(color: Colors.grey[600], fontSize: 14),
             ),
             const SizedBox(height: 4),
             Text(
               value,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -336,7 +333,7 @@ class MockMetersListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final meters = context.watch<MockMeterProvider>().meters;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Meters'),
@@ -375,15 +372,17 @@ class MockMetersListWidget extends StatelessWidget {
                   child: ListTile(
                     contentPadding: const EdgeInsets.all(16),
                     leading: CircleAvatar(
-                      backgroundColor: meter.status == 'active' 
-                          ? Colors.green.shade100 
-                          : Colors.grey.shade100,
+                      backgroundColor:
+                          meter.status == 'active'
+                              ? Colors.green.shade100
+                              : Colors.grey.shade100,
                       radius: 24,
                       child: Icon(
                         Icons.electric_meter,
-                        color: meter.status == 'active' 
-                            ? Colors.green.shade700 
-                            : Colors.grey.shade700,
+                        color:
+                            meter.status == 'active'
+                                ? Colors.green.shade700
+                                : Colors.grey.shade700,
                         size: 24,
                       ),
                     ),
@@ -415,17 +414,19 @@ class MockMetersListWidget extends StatelessWidget {
                             vertical: 4,
                           ),
                           decoration: BoxDecoration(
-                            color: meter.connectionStatus == 'online'
-                                ? Colors.green.shade100
-                                : Colors.orange.shade100,
+                            color:
+                                meter.connectionStatus == 'online'
+                                    ? Colors.green.shade100
+                                    : Colors.orange.shade100,
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
                             meter.connectionStatus ?? 'offline',
                             style: TextStyle(
-                              color: meter.connectionStatus == 'online'
-                                  ? Colors.green.shade800
-                                  : Colors.orange.shade800,
+                              color:
+                                  meter.connectionStatus == 'online'
+                                      ? Colors.green.shade800
+                                      : Colors.orange.shade800,
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
                             ),
