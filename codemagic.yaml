@@ -26,9 +26,20 @@ workflows:
         script: |
           echo "$APP_STORE_CONNECT_API_KEY" > ios/app_store_connect.json
 
+      - name: Update build number
+        script: |
+          # Extract version from tag (e.g., ios-1.0.22 -> 1.0.22)
+          VERSION_TAG="${CM_TAG##*-}"
+          echo "Version from tag: $VERSION_TAG"
+          
+          # Update pubspec.yaml with new version and build number
+          sed -i '' "s/^version: .*/version: $VERSION_TAG+$CM_BUILD_ID/" pubspec.yaml
+          
+          echo "Updated version to: $VERSION_TAG+$CM_BUILD_ID"
+
       - name: Build iOS release
         script: |
-          flutter build ios --release --no-codesign
+          flutter build ios --release --no-codesign --build-number=$CM_BUILD_ID
 
       - name: Automatic code signing for iOS
         script: |
@@ -73,9 +84,20 @@ workflows:
         script: |
           echo "$GCLOUD_SERVICE_ACCOUNT_CREDENTIALS" > android/google-play-store.json
 
+      - name: Update build number
+        script: |
+          # Extract version from tag (e.g., android-1.0.4 -> 1.0.4)
+          VERSION_TAG="${CM_TAG##*-}"
+          echo "Version from tag: $VERSION_TAG"
+          
+          # Update pubspec.yaml with new version and build number
+          sed -i '' "s/^version: .*/version: $VERSION_TAG+$CM_BUILD_ID/" pubspec.yaml
+          
+          echo "Updated version to: $VERSION_TAG+$CM_BUILD_ID"
+
       - name: Build Android App Bundle
         script: |
-          flutter build appbundle --release
+          flutter build appbundle --release --build-number=$CM_BUILD_ID
 
     artifacts:
       - build/**/outputs/**/*.aab
