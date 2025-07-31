@@ -73,8 +73,14 @@ workflows:
 
     environment:
       flutter: stable
-      android_signing:
-        - androidStoreKey
+      # Android signing disabled until keystore is configured
+      # To enable:
+      # 1. Upload keystore file to Codemagic
+      # 2. Create androidStoreKey environment group with signing credentials
+      # 3. Uncomment the android_signing section below
+      
+      # android_signing:
+      #   - androidStoreKey
 
     scripts:
       - name: Install dependencies
@@ -85,10 +91,6 @@ workflows:
         script: |
           flutter analyze --fatal-infos
       
-      - name: Set up Google Play credentials
-        script: |
-          echo "$GCLOUD_SERVICE_ACCOUNT_CREDENTIALS" > android/google-play-store.json
-
       - name: Update build number
         script: |
           # Extract version from tag (e.g., android-1.0.4 -> 1.0.4)
@@ -112,11 +114,17 @@ workflows:
     artifacts:
       - build/**/outputs/**/*.aab
 
-    publishing:
-      google_play:
-        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
-        track: internal
-        in_app_update_priority: 3
+    # Publishing disabled until Google Play credentials are configured
+    # To enable:
+    # 1. Create a service account in Google Cloud Console
+    # 2. Add the JSON key as GCLOUD_SERVICE_ACCOUNT_CREDENTIALS in Codemagic
+    # 3. Uncomment the publishing section below
+    
+    # publishing:
+    #   google_play:
+    #     credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+    #     track: internal
+    #     in_app_update_priority: 3
 
     triggering:
       events:
