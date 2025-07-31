@@ -16,11 +16,18 @@ Urja View Mobile is a Flutter-based mobile application for managing DLMS smart m
   - `go_router: ^13.0.1` - Navigation with deep linking
   - `flutter_secure_storage: ^9.0.0` - Secure token storage
   - `jwt_decoder: ^2.0.1` - JWT token handling
-  - `intl: ^0.19.0` - Internationalization and date formatting
-  - `google_fonts: ^6.2.1` - Typography
+  - `intl: any` - Internationalization and date formatting
   - `flutter_svg: ^2.0.9` - SVG rendering
   - `loading_animation_widget: ^1.2.0+4` - Loading indicators
   - `shared_preferences: ^2.2.2` - Local storage for app preferences
+  - `flutter_localizations: sdk: flutter` - Localization support
+
+## Dev Dependencies
+- `flutter_lints: ^5.0.0` - Linting rules
+- `golden_toolkit: ^0.15.0` - Screenshot testing
+- `integration_test: sdk: flutter` - Integration testing
+- `mockito: ^5.4.4` - Mocking for tests
+- `build_runner: ^2.4.9` - Code generation
 
 ## Key Commands
 
@@ -74,6 +81,9 @@ flutter attach
 # Open DevTools
 flutter pub global activate devtools
 flutter pub global run devtools
+
+# Debug specific meter operations
+flutter run --dart-define=DEBUG_METER_OPS=true
 ```
 
 ### Testing
@@ -103,6 +113,12 @@ flutter test --test-randomize-ordering-seed=12345
 flutter test --coverage
 genhtml coverage/lcov.info -o coverage/html
 open coverage/html/index.html  # macOS
+
+# Run screenshot tests (golden tests)
+flutter test test/screenshots/
+
+# Update golden files
+flutter test --update-goldens test/screenshots/
 ```
 
 ### Linting & Analysis
@@ -133,6 +149,9 @@ flutter pub upgrade --major-versions
 
 # Run pre-push checks to catch compile-time errors
 ./scripts/pre_push_check.sh
+
+# Install git hooks (recommended for new developers)
+./scripts/install-hooks.sh
 ```
 
 ### Building
@@ -151,6 +170,9 @@ flutter build apk --debug
 
 # Build app bundle for Play Store
 flutter build appbundle
+
+# Generate screenshots for app stores
+./scripts/generate_screenshots.sh
 ```
 
 ## Architecture
@@ -197,15 +219,51 @@ Key meter screens:
 - `meter_detail_mobile_screen.dart` - Mobile-optimized container
 - `meter_detail_screen_v2.dart` - Main tabbed interface
 - `meter_live_menu_screen.dart` - Live data navigation menu
-- `meter_config_menu_screen.dart` - Configuration menu
+- `meter_config_menu_screen.dart` - Configuration menu  
 - `meter_clock_config_screen.dart` - Clock configuration UI
 - `meter_instant_screen.dart` - Instant values display
+
+Live sub-tabs structure:
+- General (`meter_live_general_screen.dart`) - Basic meter info
+- Objects (`meter_live_objects_screen.dart`) - OBIS object discovery
+- Instant (`meter_live_instant_screen.dart`) - Real-time electrical values
+- Events (`meter_live_events_screen.dart`) - Event logs
+- Load Survey (`meter_live_load_survey_screen.dart`) - Load profile data
+- Billing (`meter_live_billing_screen.dart`) - Billing information
 
 ## State Management
 
 The app uses Provider for state management with the following key providers:
 - **AuthProvider**: Manages authentication state, token refresh, and user data
 - **MeterProvider**: Handles meter CRUD operations and data fetching
+
+### Provider Pattern Example
+```dart
+// Creating a new provider
+class MyFeatureProvider extends ChangeNotifier {
+  bool _isLoading = false;
+  String? _error;
+  
+  bool get isLoading => _isLoading;
+  String? get error => _error;
+  
+  Future<void> doSomething() async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+    
+    try {
+      // Call repository method
+      await repository.performAction();
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+}
+```
 
 ## API Integration
 
@@ -235,8 +293,50 @@ Key API endpoints:
 - `POST /meters/:id/discover-objects` - Discover available OBIS objects (requires auth)
 - `POST /meters/:id/read-instant-values` - Read instant electrical values (requires auth)
 
+### API Error Response Format
+The backend returns errors in this format:
+```json
+{
+  "error": {
+    "message": "Human-readable error message",
+    "code": "ERROR_CODE",
+    "details": { /* optional additional data */ }
+  }
+}
+```
+
 ### Meter ID Format
 Meters use IDs in the format: `MTR-{timestamp}-{random}` (e.g., `MTR-1753776501278-ybyo42h9d`). Always use meter IDs from the meters list API response.
+
+### Repository Pattern Example
+```dart
+// Creating a new repository
+class MyFeatureRepository {
+  final ApiService _apiService;
+  
+  MyFeatureRepository(this._apiService);
+  
+  Future<MyModel> fetchData(String id) async {
+    try {
+      final response = await _apiService.get('/endpoint/$id');
+      return MyModel.fromJson(response.data);
+    } catch (e) {
+      throw _handleError(e);
+    }
+  }
+  
+  Exception _handleError(dynamic error) {
+    if (error is DioException) {
+      // Handle specific error cases
+      final errorData = error.response?.data;
+      if (errorData != null && errorData['error'] != null) {
+        return Exception(errorData['error']['message']);
+      }
+    }
+    return Exception('An unexpected error occurred');
+  }
+}
+```
 
 ## Navigation
 
@@ -280,6 +380,13 @@ All API calls should go through repositories:
 3. Handle errors appropriately
 4. Update provider state
 
+### Git Hooks
+The project includes git hooks for code quality:
+- **Pre-commit**: Runs flutter analyze and format checks
+- **Pre-push**: Catches compile-time errors that analyze might miss
+
+Install hooks with: `./scripts/install-hooks.sh`
+
 ## Common Patterns
 
 ### Error Handling
@@ -312,11 +419,56 @@ All API calls should go through repositories:
 - Use the existing test structure in `test/`
 - Golden tests for screenshot testing
 
+### Unit & Widget Testing
+```bash
+# Run all unit and widget tests
+flutter test
+
+# Run specific test file
+flutter test test/widget_test.dart
+
+# Run with coverage
+flutter test --coverage
+```
+
+### Integration Testing
+```bash
+# Run all integration tests
+flutter test integration_test/
+# Or use the helper script
+./scripts/run_integration_tests.sh
+
+# Run specific integration test
+flutter test integration_test/splash_screen_test.dart
+flutter test integration_test/login_screen_test.dart
+
+# Run with driver (for CI/CD)
+flutter drive --driver=test_driver/integration_test.dart --target=integration_test/splash_screen_test.dart
+
+# Available integration tests:
+# - Splash screen navigation flow (logo display, first-time/returning user routing)
+# - Login screen validation (email/password validation, form submission)
+# - See integration_test/README.md for full test coverage details
+```
+
+### Screenshot Testing
+```bash
+# Run screenshot tests
+flutter test test/screenshots/
+
+# Update golden files when UI changes
+flutter test --update-goldens test/screenshots/
+
+# Generate app store screenshots
+./scripts/generate_screenshots.sh
+```
+
 ## Test Credentials
 
-For development testing:
-- Email: `test@example.com`
-- Password: `Test@123456`
+For development and testing:
+- **Email**: `test@example.com`
+- **Password**: `Test@123456`
+- **Backend**: Points to dev environment at `https://o4yw7npcx6.execute-api.ap-south-1.amazonaws.com/dev`
 
 ## Code Quality Tools
 
@@ -409,13 +561,26 @@ The project is configured for automated builds using Codemagic:
 - Requires provisioning profiles and certificates
 - Configured via Codemagic UI
 
+### Build Monitoring
+- `scripts/monitor_builds.sh` - Monitor Codemagic build status
+- `scripts/watch_build.sh` - Watch specific build progress
+- `scripts/codemagic_monitor.py` - Python script for detailed monitoring
+
+### Flutter Deployment Engineer
+For automated deployments, use the flutter-deployment-engineer agent which handles:
+- Pre-deployment validation (flutter analyze, formatting checks)
+- Git tagging and version management
+- Codemagic build triggering and monitoring
+- Error resolution and retry logic
+- Complete deployment lifecycle management
+
 ## Common Issues & Solutions
 
 | Issue | Solution |
 |-------|----------|
 | Build fails after flutter pub get | Run `flutter clean` then `flutter pub get` |
 | API connection errors | Verify API URL in `app_constants.dart` |
-| Token expiry issues | Check token refresh logic in `auth_provider.dart` |
+| Token expiry issues | Check token refresh logic in `auth_provider.dart` and TokenManager |
 | Navigation not working | Ensure route is defined in `app_router.dart` |
 | iOS build fails | Run `cd ios && pod install` |
 | Android Gradle sync issues | Check `android/local.properties` for SDK path |
@@ -427,6 +592,8 @@ The project is configured for automated builds using Codemagic:
 | Flutter analyze passes but iOS build fails | Run `./scripts/pre_push_check.sh` to catch compile-time type errors |
 | First-time user flow issues | Check SharedPreferences keys in `preferences_service.dart` |
 | Onboarding not showing | Clear app data to reset first-time flag |
+| Git hooks not running | Install hooks with `./scripts/install-hooks.sh` |
+| Screenshot tests failing | Update golden files with `flutter test --update-goldens` |
 
 ## Assets & Resources
 
@@ -439,7 +606,7 @@ The project is configured for automated builds using Codemagic:
 - SVG files are rendered using `flutter_svg` package
 
 ### Fonts
-- Uses Google Fonts package for dynamic font loading
+- Uses system fonts (San Francisco on iOS, Roboto on Android)
 - No custom fonts bundled with the app
 
 ## Development Tools
@@ -449,6 +616,12 @@ A helper script `run_app.sh` is available for quick development:
 ```bash
 ./run_app.sh  # Checks devices, gets dependencies, and runs the app
 ```
+
+This script:
+1. Navigates to the project directory
+2. Checks for connected devices (`flutter devices`)
+3. Gets dependencies (`flutter pub get`)
+4. Runs the app (`flutter run`)
 
 ### Build Monitoring Scripts
 - `scripts/monitor_builds.sh` - Monitor Codemagic build status
@@ -462,3 +635,38 @@ A helper script `run_app.sh` is available for quick development:
 - `.flutter-plugins` - Auto-generated plugin registry
 - `.flutter-plugins-dependencies` - Auto-generated plugin dependencies
 - `codemagic.yaml` - CI/CD configuration
+
+## Debugging Tips
+
+### Common Debug Commands
+```bash
+# View device logs
+flutter logs
+
+# Clear app data (Android)
+adb shell pm clear com.indotech.urjaview
+
+# Clear app data (iOS Simulator)
+xcrun simctl uninstall booted com.indotech.urjaview
+
+# Check for memory leaks
+flutter run --profile
+# Then use DevTools Memory tab
+
+# Debug network requests
+# Set DEBUG_METER_OPS=true in ApiService to log all requests
+```
+
+### Debug Flags in Code
+- `kDebugMode` - Flutter's debug mode flag
+- `AppConstants.isDebugMode` - App-specific debug flag
+- Use `debugPrint()` instead of `print()` for debug output
+
+### Performance Debugging
+```bash
+# Run performance overlay
+flutter run --profile --dart-define=SHOW_PERFORMANCE_OVERLAY=true
+
+# Check widget rebuild count
+flutter run --profile --track-widget-creation
+```
