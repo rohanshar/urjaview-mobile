@@ -204,7 +204,9 @@ class AppTheme {
     // List Tile Theme
     listTileTheme: const ListTileThemeData(
       contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+      ),
       iconColor: textSecondary,
       titleTextStyle: TextStyle(
         color: textPrimary,
@@ -219,7 +221,7 @@ class AppTheme {
     ),
 
     // Tab Bar Theme
-    tabBarTheme: TabBarTheme(
+    tabBarTheme: TabBarThemeData(
       labelColor: primaryColor,
       unselectedLabelColor: textSecondary,
       labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
